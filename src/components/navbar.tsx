@@ -1,0 +1,264 @@
+import { useState, useRef, useEffect } from "react";
+
+type DropdownItem = {
+    label: string;
+    href: string;
+};
+
+type NavItem = {
+    label: string;
+    href?: string;
+    dropdown?: DropdownItem[];
+};
+
+const NAV_ITEMS: NavItem[] = [
+    { label: "Beranda", href: "/" },
+    {
+        label: "Karir",
+        dropdown: [
+            { label: "Lowongan Magang", href: "/karir/magang" },
+            { label: "Lowongan Pekerjaan", href: "/karir/pekerjaan" },
+            { label: "Acara", href: "/karir/acara" },
+            { label: "CV Builder", href: "/karir/cv-builder" },
+            { label: "Virtual Career Expo", href: "/karir/expo" },
+        ],
+    },
+    { label: "Kewirausahaan", href: "/kewirausahaan" },
+    {
+        label: "Tracer Study",
+        dropdown: [
+            { label: "Tracer Study Lulusan", href: "/tracer-study/lulusan" },
+            { label: "Kepuasan Pengguna", href: "/tracer-study/kepuasan" },
+        ],
+    },
+    { label: "Artikel", href: "/artikel" },
+
+    {
+        label: "Bantuan",
+        dropdown: [
+            { label: "Tentang", href: "/tentang" },
+            { label: "FAQ", href: "/faq" },
+            { label: "Kontak", href: "/kontak" },
+            { label: "Peta Kampus", href: "/peta-kampus" },
+        ],
+    },
+];
+
+const ChevronIcon = ({ open }: { open: boolean }) => (
+    <svg
+        className={`w-4 h-4 ml-1 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2.5}
+    >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+);
+
+const DropdownMenu = ({ items }: { items: DropdownItem[] }) => (
+    <div className="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-50 py-1.5">
+        {items.map((item) => (
+            <a
+                key={item.href}
+                href={item.href}
+                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors duration-150 font-medium"
+            >
+                {item.label}
+            </a>
+        ))}
+    </div>
+);
+
+const NavLink = ({ item }: { item: NavItem }) => {
+    const [open, setOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+    const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const handleOpen = () => {
+        if (closeTimeoutRef.current) {
+            clearTimeout(closeTimeoutRef.current);
+            closeTimeoutRef.current = null;
+        }
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        closeTimeoutRef.current = setTimeout(() => {
+            setOpen(false);
+        }, 120);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            if (closeTimeoutRef.current) {
+                clearTimeout(closeTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    if (item.dropdown) {
+        return (
+            <div
+                ref={ref}
+                className="relative"
+                onMouseEnter={handleOpen}
+                onMouseLeave={handleClose}
+            >
+                <button
+                    type="button"
+                    className={`group relative flex items-center text-sm font-semibold px-4 py-3 transition-colors duration-150 ${open ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"
+                        }`}
+                >
+                    {item.label}
+                    <ChevronIcon open={open} />
+                    <span
+                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 ${open ? "w-4/5" : "w-0 group-hover:w-4/5"
+                            }`}
+                    />
+                </button>
+
+                {open && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50">
+                        <DropdownMenu items={item.dropdown} />
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    return (
+        <a
+            href={item.href}
+            className="group relative flex items-center text-sm font-semibold px-3 py-2 text-gray-600 hover:text-[#00A63E] transition-colors duration-150"
+        >
+            {item.label}
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-0 bg-[#00A63E] rounded-full transition-all duration-200 group-hover:w-3/5" />
+        </a>
+    );
+};
+
+const HamburgerIcon = ({ open }: { open: boolean }) => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        {open ? (
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        )}
+    </svg>
+);
+
+const Navbar = () => {
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+
+    return (
+        <nav className="w-full bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+            <div className="max-w-7xl mx-auto h-24 flex items-center justify-between gap-4">
+                <a href="/" className="flex items-center shrink-0">
+                    <img
+                        src="/logo.png"
+                        alt="UPA PKK UPN Veteran Jawa Timur"
+                        className="h-28 w-auto object-contain"
+                    />
+                </a>
+
+                <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
+                    {NAV_ITEMS.map((item) => (
+                        <NavLink key={item.label} item={item} />
+                    ))}
+                </div>
+
+                <div className="hidden lg:flex items-center gap-4 shrink-0">
+                    <a
+                        href="/masuk"
+                        className="text-sm font-semibold px-4 py-2 rounded-lg text-[#00A63E] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-all duration-150"
+                    >
+                        Masuk
+                    </a>
+                    <a
+                        href="/registrasi"
+                        className="text-sm font-semibold px-4 py-2 rounded-lg bg-[#00A63E] text-white hover:bg-[#009935] active:scale-95 transition-all duration-150 shadow-sm"
+                    >
+                        Registrasi
+                    </a>
+                </div>
+
+                <button
+                    onClick={() => setMobileOpen((prev) => !prev)}
+                    className="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+                    aria-label="Toggle menu"
+                >
+                    <HamburgerIcon open={mobileOpen} />
+                </button>
+            </div>
+
+            {mobileOpen && (
+                <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-0.5">
+                    {NAV_ITEMS.map((item) =>
+                        item.dropdown ? (
+                            <div key={item.label}>
+                                <button
+                                    onClick={() =>
+                                        setMobileExpanded((prev) => (prev === item.label ? null : item.label))
+                                    }
+                                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors"
+                                >
+                                    {item.label}
+                                    <ChevronIcon open={mobileExpanded === item.label} />
+                                </button>
+                                {mobileExpanded === item.label && (
+                                    <div className="ml-3 mt-0.5 border-l-2 border-[#00A63E]/20 pl-3 space-y-0.5">
+                                        {item.dropdown.map((sub) => (
+                                            <a
+                                                key={sub.href}
+                                                href={sub.href}
+                                                className="block px-3 py-2 rounded-lg text-sm text-gray-500 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors font-medium"
+                                            >
+                                                {sub.label}
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <a
+                                key={item.label}
+                                href={item.href}
+                                className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors"
+                            >
+                                {item.label}
+                            </a>
+                        )
+                    )}
+
+                    <div className="pt-3 pb-1 flex flex-col gap-2 border-t border-gray-100 mt-2">
+                        <a
+                            href="/masuk"
+                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg text-[#00A63E] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-colors"
+                        >
+                            Masuk
+                        </a>
+                        <a
+                            href="/registrasi"
+                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg bg-[#00A63E] text-white hover:bg-[#009935] transition-colors"
+                        >
+                            Registrasi
+                        </a>
+                    </div>
+                </div>
+            )}
+        </nav>
+    );
+};
+
+export default Navbar;
