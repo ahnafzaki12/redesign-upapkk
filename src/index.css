@@ -10,15 +10,26 @@
 
 .hero-slider {
   width: 100%;
-  background: #111;
+  background: rgba(162, 222, 162, 0.1); /* Hijau pastel yang transparan */
   user-select: none;
 }
 
 /* ── Wrapper ── */
 .slider-wrapper {
   position: relative;
-  overflow: hidden;
   padding: 20px 0;
+  touch-action: pan-y; /* Mencegah pull-to-refresh / scroll horizontal di Chrome yang mengganggu saat swipe */
+  cursor: grab;        /* Kursor 'tangan terbuka' sebelum ditarik */
+}
+
+.slider-wrapper:active {
+  cursor: grabbing;    /* Kursor 'tangan menggenggam' saat ditahan/ditarik */
+}
+
+.slider-track-container {
+  overflow: hidden;         /* ← overflow dipindah ke sini */
+  padding: 16px 0;          /* ← beri ruang atas/bawah agar shadow tidak terpotong */
+  margin: -16px 0;          /* ← kompensasi padding agar layout tidak bergeser */
 }
 
 /* ── Track ── */
@@ -32,26 +43,36 @@
 .slider-item {
   flex-shrink: 0;
   width: 82vw;           /* ← diperbesar dari 75vw */
-  max-width: 1100px;
-  height: 460px;         /* ← diperbesar dari 420px */
+  max-width: 1200px;     /* ← diubah dari 1100px */
+  aspect-ratio: 1200 / 500; /* ← diubah dari 1100 / 460 */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-color: #222;
-  border-radius: 12px;
-  margin: 0 6px;         /* ← diperkecil dari 10px */
-  opacity: 0.4;
+  border-radius: 16px;   /* Radius diperbesar sedikit agar lengkungan bayangan lebih halus menyesuaikan foto */
+  margin: 0 6px;
+  opacity: 1;
   transform: scale(0.88);
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
   display: block;
   text-decoration: none;
   outline: none;
+  /* Bayangan tipis, menyebar ke bawah asimetris tanpa kentara di sisi atas */
+  box-shadow: 
+     0px 8px 16px -2px rgba(0, 0, 0, 0.35),   /* bawah — utama, padat */
+    8px 0px 16px -4px rgba(0, 0, 0, 0.20),   /* kanan */
+    -8px 0px 16px -4px rgba(0, 0, 0, 0.20);  /* kiri */
 }
 
 .slider-item.active {
   opacity: 1;
   transform: scale(1);
   z-index: 2;
+
+  box-shadow:
+     0px 12px 24px -2px rgba(0, 0, 0, 0.45),  /* bawah — lebih dalam */
+    10px 0px 20px -4px rgba(0, 0, 0, 0.28),  /* kanan */
+    -10px 0px 20px -4px rgba(0, 0, 0, 0.28); /* kiri */
 }
 
 /* ── Nav buttons ── */
@@ -62,20 +83,30 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  border: 1.5px solid #2b5c38;                  /* Border diselaraskan warna hijau pastel gelap */
+  background: rgba(255, 255, 255, 0.7);         /* Background putih setengah transparan */
+  color: #2b5c38;                               /* Warna ikon/chevron menjadi hijau senada */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
-  transition: background 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transisi dibuat lebih halus dan natural */
   backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px rgba(43, 92, 56, 0.15); /* Bayangan hijau samar bersinar */
 }
 
 .slider-nav:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: #2b5c38;                          /* Background berubah jadi hijau penuh rata saat di-hover */
+  transform: translateY(-50%) scale(1.15);      /* Membesar sedikit lebih kentara */
+  border-color: #2b5c38;
+  color: #ffffff;                               /* Warna icon/panah membalik menjadi putih bersih */
+  box-shadow: 0 6px 12px rgba(43, 92, 56, 0.3); /* Bayangan lebih intens saat tombol membesar */
+}
+
+.slider-nav:active {
+  transform: translateY(-50%) scale(0.95);      /* Menciut seketika saat ditekan (efek tactile/klik) */
+  box-shadow: 0 2px 4px rgba(43, 92, 56, 0.2);  /* Bayangan menipis simulasi tertekan */
 }
 
 .slider-nav svg {
@@ -84,10 +115,10 @@
 }
 
 .slider-nav.prev {
-  left: calc(50% - min(41vw, 550px) - 52px);
+  left: calc(50% - min(41vw, 600px) - 52px); /* 600px adalah setengah dari max-width: 1200px */
 }
 .slider-nav.next {
-  right: calc(50% - min(41vw, 550px) - 52px);
+  right: calc(50% - min(41vw, 600px) - 52px);
 }
 
 /* ── Dots ── */
@@ -96,7 +127,8 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  padding: 12px 0 16px;
+  padding: 0 0 16px;
+  margin-top: -2px; /* Menarik dots lebih dekat ke slider */
 }
 
 .dot {
@@ -104,14 +136,14 @@
   height: 8px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.3);               /* Titik tidak aktif jadi abu-abu gelap transparan */
   cursor: pointer;
   padding: 0;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .dot.active {
-  background: #fff;
+  background: #2b5c38;                          /* Titik aktif menjadi hijau matcha/pastel gelap */
   transform: scale(1.3);
 }
 
@@ -119,12 +151,11 @@
 @media (max-width: 768px) {
   .slider-wrapper { padding: 12px 0; }
   .slider-item {
-    width: 88vw;
-    height: 220px;
+    width: 82vw;
     margin: 0 5px;
   }
-  .slider-nav.prev { left: calc(50% - 44vw - 32px); }
-  .slider-nav.next { right: calc(50% - 44vw - 32px); }
+  .slider-nav.prev { left: max(4px, calc(50% - 41vw - 16px)); }
+  .slider-nav.next { right: max(4px, calc(50% - 41vw - 16px)); }
   .slider-nav { width: 32px; height: 32px; }
   .slider-nav svg { width: 14px; height: 14px; }
 }

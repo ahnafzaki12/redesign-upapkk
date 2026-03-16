@@ -4,24 +4,16 @@ import type { SlideItem } from "./components/hero_slider";
 
 const slides: SlideItem[] = [
   {
-    href: "#",
-    backgroundImage: "https://karir.itb.ac.id/img/banner/webbanner tkt cominh soon_.png",
+    backgroundImage: "https://upapkk.upnjatim.ac.id/storage/home-slider/tC9B518aEKoJk89JpWoezZNd4x9u9HxiWgR5GgHf.jpg",
   },
   {
-    href: "https://wa.me/message/UGRAFZRLORMMF1?src=qr",
-    backgroundImage: "https://karir.itb.ac.id/img/banner/WEBBANNER KONSELING 2026-min.png",
+    backgroundImage: "https://upapkk.upnjatim.ac.id/storage/home-slider/nBvkzIwADFYLh3I1vjkwziJAmi5GFGhIYkbcP0lI.jpg",
   },
   {
-    href: "#",
-    backgroundImage: "https://karir.itb.ac.id/img/banner/Web banner Keuntungan member ITBCC-min.png",
+    backgroundImage: "https://upapkk.upnjatim.ac.id/storage/home-slider/RqRJixdnJhzg1LvFHAy8y4jboHvrF0ZCnTyNSp5B.jpg",
   },
   {
-    href: "#",
-    backgroundImage: "https://karir.itb.ac.id/img/banner/Web banner konseling karier-min.png",
-  },
-  {
-    href: "#",
-    backgroundImage: "https://karir.itb.ac.id/img/banner/Web banner GELORA FIX banget.png",
+    backgroundImage: "https://upapkk.upnjatim.ac.id/storage/home-slider/v6r3LkA8uWCyKuHtY6q64KC3SVuFzIBD9oLvLPk9.jpg",
   },
 ];
 

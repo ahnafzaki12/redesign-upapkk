@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import "../index.css";
 
 export interface SlideItem {
-  href: string;
   backgroundImage: string;
 }
 
@@ -13,14 +12,16 @@ interface HeroSliderProps {
 
 export default function HeroSlider({
   slides,
-  autoPlayInterval = 3500,
+  autoPlayInterval = 6000, // Diperlama dari 3500 menjadi 6000 (6 detik)
 }: HeroSliderProps) {
-  const [current, setCurrent] = useState(0);
+  const total = slides.length;
+  // Ubah inisialisasi state untuk memulai dari index bagian tengah (cloned)
+  const [currentIndex, setCurrentIndex] = useState(total);
   const [isAnimating, setIsAnimating] = useState(true);
   const autoTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const total = slides.length;
+  const dragStart = useRef<number | null>(null);
 
   // Clone slides: [clone_end, ...original, clone_start]
   const allSlides = [...slides, ...slides, ...slides];
@@ -36,19 +37,19 @@ export default function HeroSlider({
     
     const itemW = item.offsetWidth + marginLeft + marginRight;
     const wrapW = wrapperRef.current.offsetWidth;
-    const activeIndex = total + current;
+    const activeIndex = currentIndex; // Gunakan angka absolut
 
     // Tengah slide aktif tepat di tengah wrapper
     return activeIndex * itemW + itemW / 2 - wrapW / 2;
-  }, [current, total]);
+  }, [currentIndex]);
 
   const applyTransform = useCallback(
-    (animate: boolean) => {
+    (animate: boolean, additionalOffset = 0) => {
       if (!trackRef.current) return;
       trackRef.current.style.transition = animate
         ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
         : "none";
-      trackRef.current.style.transform = `translateX(-${getOffset()}px)`;
+      trackRef.current.style.transform = `translateX(calc(-${getOffset()}px + ${additionalOffset}px))`;
     },
     [getOffset]
   );
@@ -56,19 +57,19 @@ export default function HeroSlider({
   const resetAuto = useCallback(() => {
     if (autoTimer.current) clearInterval(autoTimer.current);
     autoTimer.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % total);
+      setCurrentIndex((prev) => prev + 1);
+      setIsAnimating(true);
     }, autoPlayInterval);
-  }, [autoPlayInterval, total]);
+  }, [autoPlayInterval]);
 
   const goTo = (index: number) => {
-    const normalized = ((index % total) + total) % total;
     setIsAnimating(true);
-    setCurrent(normalized);
+    setCurrentIndex(index);
     resetAuto();
   };
 
-  const handlePrev = () => goTo(current - 1);
-  const handleNext = () => goTo(current + 1);
+  const handlePrev = () => goTo(currentIndex - 1);
+  const handleNext = () => goTo(currentIndex + 1);
 
   // Initial render tanpa animasi
   useEffect(() => {
@@ -77,8 +78,92 @@ export default function HeroSlider({
 
   // Render setelah current berubah
   useEffect(() => {
-    applyTransform(isAnimating);
-  }, [current, applyTransform, isAnimating]);
+    applyTransform(isAnimating, 0);
+  }, [currentIndex, applyTransform, isAnimating]);
+
+  // Efek teleportasi ilusi seamless (ketika animasi selesai)
+  useEffect(() => {
+    if (!isAnimating) return;
+    const timeout = setTimeout(() => {
+      // Jika nyasar ke clone bagian awal
+      if (currentIndex <= total - 1) {
+        setIsAnimating(false); // Matikan animasi sementara
+        setCurrentIndex(currentIndex + total); // Lompat diam-diam ke tengah
+      } 
+      // Jika nyasar ke clone bagian akhir
+      else if (currentIndex >= 2 * total) {
+        setIsAnimating(false);
+        setCurrentIndex(currentIndex - total);
+      }
+    }, 500); // 500ms adalah durasi CSS transition
+    return () => clearTimeout(timeout);
+  }, [currentIndex, isAnimating, total]);
+
+  // Hapus state drag jika mouse/jari keluar sepenuhnya dari area Windows
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      if (dragStart.current !== null) {
+        dragStart.current = null;
+        setIsAnimating(true);
+        applyTransform(true, 0);
+        resetAuto();
+      }
+    };
+    window.addEventListener("mouseup", handleGlobalMouseUp);
+    return () => window.removeEventListener("mouseup", handleGlobalMouseUp);
+  }, [applyTransform, resetAuto]);
+
+  // Drag / Swipe handlers
+  const handlePointerDown = (e: React.MouseEvent | React.TouchEvent) => {
+    // Mencegah interaksi drag di atas tombol prev/next atau dots
+    if ((e.target as HTMLElement).closest('.slider-nav') || (e.target as HTMLElement).closest('.slider-dots')) return;
+    
+    // Cegah perilaku "Ghost Dragging" bawaan browser untuk tag <a href> dan <img>
+    if (e.type === "mousedown") e.preventDefault();
+    
+    if (autoTimer.current) clearInterval(autoTimer.current);
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    dragStart.current = clientX;
+    
+    // Jangan set isAnimating menjadi false dulu, langsung terapkan transform saja
+    trackRef.current!.style.transition = "none";
+  };
+
+  const handlePointerMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (dragStart.current === null) return;
+    
+    // Cegah interaksi bawaan browser jika sedang di-drag pakai sentuhan
+    if ('touches' in e) e.preventDefault(); 
+    
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const diff = clientX - dragStart.current;
+    
+    // Terapkan pergeseran secara real-time langsung ke elemen
+    const currentOffset = getOffset();
+    trackRef.current!.style.transform = `translateX(calc(-${currentOffset}px + ${diff}px))`;
+  };
+
+  const handlePointerUp = (e: React.MouseEvent | React.TouchEvent) => {
+    if (dragStart.current === null) return;
+    const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as React.MouseEvent).clientX;
+    const diff = clientX - dragStart.current;
+    dragStart.current = null;
+    
+    setIsAnimating(true); // Pastikan animasi nyala sebelum pindah status
+    
+    // Jika geserannya melebihi 70px (dinaikkan sedikit sensitivitasnya)
+    if (diff > 70) {
+      setCurrentIndex(prev => prev - 1);
+      resetAuto();
+    } else if (diff < -70) {
+      setCurrentIndex(prev => prev + 1);
+      resetAuto();
+    } else {
+      // Jika geseran tanggung, kembalikan ke titik semula dengan animasi
+      applyTransform(true, 0);
+      resetAuto();
+    }
+  };
 
   // Auto-play
   useEffect(() => {
@@ -98,22 +183,30 @@ export default function HeroSlider({
   return (
     <section className="hero-slider">
       {/* Track */}
-      <div className="slider-wrapper" ref={wrapperRef}>
+      <div 
+        className="slider-wrapper" 
+        ref={wrapperRef}
+        onMouseDown={handlePointerDown}
+        onMouseMove={handlePointerMove}
+        onMouseUp={handlePointerUp}
+        onMouseLeave={handlePointerUp}
+        onTouchStart={handlePointerDown}
+        onTouchMove={handlePointerMove}
+        onTouchEnd={handlePointerUp}
+      >
         <div className="slider-track" ref={trackRef}>
           {allSlides.map((slide, i) => {
-            const originalIndex = i % total;
-            const isActive = originalIndex === current;
+            // Kalkulasi originalIndex dari currentIndex aktual 
+            const currentOriginal = ((currentIndex % total) + total) % total;
+            const itemOriginal = i % total;
+            const isActive = itemOriginal === currentOriginal;
             return (
-              <a
+              <div
                 key={i}
-                href={slide.href}
                 className={`slider-item ${isActive ? "active" : ""}`}
                 style={{ backgroundImage: `url('${slide.backgroundImage}')` }}
                 aria-hidden={!isActive}
                 tabIndex={isActive ? 0 : -1}
-                onClick={(e) => {
-                  if (slide.href === "#") e.preventDefault();
-                }}
               />
             );
           })}
@@ -144,16 +237,19 @@ export default function HeroSlider({
 
       {/* Dot Indicators */}
       <div className="slider-dots" role="tablist" aria-label="Slides">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            className={`dot ${i === current ? "active" : ""}`}
-            onClick={() => goTo(i)}
-            role="tab"
-            aria-selected={i === current}
-            aria-label={`Slide ${i + 1}`}
-          />
-        ))}
+        {slides.map((_, i) => {
+          const currentOriginal = ((currentIndex % total) + total) % total;
+          return (
+            <button
+              key={i}
+              className={`dot ${i === currentOriginal ? "active" : ""}`}
+              onClick={() => goTo(total + i)} // Go ke pertengahan (index original)
+              role="tab"
+              aria-selected={i === currentOriginal}
+              aria-label={`Slide ${i + 1}`}
+            />
+          );
+        })}
       </div>
     </section>
   );
