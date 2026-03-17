@@ -3,8 +3,9 @@
 @variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  html {
+  html, body {
     @apply transition-colors duration-500;
+    overflow-x: hidden;
   }
 }
 
@@ -12,6 +13,7 @@
   width: 100%;
   background: rgba(162, 222, 162, 0.1); /* Hijau pastel yang transparan */
   user-select: none;
+  overflow: hidden;
 }
 
 /* ── Wrapper ── */
