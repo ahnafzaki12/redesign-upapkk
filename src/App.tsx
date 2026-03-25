@@ -1,6 +1,7 @@
 import Navbar from "./components/navbar"
 import Hero_slider from "./components/hero_slider";
 import type { SlideItem } from "./components/hero_slider";
+import ArtikelAcara from "./components/artikel_acara";   
 
 const slides: SlideItem[] = [
   {
@@ -22,6 +23,7 @@ function App() {
     <div>
       <Navbar />
       <Hero_slider slides={slides} />
+      <ArtikelAcara />
     </div>
   )
 }
