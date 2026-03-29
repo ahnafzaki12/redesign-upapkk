@@ -1,5 +1,7 @@
 ﻿import { useState } from "react";
 import { Link } from "react-router-dom";
+import { articleData } from "../data/articles";
+import { eventData } from "../data/events";
 
 interface ContentItem {
   id: number;
@@ -10,91 +12,28 @@ interface ContentItem {
   category?: string;
 }
 
-const artikelData: ContentItem[] = [
-  {
-    id: 1,
-    date: "20 Februari 2026",
-    title: "Takut Dewasa, Tapi Tetap Melangkah",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
-    href: "/artikel/takut-dewasa",
-    category: "Motivasi",
-  },
-  {
-    id: 2,
-    date: "12 Februari 2026",
-    title: "Garis Start Kehidupan dan Tanggung Jawab Nilai",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
-    href: "/artikel/garis-start-kehidupan",
-    category: "Karir",
-  },
-  {
-    id: 3,
-    date: "12 Februari 2026",
-    title: "Kesabaran, Nilai, dan Jalan Panjang Kehidupan",
-    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80",
-    href: "/artikel/kesabaran-nilai",
-    category: "Inspirasi",
-  },
-  {
-    id: 4,
-    date: "28 Januari 2026",
-    title: "Karakter Penuntun di Tengah Ujian Kepemimpinan",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
-    href: "/artikel/karakter-penuntun",
-    category: "Kepemimpinan",
-  },
-  {
-    id: 5,
-    date: "28 Januari 2026",
-    title: "Ilmu sebagai Amanah dan Teladan sebagai Jalan Pengabdian",
-    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=1200&q=80",
-    href: "/artikel/ilmu-amanah",
-    category: "Pendidikan",
-  },
-];
+const latestArtikelData: ContentItem[] = [...articleData]
+  .sort((a, b) => b.id - a.id)
+  .slice(0, 5)
+  .map((item) => ({
+    id: item.id,
+    date: item.date,
+    title: item.title,
+    image: item.image,
+    href: item.href,
+  }));
 
-const acaraData: ContentItem[] = [
-  {
-    id: 1,
-    date: "19 November 2025",
-    title: "Study Talk: Embracing Postgraduate Opportunities",
-    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
-    href: "/karir/acara/study-talk-postgraduate",
-    category: "Seminar",
-  },
-  {
-    id: 2,
-    date: "6 Agustus 2025",
-    title: "Integrated Career Days & Job Fair 2025: 22 Perusahaan & Seminar Karier",
-    image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
-    href: "/karir/acara/career-days-2025",
-    category: "Job Fair",
-  },
-  {
-    id: 3,
-    date: "13 Mei 2025",
-    title: "Career Seminar: Redefining Career for Impact — From Passion to Contribution",
-    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1200&q=80",
-    href: "/karir/acara/career-seminar",
-    category: "Seminar",
-  },
-  {
-    id: 4,
-    date: "21 Februari 2025",
-    title: "Open Recruitment Pengurus DPP IKA UII Periode 2025–2030",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
-    href: "/karir/acara/open-recruitment-ika",
-    category: "Rekrutmen",
-  },
-  {
-    id: 5,
-    date: "18 Februari 2025",
-    title: "Rekrutmen Career Buddy DPKA UII",
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
-    href: "/karir/acara/career-buddy",
-    category: "Rekrutmen",
-  },
-];
+const latestAcaraData: ContentItem[] = [...eventData]
+  .sort((a, b) => b.id - a.id)
+  .slice(0, 5)
+  .map((item) => ({
+    id: item.id,
+    date: item.date,
+    title: item.title,
+    image: item.image,
+    href: item.href,
+    category: item.category,
+  }));
 
 const thumbPalette = [
   { bg: "#dcfce7", color: "#16a34a" },
@@ -167,7 +106,7 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
             <span className="text-xs font-medium tracking-wide" style={{ color: "#3d6647" }}>
               {item.date}
             </span>
-            {item.category && (
+            {type === "acara" && item.category && (
               <span
                 className="text-xs font-semibold px-2 py-0.5 rounded-full"
                 style={{ background: "#d4f0da", color: "#2b5c38" }}
@@ -185,11 +124,11 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
         </div>
 
         <div
-          className="shrink-0 self-center transition-all duration-200"
+          className="shrink-0 self-center transition-all duration-200 mr-2"
           style={{
             color: "#3d7a4e",
             opacity: hovered ? 1 : 0,
-            transform: hovered ? "translateX(0)" : "translateX(-8px)",
+            transform: hovered ? "translateX(-2px)" : "translateX(-10px)",
           }}
         >
           <IconArrow />
@@ -276,8 +215,8 @@ export default function ArtikelAcara() {
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SectionPanel title="Artikel" data={artikelData} type="artikel" href="/artikel" btnLabel="Lihat Semua Artikel" />
-        <SectionPanel title="Acara" data={acaraData} type="acara" href="/karir/acara" btnLabel="Lihat Semua Acara" />
+        <SectionPanel title="Artikel" data={latestArtikelData} type="artikel" href="/artikel" btnLabel="Lihat Semua Artikel" />
+        <SectionPanel title="Acara" data={latestAcaraData} type="acara" href="/karir/acara" btnLabel="Lihat Semua Acara" />
       </div>
     </section>
   );
