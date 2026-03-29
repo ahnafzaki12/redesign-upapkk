@@ -1,4 +1,5 @@
 ﻿import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface ContentItem {
   id: number;
@@ -14,6 +15,7 @@ const artikelData: ContentItem[] = [
     id: 1,
     date: "20 Februari 2026",
     title: "Takut Dewasa, Tapi Tetap Melangkah",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
     href: "/artikel/takut-dewasa",
     category: "Motivasi",
   },
@@ -21,6 +23,7 @@ const artikelData: ContentItem[] = [
     id: 2,
     date: "12 Februari 2026",
     title: "Garis Start Kehidupan dan Tanggung Jawab Nilai",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
     href: "/artikel/garis-start-kehidupan",
     category: "Karir",
   },
@@ -28,6 +31,7 @@ const artikelData: ContentItem[] = [
     id: 3,
     date: "12 Februari 2026",
     title: "Kesabaran, Nilai, dan Jalan Panjang Kehidupan",
+    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80",
     href: "/artikel/kesabaran-nilai",
     category: "Inspirasi",
   },
@@ -35,6 +39,7 @@ const artikelData: ContentItem[] = [
     id: 4,
     date: "28 Januari 2026",
     title: "Karakter Penuntun di Tengah Ujian Kepemimpinan",
+    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
     href: "/artikel/karakter-penuntun",
     category: "Kepemimpinan",
   },
@@ -42,6 +47,7 @@ const artikelData: ContentItem[] = [
     id: 5,
     date: "28 Januari 2026",
     title: "Ilmu sebagai Amanah dan Teladan sebagai Jalan Pengabdian",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=1200&q=80",
     href: "/artikel/ilmu-amanah",
     category: "Pendidikan",
   },
@@ -52,6 +58,7 @@ const acaraData: ContentItem[] = [
     id: 1,
     date: "19 November 2025",
     title: "Study Talk: Embracing Postgraduate Opportunities",
+    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
     href: "/karir/acara/study-talk-postgraduate",
     category: "Seminar",
   },
@@ -59,6 +66,7 @@ const acaraData: ContentItem[] = [
     id: 2,
     date: "6 Agustus 2025",
     title: "Integrated Career Days & Job Fair 2025: 22 Perusahaan & Seminar Karier",
+    image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
     href: "/karir/acara/career-days-2025",
     category: "Job Fair",
   },
@@ -66,6 +74,7 @@ const acaraData: ContentItem[] = [
     id: 3,
     date: "13 Mei 2025",
     title: "Career Seminar: Redefining Career for Impact — From Passion to Contribution",
+    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1200&q=80",
     href: "/karir/acara/career-seminar",
     category: "Seminar",
   },
@@ -73,6 +82,7 @@ const acaraData: ContentItem[] = [
     id: 4,
     date: "21 Februari 2025",
     title: "Open Recruitment Pengurus DPP IKA UII Periode 2025–2030",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
     href: "/karir/acara/open-recruitment-ika",
     category: "Rekrutmen",
   },
@@ -80,6 +90,7 @@ const acaraData: ContentItem[] = [
     id: 5,
     date: "18 Februari 2025",
     title: "Rekrutmen Career Buddy DPKA UII",
+    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
     href: "/karir/acara/career-buddy",
     category: "Rekrutmen",
   },
@@ -122,7 +133,7 @@ function Thumbnail({ index, type }: { index: number; type: "artikel" | "acara" }
   const p = thumbPalette[index % thumbPalette.length];
   return (
     <div
-      className="flex-shrink-0 rounded-xl flex items-center justify-center"
+      className="shrink-0 rounded-xl flex items-center justify-center"
       style={{ width: 66, height: 52, background: p.bg, color: p.color }}
     >
       {type === "artikel" ? <IconArtikel /> : <IconAcara />}
@@ -135,8 +146,8 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
 
   return (
     <li style={{ borderBottom: "1px solid #e8f5e9" }}>
-      <a
-        href={item.href}
+      <Link
+        to={item.href}
         className="flex gap-3 py-3 px-2 -mx-2 rounded-xl transition-all duration-200 cursor-pointer"
         style={{
           background: hovered ? "#a8ddb0" : "transparent",
@@ -146,7 +157,7 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
         onMouseLeave={() => setHovered(false)}
       >
         {item.image ? (
-          <img src={item.image} alt={item.title} className="flex-shrink-0 rounded-xl object-cover" style={{ width: 66, height: 52 }} />
+          <img src={item.image} alt={item.title} className="shrink-0 rounded-xl object-cover" style={{ width: 66, height: 52 }} />
         ) : (
           <Thumbnail index={index} type={type} />
         )}
@@ -174,7 +185,7 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
         </div>
 
         <div
-          className="flex-shrink-0 self-center transition-all duration-200"
+          className="shrink-0 self-center transition-all duration-200"
           style={{
             color: "#3d7a4e",
             opacity: hovered ? 1 : 0,
@@ -183,7 +194,7 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
         >
           <IconArrow />
         </div>
-      </a>
+      </Link>
     </li>
   );
 }
@@ -240,8 +251,8 @@ function SectionPanel({
 
       {/* Footer */}
       <div className="px-5 pb-5 pt-3" style={{ borderTop: "1px solid #c3e6c8" }}>
-        <a
-          href={href}
+        <Link
+          to={href}
           className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-95"
           style={{
             background: btnHover ? "#3d7a4e" : "#2b5c38",
@@ -255,7 +266,7 @@ function SectionPanel({
           <span style={{ transition: "transform 0.2s", transform: btnHover ? "translateX(3px)" : "translateX(0)" }}>
             <IconArrow />
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );

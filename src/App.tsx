@@ -1,7 +1,11 @@
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar"
 import Hero_slider from "./components/hero_slider";
 import type { SlideItem } from "./components/hero_slider";
-import ArtikelAcara from "./components/artikel_acara";   
+import ArtikelAcara from "./components/artikel_acara";
+import Job from "./components/job";
+import ArticlePage from "./pages/article_page";
+import EventPage from "./pages/event_page";
 
 const slides: SlideItem[] = [
   {
@@ -20,12 +24,22 @@ const slides: SlideItem[] = [
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <Hero_slider slides={slides} />
-      <ArtikelAcara />
-    </div>
-  )
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div>
+            <Navbar />
+            <Hero_slider slides={slides} />
+            <Job />
+            <ArtikelAcara />
+          </div>
+        }
+      />
+      <Route path="/artikel" element={<ArticlePage />} />
+      <Route path="/karir/acara" element={<EventPage />} />
+    </Routes>
+  );
 }
 
 export default App

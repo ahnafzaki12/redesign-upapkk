@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 type DropdownItem = {
     label: string;
@@ -59,13 +60,13 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
 const DropdownMenu = ({ items }: { items: DropdownItem[] }) => (
     <div className="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-50 py-1.5">
         {items.map((item) => (
-            <a
+            <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors duration-150 font-medium"
             >
                 {item.label}
-            </a>
+            </Link>
         ))}
     </div>
 );
@@ -137,13 +138,13 @@ const NavLink = ({ item }: { item: NavItem }) => {
     }
 
     return (
-        <a
-            href={item.href}
+        <Link
+            to={item.href || "#"}
             className="group relative flex items-center text-sm font-semibold px-3 py-2 text-gray-600 hover:text-[#00A63E] transition-colors duration-150"
         >
             {item.label}
             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-0 bg-[#00A63E] rounded-full transition-all duration-200 group-hover:w-3/5" />
-        </a>
+        </Link>
     );
 };
 
@@ -164,13 +165,13 @@ const Navbar = () => {
     return (
         <nav className="w-full bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
             <div className="max-w-7xl mx-auto h-24 flex items-center justify-between gap-4">
-                <a href="/" className="flex items-center shrink-0">
+                <Link to="/" className="flex items-center shrink-0">
                     <img
                         src="/logo.png"
                         alt="UPA PKK UPN Veteran Jawa Timur"
                         className="h-28 w-auto object-contain"
                     />
-                </a>
+                </Link>
 
                 <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
                     {NAV_ITEMS.map((item) => (
@@ -179,18 +180,18 @@ const Navbar = () => {
                 </div>
 
                 <div className="hidden lg:flex items-center gap-4 shrink-0">
-                    <a
-                        href="/masuk"
+                    <Link
+                        to="/masuk"
                         className="text-sm font-semibold px-4 py-2 rounded-lg text-[#00A63E] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-all duration-150"
                     >
                         Masuk
-                    </a>
-                    <a
-                        href="/registrasi"
+                    </Link>
+                    <Link
+                        to="/registrasi"
                         className="text-sm font-semibold px-4 py-2 rounded-lg bg-[#00A63E] text-white hover:bg-[#009935] active:scale-95 transition-all duration-150 shadow-sm"
                     >
                         Registrasi
-                    </a>
+                    </Link>
                 </div>
 
                 <button
@@ -219,41 +220,45 @@ const Navbar = () => {
                                 {mobileExpanded === item.label && (
                                     <div className="ml-3 mt-0.5 border-l-2 border-[#00A63E]/20 pl-3 space-y-0.5">
                                         {item.dropdown.map((sub) => (
-                                            <a
+                                            <Link
                                                 key={sub.href}
-                                                href={sub.href}
+                                                to={sub.href}
                                                 className="block px-3 py-2 rounded-lg text-sm text-gray-500 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors font-medium"
+                                                onClick={() => setMobileOpen(false)}
                                             >
                                                 {sub.label}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 )}
                             </div>
                         ) : (
-                            <a
+                            <Link
                                 key={item.label}
-                                href={item.href}
+                                to={item.href || "#"}
                                 className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors"
+                                onClick={() => setMobileOpen(false)}
                             >
                                 {item.label}
-                            </a>
+                            </Link>
                         )
                     )}
 
                     <div className="pt-3 pb-1 flex flex-col gap-2 border-t border-gray-100 mt-2">
-                        <a
-                            href="/masuk"
+                        <Link
+                            to="/masuk"
                             className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg text-[#00A63E] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-colors"
+                            onClick={() => setMobileOpen(false)}
                         >
                             Masuk
-                        </a>
-                        <a
-                            href="/registrasi"
+                        </Link>
+                        <Link
+                            to="/registrasi"
                             className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg bg-[#00A63E] text-white hover:bg-[#009935] transition-colors"
+                            onClick={() => setMobileOpen(false)}
                         >
                             Registrasi
-                        </a>
+                        </Link>
                     </div>
                 </div>
             )}
