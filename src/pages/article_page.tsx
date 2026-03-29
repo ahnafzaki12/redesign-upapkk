@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { articleData } from "../data/articles";
 
@@ -143,8 +143,9 @@ export default function ArticlePage() {
             sorted.map((item) => {
               const isHovered = hoveredCard === item.id;
               return (
-                <div
+                <Link
                   key={item.id}
+                  to={`/artikel/${item.slug}`}
                   className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-200 cursor-pointer"
                   style={{
                     border: isHovered ? `1.5px solid ${GREEN}` : "1.5px solid #F0F0F0",
@@ -191,7 +192,7 @@ export default function ArticlePage() {
 
                     {/* Footer */}
                     <div className="flex items-center justify-end pt-3 border-t border-gray-100">
-                      <button
+                      <span
                         className="text-xs font-semibold transition-colors duration-150 flex items-center gap-1 cursor-pointer"
                         style={{ color: isHovered ? GREEN : "#9CA3AF" }}
                       >
@@ -199,10 +200,10 @@ export default function ArticlePage() {
                         <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                           <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
-                      </button>
+                      </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })
           )}
