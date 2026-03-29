@@ -117,14 +117,12 @@ const NavLink = ({ item }: { item: NavItem }) => {
             >
                 <button
                     type="button"
-                    className={`group relative flex items-center text-sm font-semibold px-4 py-3 transition-colors duration-150 ${open ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"
-                        }`}
+                    className={`group relative flex items-center text-sm font-semibold px-4 py-3 transition-colors duration-150 ${open ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"}`}
                 >
                     {item.label}
                     <ChevronIcon open={open} />
                     <span
-                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 ${open ? "w-4/5" : "w-0 group-hover:w-4/5"
-                            }`}
+                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 ${open ? "w-4/5" : "w-0 group-hover:w-4/5"}`}
                     />
                 </button>
 

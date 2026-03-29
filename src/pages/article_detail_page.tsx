@@ -3,11 +3,12 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { articleData } from "../data/articles";
 import type { ArticleItem } from "../data/articles";
+import { pastelGreen } from "../theme/pastel_green";
 
 // Constants
-const GREEN = "#00A63E";
-const GREEN_DARK = "#008C34";
-const GREEN_LIGHT = "#E6F7EC";
+const GREEN = pastelGreen.primary;
+const GREEN_DARK = pastelGreen.heroEnd;
+const GREEN_LIGHT = pastelGreen.surfaceAlt;
 
 // Toast Component
 interface ToastProps {
@@ -139,7 +140,7 @@ const ShareMenu = ({ isOpen, onClose, onShare, onCopyLink }: ShareMenuProps) => 
         <button
           key={platform.id}
           onClick={() => onShare(platform.id)}
-          className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-green-50 focus-visible:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-inset transition-all text-left group"
+          className="w-full flex items-center gap-3 px-4 py-2.5 theme-hover-surface theme-focus-ring-inset transition-all text-left group"
           role="menuitem"
           aria-label={`Bagikan ke ${platform.name}`}
         >
@@ -152,7 +153,7 @@ const ShareMenu = ({ isOpen, onClose, onShare, onCopyLink }: ShareMenuProps) => 
       <div className="border-t border-gray-100 my-1"></div>
       <button
         onClick={onCopyLink}
-        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-green-50 focus-visible:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-inset transition-all text-left group"
+        className="w-full flex items-center gap-3 px-4 py-2.5 theme-hover-surface theme-focus-ring-inset transition-all text-left group"
         role="menuitem"
         aria-label="Salin link artikel"
       >
@@ -207,7 +208,7 @@ const StatsBar = ({
       {/* Likes */}
       <button
         onClick={onLike}
-        className="flex items-center gap-2 text-sm transition-all duration-200 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 rounded-lg px-2 py-1 -mx-2"
+        className="flex items-center gap-2 text-sm transition-all duration-200 hover:scale-110 active:scale-95 theme-focus-ring rounded-lg px-2 py-1 -mx-2"
         style={{ color: isLiked ? GREEN : "#6B7280" }}
         aria-label={isLiked ? "Batal suka artikel" : "Suka artikel"}
         aria-pressed={isLiked}
@@ -231,7 +232,7 @@ const StatsBar = ({
       <div className="relative share-menu-container">
         <button
           onClick={onShareClick}
-          className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 rounded-lg px-2 py-1 -mx-2"
+          className="flex items-center gap-2 text-sm text-gray-600 theme-hover-surface transition-all duration-200 hover:scale-105 theme-focus-ring rounded-lg px-2 py-1 -mx-2"
           aria-label="Bagikan artikel"
           aria-expanded={showShareMenu}
           aria-haspopup="menu"
@@ -275,7 +276,7 @@ const RelatedArticleCard = ({ article }: RelatedArticleCardProps) => {
         />
       </div>
       <div className="p-4">
-        <h4 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2 leading-snug group-hover:text-green-600 transition-colors">
+        <h4 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2 leading-snug group-hover:text-[var(--pg-primary-hover)] transition-colors">
           {article.title}
         </h4>
         <div className="flex items-center justify-between text-xs text-gray-500">
@@ -467,14 +468,14 @@ export default function ArticleDetailPage() {
           >
             <Link 
               to="/" 
-              className="text-gray-500 hover:text-gray-700 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 rounded px-1"
+              className="text-gray-500 hover:text-gray-700 transition-colors hover:underline theme-focus-ring rounded px-1"
             >
               Beranda
             </Link>
             <span className="text-gray-300" aria-hidden="true">/</span>
             <Link 
               to="/artikel" 
-              className="text-gray-500 hover:text-gray-700 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 rounded px-1"
+              className="text-gray-500 hover:text-gray-700 transition-colors hover:underline theme-focus-ring rounded px-1"
             >
               Artikel
             </Link>

@@ -2,6 +2,12 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+:root {
+  --pg-primary: #2b5c38;
+  --pg-primary-hover: #3d7a4e;
+  --pg-surface-alt: #e8f5e9;
+}
+
 @layer base {
   html, body {
     @apply transition-colors duration-500;
@@ -71,6 +77,26 @@
 
 .animate-fade-in-scale {
   animation: fade-in-scale 0.2s ease-out;
+}
+
+/* Shared pastel-green interaction utilities */
+.theme-hover-surface:hover,
+.theme-hover-surface:focus-visible {
+  background: var(--pg-surface-alt);
+}
+
+.theme-hover-text:hover {
+  color: var(--pg-primary-hover);
+}
+
+.theme-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--pg-primary), 0 0 0 4px #fff;
+}
+
+.theme-focus-ring-inset:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--pg-primary);
 }
 
 /* Hero Slider styles */

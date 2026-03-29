@@ -2,10 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { eventData } from "../data/events";
+import { pastelGreen } from "../theme/pastel_green";
 
-const GREEN = "#00A63E";
-const GREEN_DARK = "#008C34";
-const GREEN_LIGHT = "#E6F7EC";
+const GREEN = pastelGreen.primary;
+const GREEN_DARK = pastelGreen.heroEnd;
+const GREEN_LIGHT = pastelGreen.surfaceAlt;
+const GREEN_HERO_START = pastelGreen.heroStart;
 
 const CATEGORY_OPTIONS = ["Semua Kategori", "Seminar", "Workshop", "Job Fair", "Rekrutmen"];
 const TYPE_OPTIONS = ["Semua Tipe", "Offline", "Online"];
@@ -162,7 +164,7 @@ export default function EventPage() {
       {/* ── HERO SEARCH SECTION ── */}
       <div
         className="px-6 py-12 md:py-16 pt-24"
-        style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+        style={{ background: `linear-gradient(135deg, ${GREEN_HERO_START} 0%, ${GREEN_DARK} 100%)` }}
       >
         <div className="max-w-7xl mx-auto p-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
@@ -285,7 +287,7 @@ export default function EventPage() {
                   style={{
                     border: isHovered ? `1.5px solid ${GREEN}` : "1.5px solid #F0F0F0",
                     boxShadow: isHovered
-                      ? `0 12px 32px rgba(0,166,62,0.1)`
+                      ? "0 12px 32px rgba(43,92,56,0.14)"
                       : "0 2px 8px rgba(0,0,0,0.04)",
                     transform: isHovered ? "translateY(-3px)" : "translateY(0)",
                   }}
@@ -329,7 +331,10 @@ export default function EventPage() {
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                       <span
                         className="text-xs font-semibold px-3 py-1.5 rounded-full"
-                        style={{ background: item.type === "Online" ? "#DBEAFE" : "#FEF3C7", color: item.type === "Online" ? "#1E40AF" : "#92400E" }}
+                        style={{
+                          background: item.type === "Online" ? pastelGreen.surfaceStrong : pastelGreen.surface,
+                          color: item.type === "Online" ? pastelGreen.primary : pastelGreen.textMuted,
+                        }}
                       >
                         {item.type}
                       </span>

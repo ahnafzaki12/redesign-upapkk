@@ -1,0 +1,15 @@
+export const pastelGreen = {
+  heroStart: "#5FBF7A",
+  heroEnd: "#2B5C38",
+  primary: "#2B5C38",
+  primaryHover: "#3D7A4E",
+  primarySoft: "#72B87C",
+  surface: "#F4FBF5",
+  surfaceAlt: "#E8F5E9",
+  surfaceStrong: "#D4F0DA",
+  border: "#C3E6C8",
+  text: "#1A4A25",
+  textMuted: "#3D6647",
+  accent: "#A8DDB0",
+  white: "#FFFFFF",
+} as const;
