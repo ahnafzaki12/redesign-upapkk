@@ -74,7 +74,7 @@ export default function HeroSlider({
   // Initial render tanpa animasi
   useEffect(() => {
     applyTransform(false);
-  }, []);
+  }, [applyTransform]);
 
   // Render setelah current berubah
   useEffect(() => {
