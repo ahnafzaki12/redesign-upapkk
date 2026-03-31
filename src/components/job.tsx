@@ -223,11 +223,11 @@ export default function Job() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen max-w-7xl mx-auto bg-white">
 
       {/* ── HERO ── */}
       <div
-        className="px-6 py-12 md:py-16"
+        className="px-6 py-12 md:py-16 " 
         style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
       >
         <div className="max-w-7xl mx-auto p-6">
