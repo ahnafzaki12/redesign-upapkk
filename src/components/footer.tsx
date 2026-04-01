@@ -3,13 +3,13 @@ const Footer = () => {
     <footer className="bg-white font-sans text-[#1e3a5f]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* Main Section */}
-      <div className="max-w-7xl mx-auto px-[5%] py-6">
-        <div className="grid grid-cols-12 gap-8 pt-6">
+      <div className="max-w-7xl mx-auto px-[5%] py-8 lg:pt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-          {/* Left: Brand + Contact (3 kolom) */}
-          <div className="col-span-12 lg:col-span-3">
+          {/* Left: Brand + Contact */}
+          <div className="lg:col-span-3">
             {/* Logo */}
-            <div className="mb-6">
+            <div className="mb-3 lg:mb-1.5 max-w-[180px]">
               <img
                 src="/logo.png"
                 alt="Logo"
@@ -18,10 +18,10 @@ const Footer = () => {
             </div>
 
             {/* Divider */}
-            <div className="h-px bg-[#c8d6e5] mb-5" />
+            <div className="h-px bg-[#c8d6e5] mb-4 lg:mb-2" />
 
             {/* Contact Info */}
-            <div className="space-y-5 text-sm">
+            <div className="space-y-5 lg:space-y-2.5 text-sm">
               {/* Address */}
               <div>
                 <p className="text-[0.82rem] text-[#4a6d8c] leading-relaxed m-0">
@@ -60,9 +60,11 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Right: Navigation (9 kolom) */}
-          <div className="col-span-12 lg:col-span-9">
-            <div className="grid grid-cols-3 gap-8 ml-24 mt-10">
+          {/* Right: Navigation + Social */}
+          <div className="lg:col-span-9 flex flex-col gap-8">
+
+            {/* Nav Columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:ml-24">
 
               {/* Column 1: MENU Part 1 */}
               <div>
@@ -124,20 +126,20 @@ const Footer = () => {
             </div>
 
             {/* Social Media Banner */}
-            <div className="max-w-3xl mx-auto px-[5%] pb-1 mt-30">
-              <div className="bg-[#2b5c38] rounded-full px-7 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-[0.88rem] font-medium text-white m-0">
-                  Jangan lupa ikuti media sosial resmi UPAPKK
+            <div className="w-full lg:max-w-2xl lg:mt-6 lg:ml-22">
+              <div className="bg-[#2b5c38] rounded-full px-3 py-2 flex flex-row items-center justify-between gap-2 lg:pl-8 lg:py-3">
+                <p className="text-[0.7rem] sm:text-base font-medium text-white m-0">
+                  ikuti media sosial resmi UPAPKK
                 </p>
 
                 {/* Social Icons */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 shrink-0">
 
                   {/* Facebook */}
                   <a
                     href="#"
                     aria-label="Facebook"
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110 hover:bg-[#3d7a4e]"
+                    className="w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
                     style={{ background: 'rgba(255,255,255,0.15)' }}
                     onMouseEnter={e => (e.currentTarget.style.background = '#00A63E')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
@@ -151,7 +153,7 @@ const Footer = () => {
                   <a
                     href="#"
                     aria-label="Instagram"
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
+                    className="w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
                     style={{ background: 'rgba(255,255,255,0.15)' }}
                     onMouseEnter={e => (e.currentTarget.style.background = '#00A63E')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
@@ -167,7 +169,7 @@ const Footer = () => {
                   <a
                     href="#"
                     aria-label="X"
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
+                    className="w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
                     style={{ background: 'rgba(255,255,255,0.15)' }}
                     onMouseEnter={e => (e.currentTarget.style.background = '#00A63E')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
@@ -181,7 +183,7 @@ const Footer = () => {
                   <a
                     href="#"
                     aria-label="YouTube"
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
+                    className="w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
                     style={{ background: 'rgba(255,255,255,0.15)' }}
                     onMouseEnter={e => (e.currentTarget.style.background = '#00A63E')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
@@ -194,12 +196,13 @@ const Footer = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-white text-center py-3.5 px-[5%]">
+      <div className="bg-white border-t border-[#e8eef4] text-center py-3.5 px-[5%]">
         <p className="text-[0.78rem] text-[#6b8aaa] m-0">
           © Pusat Pengembangan Akademik &amp; Karir Kemahasiswaan UPN "Veteran" Jawa Timur
         </p>

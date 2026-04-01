@@ -27,9 +27,9 @@ const HomePage = () => {
       <Navbar />
       <Hero_slider slides={slides} />
 
-      <section className="w-full bg-white pb-4">
-        <Job />
-      </section>
+      
+      <Job />
+  
 
       <SectionHeaderDivider />
 

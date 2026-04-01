@@ -111,22 +111,22 @@ function SearchableDropdown({ value, onChange, options, placeholder }: DropdownP
   );
 
   return (
-    <div ref={ref} className="relative">
-      {/* Trigger */}
+    <div ref={ref} className="relative w-full lg:w-auto">
+      {/* Trigger — full-width on all screens */}
       <button
         type="button"
         onClick={() => { setOpen((p) => !p); setSearch(""); }}
-        className="flex items-center gap-2 text-sm rounded-full pl-4 pr-3 py-2 cursor-pointer outline-none transition-all duration-150 whitespace-nowrap"
+        className="flex items-center justify-between gap-2 text-sm rounded-full pl-4 pr-3 py-2 cursor-pointer outline-none transition-all duration-150 w-full lg:w-auto"
         style={{
           background: open ? "rgba(255,255,255,0.28)" : "rgba(255,255,255,0.18)",
           border: "1px solid rgba(255,255,255,0.35)",
           color: "white",
         }}
       >
-        <span>{value || placeholder}</span>
+        <span className="truncate">{value || placeholder}</span>
         <svg
           width="10" height="10" fill="white" viewBox="0 0 16 16"
-          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s", flexShrink: 0 }}
         >
           <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
         </svg>
@@ -135,7 +135,7 @@ function SearchableDropdown({ value, onChange, options, placeholder }: DropdownP
       {/* Panel */}
       {open && (
         <div
-          className="absolute top-full left-0 mt-2 w-64 rounded-2xl shadow-xl z-50 overflow-hidden"
+          className="absolute top-full left-0 mt-2 w-full lg:w-64 min-w-[220px] rounded-2xl shadow-xl z-50 overflow-hidden"
           style={{ background: "white", border: "1px solid #E5E7EB" }}
         >
           {/* Header row */}
@@ -227,23 +227,24 @@ export default function Job() {
 
       {/* ── HERO ── */}
       <div
-        className="px-6 py-12 md:py-16 " 
+        className="px-4 sm:px-6 py-10 md:py-16 rounded-4xl"
         style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
       >
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="max-w-7xl mx-auto p-4 sm:p-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
             Karir & Magang
           </p>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
             Informasi Lowongan
           </h1>
           <p className="text-sm text-white opacity-70 mb-8 max-w-lg leading-relaxed">
             Temukan pekerjaan terbaik Anda disini dengan berbagai partner yang telah bekerja sama dengan Kami
           </p>
 
-          {/* Search bar */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex items-center gap-3 bg-white rounded-xl px-4 h-12 flex-1 shadow-sm">
+          {/* ── Search bar: stacks vertically & centered on mobile/tablet ── */}
+          <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-stretch">
+            {/* Job search input */}
+            <div className="flex items-center gap-3 bg-white rounded-xl px-4 h-12 w-full lg:flex-1 shadow-sm">
               <svg className="text-gray-400 shrink-0" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
               </svg>
@@ -255,7 +256,8 @@ export default function Job() {
               />
             </div>
 
-            <div className="flex items-center gap-3 bg-white rounded-xl px-4 h-12 sm:w-56 shadow-sm">
+            {/* Location input */}
+            <div className="flex items-center gap-3 bg-white rounded-xl px-4 h-12 w-full lg:w-56 shadow-sm">
               <svg className="text-gray-400 shrink-0" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
               </svg>
@@ -267,8 +269,9 @@ export default function Job() {
               />
             </div>
 
+            {/* Search button */}
             <button
-              className="h-12 px-7 rounded-xl text-sm font-semibold shadow-md transition-all duration-150 active:scale-95"
+              className="h-12 px-7 rounded-xl text-sm font-semibold shadow-md transition-all duration-150 active:scale-95 w-full lg:w-auto"
               style={{ background: "white", color: GREEN }}
               onMouseEnter={(e) => { e.currentTarget.style.background = GREEN_LIGHT; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "white"; }}
@@ -277,8 +280,8 @@ export default function Job() {
             </button>
           </div>
 
-          {/* Filter dropdowns */}
-          <div className="flex flex-wrap gap-2 mt-5">
+          {/* ── Filter dropdowns: stacks vertically & centered on mobile/tablet ── */}
+          <div className="flex flex-col items-center gap-3 mt-5 lg:flex-row lg:flex-wrap lg:items-center">
             <SearchableDropdown
               value={category}
               onChange={setCategory}
@@ -302,7 +305,7 @@ export default function Job() {
       </div>
 
       {/* ── BODY ── */}
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6">
 
         {/* Tabs */}
         <div className="flex border-b border-gray-200 mb-6">
@@ -365,7 +368,7 @@ export default function Job() {
               return (
                 <div
                   key={job.id}
-                  className="bg-white rounded-2xl p-6 flex flex-col gap-4  transition-all duration-200"
+                  className="bg-white rounded-2xl p-5 sm:p-6 flex flex-col gap-4 transition-all duration-200"
                   style={{
                     border: isHovered ? `1.5px solid ${GREEN}` : "1.5px solid #F0F0F0",
                     boxShadow: isHovered
@@ -426,7 +429,7 @@ export default function Job() {
                     className="flex items-center justify-between pt-4"
                     style={{ borderTop: "1px solid #F3F4F6" }}
                   >
-                    <div className="flex gap-6">
+                    <div className="flex gap-4 sm:gap-6">
                       <div>
                         <p className="text-xs text-gray-400">Deadline</p>
                         <p className="text-xs font-semibold text-gray-700 mt-0.5">{job.deadline}</p>
@@ -438,7 +441,7 @@ export default function Job() {
                     </div>
 
                     <button
-                      className="text-xs cursor-pointer font-semibold px-5 py-2 rounded-lg transition-all duration-150 active:scale-95"
+                      className="text-xs cursor-pointer font-semibold px-5 py-2 rounded-lg transition-all duration-150 active:scale-95 shrink-0"
                       style={{
                         background: hoveredBtn === job.id ? GREEN : GREEN_LIGHT,
                         color: hoveredBtn === job.id ? "white" : GREEN,
