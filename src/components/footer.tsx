@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Left: Brand + Contact */}
           <div className="lg:col-span-3">
             {/* Logo */}
-            <div className="mb-3 lg:mb-1.5 max-w-[180px]">
+            <div className="mb-3 lg:mb-1.5 max-w-45">
               <img
                 src="/logo.png"
                 alt="Logo"

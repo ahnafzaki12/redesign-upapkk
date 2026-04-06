@@ -241,6 +241,25 @@
   transform: scale(1.3);
 }
 
+/* Custom Scrollbar Modern */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px; /* Sangat tipis dan elegan */
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #e2e8f0; /* warna slate-200 */
+  border-radius: 20px;
+  border: 1px solid transparent; /* memberikan efek padding */
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1; /* warna slate-300 saat hover */
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .slider-wrapper { padding: 12px 0; }

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type DropdownItem = {
     label: string;
@@ -17,8 +17,8 @@ const NAV_ITEMS: NavItem[] = [
     {
         label: "Karir",
         dropdown: [
-            { label: "Lowongan Magang", href: "/karir/magang" },
             { label: "Lowongan Pekerjaan", href: "/karir/pekerjaan" },
+            { label: "Lowongan Magang", href: "/karir/magang" },
             { label: "Acara", href: "/karir/acara" },
             { label: "CV Builder", href: "/karir/cv-builder" },
             { label: "Virtual Career Expo", href: "/karir/expo" },
@@ -57,24 +57,40 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
     </svg>
 );
 
-const DropdownMenu = ({ items }: { items: DropdownItem[] }) => (
+const DropdownMenu = ({ items, currentPath }: { items: DropdownItem[], currentPath: string }) => (
     <div className="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-50 py-1.5">
-        {items.map((item) => (
-            <Link
-                key={item.href}
-                to={item.href}
-                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors duration-150 font-medium"
-            >
-                {item.label}
-            </Link>
-        ))}
+        {items.map((item) => {
+            const isActive = currentPath === item.href;
+            return (
+                <Link
+                    key={item.href}
+                    to={item.href}
+                    className={`flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors duration-150 font-medium 
+                        ${isActive
+                            ? "text-[#00A63E]" // Hanya teks hijau jika aktif
+                            : "text-gray-600 hover:text-[#00A63E]" // Hover tetap teks hijau
+                        }`}
+                >
+                    {item.label}
+                </Link>
+            );
+        })}
     </div>
 );
 
 const NavLink = ({ item }: { item: NavItem }) => {
+    const location = useLocation();
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const isActive = item.href === location.pathname;
+    const isChildActive = item.dropdown?.some(sub => {
+        // Kita ambil bagian pertama dari path, misal "/karir"
+        const parentPath = sub.href.split('/')[1];
+        return location.pathname.startsWith(`/${parentPath}`);
+    });
+    const shouldBeHighlighted = isActive || isChildActive;
 
     const handleOpen = () => {
         if (closeTimeoutRef.current) {
@@ -117,18 +133,21 @@ const NavLink = ({ item }: { item: NavItem }) => {
             >
                 <button
                     type="button"
-                    className={`group relative flex items-center text-sm font-semibold px-4 py-3 transition-colors duration-150 ${open ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"}`}
+                    className={`group relative flex items-center text-sm font-semibold px-4 py-3 transition-colors duration-150 
+                    ${open || shouldBeHighlighted ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"}`}
                 >
                     {item.label}
                     <ChevronIcon open={open} />
                     <span
-                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 ${open ? "w-4/5" : "w-0 group-hover:w-4/5"}`}
+                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 
+                        ${open || shouldBeHighlighted ? "w-4/5" : "w-0 group-hover:w-4/5"}`}
                     />
                 </button>
 
                 {open && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50">
-                        <DropdownMenu items={item.dropdown} />
+                        {/* Kirim location.pathname ke sini */}
+                        <DropdownMenu items={item.dropdown} currentPath={location.pathname} />
                     </div>
                 )}
             </div>
@@ -138,10 +157,13 @@ const NavLink = ({ item }: { item: NavItem }) => {
     return (
         <Link
             to={item.href || "#"}
-            className="group relative flex items-center text-sm font-semibold px-3 py-2 text-gray-600 hover:text-[#00A63E] transition-colors duration-150"
+            className={`group relative flex items-center text-sm font-semibold px-3 py-2 transition-colors duration-150 
+                ${isActive ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"}`}
         >
             {item.label}
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-0 bg-[#00A63E] rounded-full transition-all duration-200 group-hover:w-3/5" />
+            <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 
+                ${isActive ? "w-3/5" : "w-0 group-hover:w-3/5"}`}
+            />
         </Link>
     );
 };
@@ -159,6 +181,7 @@ const HamburgerIcon = ({ open }: { open: boolean }) => (
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+    const location = useLocation();
 
     return (
         <nav className="w-full bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
@@ -203,44 +226,55 @@ const Navbar = () => {
 
             {mobileOpen && (
                 <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-0.5">
-                    {NAV_ITEMS.map((item) =>
-                        item.dropdown ? (
-                            <div key={item.label}>
-                                <button
-                                    onClick={() =>
-                                        setMobileExpanded((prev) => (prev === item.label ? null : item.label))
-                                    }
-                                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors"
-                                >
-                                    {item.label}
-                                    <ChevronIcon open={mobileExpanded === item.label} />
-                                </button>
-                                {mobileExpanded === item.label && (
-                                    <div className="ml-3 mt-0.5 border-l-2 border-[#00A63E]/20 pl-3 space-y-0.5">
-                                        {item.dropdown.map((sub) => (
-                                            <Link
-                                                key={sub.href}
-                                                to={sub.href}
-                                                className="block px-3 py-2 rounded-lg text-sm text-gray-500 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors font-medium"
-                                                onClick={() => setMobileOpen(false)}
-                                            >
-                                                {sub.label}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
+                    {NAV_ITEMS.map((item) => {
+                        const isActive = item.href === location.pathname;
+                        const isChildActive = item.dropdown?.some(sub => {
+                            const parentPath = sub.href.split('/')[1];
+                            return location.pathname.startsWith(`/${parentPath}`);
+                        });
+
+                        if (item.dropdown) {
+                            return (
+                                <div key={item.label}>
+                                    <button
+                                        onClick={() => setMobileExpanded((prev) => (prev === item.label ? null : item.label))}
+                                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors
+                                            ${isChildActive ? "text-[#00A63E] bg-[#00A63E]/5" : "text-gray-700 hover:bg-[#00A63E]/5"}`}
+                                    >
+                                        {item.label}
+                                        <ChevronIcon open={mobileExpanded === item.label} />
+                                    </button>
+                                    {mobileExpanded === item.label && (
+                                        <div className="ml-3 mt-0.5 border-l-2 border-[#00A63E]/20 pl-3 space-y-0.5">
+                                            {item.dropdown.map((sub) => (
+                                                <Link
+                                                    key={sub.href}
+                                                    to={sub.href}
+                                                    className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                                                        ${location.pathname === sub.href ? "text-[#00A63E]" : "text-gray-500 hover:text-[#00A63E]"}`}
+                                                    onClick={() => setMobileOpen(false)}
+                                                >
+                                                    {sub.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        }
+
+                        return (
                             <Link
                                 key={item.label}
                                 to={item.href || "#"}
-                                className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:text-[#00A63E] hover:bg-[#00A63E]/5 transition-colors"
+                                className={`block px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors
+                                    ${isActive ? "text-[#00A63E] bg-[#00A63E]/5" : "text-gray-700 hover:bg-[#00A63E]/5"}`}
                                 onClick={() => setMobileOpen(false)}
                             >
                                 {item.label}
                             </Link>
-                        )
-                    )}
+                        );
+                    })}
 
                     <div className="pt-3 pb-1 flex flex-col gap-2 border-t border-gray-100 mt-2">
                         <Link
