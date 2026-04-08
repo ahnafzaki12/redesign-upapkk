@@ -59,13 +59,13 @@ const apply_page = () => {
                 <div className="flex flex-col items-center justify-center px-4 py-32 text-center">
                     <div
                         className="w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-lg"
-                        style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+                        style={{ background: GREEN_DARK }}
                     >
                         <svg width="36" height="36" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
                             <path d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
-                    <h2 className="text-2xl font-extrabold text-gray-800 mb-2">Lamaran Terkirim!</h2>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Lamaran Terkirim!</h2>
                     <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
                         Terima kasih, <span className="font-semibold text-gray-700">{form.fullName}</span>. Lamaran kamu untuk posisi{" "}
                         <span className="font-semibold" style={{ color: GREEN }}>{job?.title}</span> telah kami terima.
@@ -93,6 +93,8 @@ const apply_page = () => {
         )
     }
 
+    const isInternship = job.tag === "Magang";
+
     return (
         <div className="min-h-screen bg-gray-50">
             <Navbar />
@@ -100,28 +102,48 @@ const apply_page = () => {
             {/* ── HERO ─────────────────────────────────────────────────────────── */}
             <section
                 className="px-4 sm:px-6 pt-14 pb-24"
-                style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+                style={{ background: GREEN_DARK }}
             >
-                <div className="max-w-5xl mx-auto">
-                    {/* Back */}
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="flex items-center gap-1.5 text-sm font-semibold mb-8 border-none bg-transparent cursor-pointer transition-colors duration-150"
-                        style={{ color: "rgba(255,255,255,0.72)" }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.72)")}
-                    >
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                            <path d="M19 12H5M5 12l7-7M5 12l7 7" />
+                <div className="max-w-6xl mx-auto">
+                    {/* Breadcrumbs */}
+                    <nav className="flex items-center gap-1.5 mb-8">
+                        <button
+                            onClick={() => navigate("/")}
+                            className="text-xs font-semibold border-none bg-transparent cursor-pointer transition-colors duration-150"
+                            style={{ color: "rgba(255,255,255,0.6)" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
+                            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+                        >
+                            Beranda
+                        </button>
+                        <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ color: "rgba(255,255,255,0.4)" }}>
+                            <path d="m9 18 6-6-6-6" />
                         </svg>
-                        Kembali
-                    </button>
+                        <button
+                            onClick={() => navigate(isInternship ? "/karir/magang" : "/karir/pekerjaan")}
+                            className="text-xs font-semibold border-none bg-transparent cursor-pointer transition-colors duration-150"
+                            style={{ color: "rgba(255,255,255,0.6)" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
+                            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+                        >
+                            {isInternship ? "Magang" : "Pekerjaan"}
+                        </button>
+                        <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ color: "rgba(255,255,255,0.4)" }}>
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                        <span
+                            className="text-xs font-semibold truncate max-w-50"
+                            style={{ color: "rgba(255,255,255,0.9)" }}
+                        >
+                            {job.title}
+                        </span>
+                    </nav>
 
                     {/* Job context */}
                     <div className="flex flex-wrap items-start justify-between gap-6">
                         <div className="flex items-start gap-5">
                             <div
-                                className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-base font-extrabold shrink-0 shadow-lg"
+                                className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-base font-bold shrink-0 shadow-lg"
                                 style={{ background: job.logoColor ?? GREEN_DARK }}
                             >
                                 {job.logo}
@@ -130,7 +152,7 @@ const apply_page = () => {
                                 <p className="text-xs font-semibold mb-1" style={{ color: "rgba(255,255,255,0.65)" }}>
                                     {job.company}
                                 </p>
-                                <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-snug">
+                                <h1 className="text-2xl sm:text-3xl font-bold text-white leading-snug">
                                     {job.title}
                                 </h1>
                                 <div className="flex flex-wrap gap-2 mt-3">
@@ -151,23 +173,12 @@ const apply_page = () => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Progress chip */}
-                        <div
-                            className="rounded-2xl px-5 py-4 text-center shrink-0 min-w-25"
-                            style={{ background: "rgba(255,255,255,0.15)" }}
-                        >
-                            <p className="text-white text-2xl font-extrabold leading-none">{progress}%</p>
-                            <p className="text-xs font-semibold uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>
-                                Terisi
-                            </p>
-                        </div>
                     </div>
                 </div>
             </section>
 
             {/* ── MAIN ─────────────────────────────────────────────────────────── */}
-            <main className="max-w-5xl mx-auto px-4 sm:px-6 pb-24" style={{ marginTop: -40 }}>
+            <main className="max-w-6xl mx-auto px-4 sm:px-6 pb-24" style={{ marginTop: -40 }}>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
                     {/* ── LEFT: Form (2/3) ── */}
@@ -344,7 +355,7 @@ const apply_page = () => {
 
                         {/* Progress checklist */}
                         <div className="bg-white rounded-2xl p-6 shadow-md">
-                            <h3 className="text-sm font-extrabold text-gray-800 mb-4">Kelengkapan Formulir</h3>
+                            <h3 className="text-sm font-bold text-gray-800 mb-4">Kelengkapan Formulir</h3>
                             <div className="flex flex-col gap-3">
                                 {[
                                     { label: "Nama Lengkap", done: !!form.fullName },
@@ -393,7 +404,7 @@ const apply_page = () => {
 
                         {/* Job summary */}
                         <div className="bg-white rounded-2xl p-6 shadow-md">
-                            <h3 className="text-sm font-extrabold text-gray-800 mb-4">Ringkasan Posisi</h3>
+                            <h3 className="text-sm font-bold text-gray-800 mb-4">Ringkasan Posisi</h3>
                             <div className="flex flex-col gap-4">
                                 {[
                                     { label: "Perusahaan", value: job.company },
@@ -414,7 +425,7 @@ const apply_page = () => {
                         {/* Tags */}
                         {job.tags && job.tags.length > 0 && (
                             <div className="bg-white rounded-2xl p-6 shadow-md">
-                                <h3 className="text-sm font-extrabold text-gray-800 mb-3">Keunggulan</h3>
+                                <h3 className="text-sm font-bold text-gray-800 mb-3">Keunggulan</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {job.tags.map((tag) => (
                                         <span
@@ -444,12 +455,12 @@ function SectionCard({ number, title, children }: { number: number; title: strin
         <div className="bg-white rounded-2xl shadow-md overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
                 <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold text-white shrink-0"
+                    className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
                     style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
                 >
                     {number}
                 </div>
-                <span className="text-sm font-extrabold text-gray-800">{title}</span>
+                <span className="text-sm font-bold text-gray-800">{title}</span>
             </div>
             <div className="px-6 py-6 flex flex-col gap-5">{children}</div>
         </div>

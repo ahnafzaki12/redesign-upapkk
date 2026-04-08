@@ -34,95 +34,122 @@ export default function JobDetailPage() {
 
       {/* ── HERO ────────────────────────────────────────────────────────── */}
       <section
-        className="px-4 sm:px-6 pt-14 pb-24"
-        style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+        className="px-4 sm:px-6 pt-14 pb-20"
+        style={{ background: GREEN_DARK }}
       >
-        <div className="max-w-5xl mx-auto">
-          {/* Back button */}
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-1.5 text-sm font-semibold mb-8 border-none bg-transparent cursor-pointer"
-            style={{ color: "rgba(255,255,255,0.75)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
-          >
-            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-              <path d="M19 12H5M5 12l7-7M5 12l7 7" />
+        <div className="max-w-6xl mx-auto">
+
+          {/* Breadcrumbs */}
+          <nav className="flex items-center gap-1.5 mb-8">
+            <button
+              onClick={() => navigate("/")}
+              className="text-xs font-semibold border-none bg-transparent cursor-pointer transition-colors duration-150"
+              style={{ color: "rgba(255,255,255,0.6)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+            >
+              Beranda
+            </button>
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <path d="m9 18 6-6-6-6" />
             </svg>
-            Kembali ke daftar lowongan
-          </button>
-
-          {/* Company + title row */}
-          <div className="flex flex-wrap items-start gap-5">
-            {/* Logo */}
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-base font-extrabold shrink-0 shadow-lg"
-              style={{ background: job.logoColor ?? GREEN_DARK, letterSpacing: "-0.02em" }}
+            <button
+              onClick={() => navigate(isInternship ? "/karir/magang" : "/karir/pekerjaan")}
+              className="text-xs font-semibold border-none bg-transparent cursor-pointer transition-colors duration-150"
+              style={{ color: "rgba(255,255,255,0.6)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
             >
-              {job.logo}
-            </div>
+              {isInternship ? "Magang" : "Pekerjaan"}
+            </button>
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+            <span
+              className="text-xs font-semibold truncate max-w-50"
+              style={{ color: "rgba(255,255,255,0.9)" }}
+            >
+              {job.title}
+            </span>
+          </nav>
 
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold mb-1" style={{ color: "rgba(255,255,255,0.7)" }}>
-                {job.company}
-              </p>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-snug">{job.title}</h1>
-
-              {/* Quick meta chips */}
-              <div className="flex flex-wrap gap-2 mt-4">
-                {[
-                  { label: job.location },
-                  { label: job.type },
-                  { label: job.education.join(", ") },
-                  ...(job.duration ? [{ label: job.duration }] : []),
-                ].map(({ label }) => (
-                  <span
-                    key={label}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-                    style={{ background: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.9)" }}
+          {/* Title row */}
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <div className="flex items-start gap-4">
+              {/* Logo */}
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 overflow-hidden bg-white shadow-md border border-white/20">
+                {job.logoUrl ? (
+                  <img
+                    src={job.logoUrl}
+                    alt={job.company}
+                    className="w-full h-full object-contain p-1"
+                    onError={(e) => { e.currentTarget.style.display = "none" }}
+                  />
+                ) : (
+                  <div
+                    className="w-full h-full flex items-center justify-center text-white text-xs font-black tracking-wide"
+                    style={{ background: job.logoColor }}
                   >
-                    {label}
-                  </span>
-                ))}
+                    {job.logo}
+                  </div>
+                )}
               </div>
-            </div>
 
-            {/* Vacancy badge */}
-            <div
-              className="rounded-2xl px-5 py-4 text-center shrink-0"
-              style={{ background: "rgba(255,255,255,0.15)" }}
-            >
-              <p className="text-white text-2xl font-extrabold leading-none">{job.vacancies}</p>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>
-                Posisi
-              </p>
+              <div>
+                <p
+                  className="text-xs font-bold uppercase mb-1.5 text-white"
+                >
+                  {job.company}
+                </p>
+                <h1 className="text-3xl sm:text-4xl font-bold text-white">
+                  {job.title}
+                </h1>
+
+                {/* Meta chips */}
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {[
+                    job.location,
+                    job.type,
+                    job.education.join(", "),
+                    ...(job.duration ? [job.duration] : []),
+                  ].map((label) => (
+                    <span
+                      key={label}
+                      className="px-3 py-1 rounded-lg text-xs font-semibold"
+                      style={{ background: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.9)" }}
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── MAIN CONTENT ────────────────────────────────────────────────── */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pb-24" style={{ marginTop: -40 }}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 pb-24" style={{ marginTop: -32 }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
           {/* ── Left: Description + Requirements ── */}
-          <div className="md:col-span-2 flex flex-col gap-6">
+          <div className="md:col-span-2 flex flex-col gap-5">
 
-            {/* Description card */}
-            <div className="bg-white rounded-2xl p-6 shadow-md">
-              <h2 className="text-base font-extrabold text-gray-800 mb-3">Deskripsi Pekerjaan</h2>
+            {/* Description */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <h2 className="text-sm font-bold text-gray-800 mb-3 uppercase tracking-wide">Deskripsi Pekerjaan</h2>
               <p className="text-sm text-gray-600 leading-relaxed">{job.description}</p>
             </div>
 
-            {/* Requirements card */}
+            {/* Requirements */}
             {job.requirements && job.requirements.length > 0 && (
-              <div className="bg-white rounded-2xl p-6 shadow-md">
-                <h2 className="text-base font-extrabold text-gray-800 mb-4">Persyaratan</h2>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h2 className="text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide">Persyaratan</h2>
                 <ul className="flex flex-col gap-3">
                   {job.requirements.map((req, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span
-                        className="mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                        className="mt-0.5 w-5 h-5 rounded-md flex items-center justify-center shrink-0"
                         style={{ background: GREEN_LIGHT }}
                       >
                         <svg width="10" height="10" fill="none" stroke={GREEN} strokeWidth="2.5" viewBox="0 0 24 24">
@@ -136,15 +163,15 @@ export default function JobDetailPage() {
               </div>
             )}
 
-            {/* Tags card */}
+            {/* Tags */}
             {job.tags && job.tags.length > 0 && (
-              <div className="bg-white rounded-2xl p-6 shadow-md">
-                <h2 className="text-base font-extrabold text-gray-800 mb-4">Keunggulan Program</h2>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h2 className="text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide">Keunggulan Program</h2>
                 <div className="flex flex-wrap gap-2">
                   {job.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3.5 py-1.5 rounded-full text-xs font-bold"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold"
                       style={{ background: GREEN_LIGHT, color: GREEN }}
                     >
                       {tag}
@@ -155,13 +182,13 @@ export default function JobDetailPage() {
             )}
           </div>
 
-          {/* ── Right: Summary sidebar ── */}
-          <div className="flex flex-col gap-5">
+          {/* ── Right: Sidebar ── */}
+          <div className="flex flex-col gap-4">
 
             {/* Apply CTA */}
-            <div className="bg-white rounded-2xl p-6 shadow-md">
+            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
               <button
-                className="w-full py-3 rounded-xl text-sm font-bold text-white border-none cursor-pointer transition-opacity duration-150"
+                className="w-full py-3 rounded-lg text-sm font-bold text-white border-none cursor-pointer transition-opacity duration-150"
                 style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
@@ -178,25 +205,27 @@ export default function JobDetailPage() {
             </div>
 
             {/* Info summary */}
-            <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col gap-4">
-              <h2 className="text-base font-extrabold text-gray-800">Informasi Lowongan</h2>
-
-              {[
-                { label: "Perusahaan", value: job.company },
-                { label: "Kategori", value: job.category },
-                { label: "Tipe", value: isInternship ? "Magang" : "Pekerjaan" },
-                { label: "Lokasi", value: job.location },
-                ...(job.salary ? [{ label: "Gaji / Uang Saku", value: job.salary }] : []),
-                ...(job.duration ? [{ label: "Durasi", value: job.duration }] : []),
-                { label: "Pendidikan", value: job.education.join(", ") },
-                ...(job.posted ? [{ label: "Diposting", value: job.posted }] : []),
-              ].map(({ label, value }) => (
-                <div key={label} className="flex flex-col gap-0.5">
-                  <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">{label}</span>
-                  <span className="text-sm font-semibold text-gray-800">{value}</span>
-                </div>
-              ))}
+            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+              <h2 className="text-sm font-extrabold text-gray-800 mb-4 uppercase tracking-wide">Informasi Lowongan</h2>
+              <div className="flex flex-col divide-y divide-gray-50">
+                {[
+                  { label: "Perusahaan", value: job.company },
+                  { label: "Kategori", value: job.category },
+                  { label: "Tipe", value: isInternship ? "Magang" : "Pekerjaan" },
+                  { label: "Lokasi", value: job.location },
+                  ...(job.salary ? [{ label: "Gaji / Uang Saku", value: job.salary }] : []),
+                  ...(job.duration ? [{ label: "Durasi", value: job.duration }] : []),
+                  { label: "Pendidikan", value: job.education.join(", ") },
+                  ...(job.posted ? [{ label: "Diposting", value: job.posted }] : []),
+                ].map(({ label, value }) => (
+                  <div key={label} className="flex flex-col gap-0.5 py-3 first:pt-0 last:pb-0">
+                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">{label}</span>
+                    <span className="text-sm font-semibold text-gray-800">{value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
+
           </div>
         </div>
       </main>

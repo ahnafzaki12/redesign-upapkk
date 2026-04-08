@@ -1,13 +1,13 @@
 import { useState } from "react"
 import Footer from "../components/footer"
 import Navbar from "../components/navbar"
-import { CATEGORY, EDUCATIONS, GREEN, GREEN_DARK, GREEN_LIGHT, LOCATIONS } from "../data/constants"
+import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants"
 import DetailModal from "../components/DetailModal"
 import JobCard from "../components/JobCard"
 import type { Job } from "../types/types"
 import { jobsData } from "../data/jobData"
-import SearchableDropdown from "../components/SearchableDropdown"
 import { useNavigate } from "react-router-dom"
+import { FilterSidebar, FilterDrawer } from "../components/sidebar"
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 const job_page = () => {
@@ -15,57 +15,47 @@ const job_page = () => {
     const [location, setLocation] = useState("Semua Lokasi")
     const [category, setCategory] = useState("Semua Kategori")
     const [duration, setDuration] = useState("Semua Durasi")
-    const [education, setEducation] = useState("Semua Jenjang")
+    const [education, setEducation] = useState<string[]>(["Semua Jenjang"])
     const [sortBy, setSortBy] = useState("Terbaru")
     const [selectedJob, setSelectedJob] = useState<Job | null>(null)
-    const [activeTag, setActiveTag] = useState<string | null>(null)
-    const [activeTab, setActiveTab] = useState("Pekerjaan");
-    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState("Pekerjaan")
+    const [type, setType] = useState("Semua Tipe")
+    const [drawerOpen, setDrawerOpen] = useState(false)
+    const navigate = useNavigate()
 
     const hasActiveFilter =
         category !== "Semua Kategori" ||
         location !== "Semua Lokasi" ||
         duration !== "Semua Durasi" ||
-        education !== "Semua Jenjang" ||
-        search !== "" ||
-        activeTag !== null
+        !education.includes("Semua Jenjang") ||
+        type !== "Semua Tipe" ||
+        search !== ""
 
     const resetFilters = () => {
         setCategory("Semua Kategori")
         setLocation("Semua Lokasi")
         setDuration("Semua Durasi")
-        setEducation("Semua Jenjang")
+        setType("Semua Tipe")
+        setEducation(["Semua Jenjang"])
         setSearch("")
-        setActiveTag(null)
     }
 
     const handleTabChange = (tab: string) => {
-        if (tab === "Magang") {
-            navigate("/karir/magang");
-        } else {
-            setActiveTab(tab);
-        }
-    };
+        if (tab === "Magang") { navigate("/karir/magang"); return }
+        setActiveTab(tab)
+    }
 
     const filtered = jobsData
-        .filter((job) => job.tag === "Pekerjaan")
-        .filter((job) => {
+        .filter(job => job.tag === "Pekerjaan")
+        .filter(job => {
             const q = search.toLowerCase()
-            const matchSearch =
-                !q ||
-                job.title.toLowerCase().includes(q) ||
-                job.company.toLowerCase().includes(q) ||
-                job.category.toLowerCase().includes(q)
+            const matchSearch = !q || job.title.toLowerCase().includes(q) || job.company.toLowerCase().includes(q) || job.category.toLowerCase().includes(q)
             const matchLoc = location === "Semua Lokasi" || job.location === location
             const matchCat = category === "Semua Kategori" || job.category === category
             const matchDur = duration === "Semua Durasi" || job.duration === duration
-            const matchEdu = education === "Semua Jenjang" || job.education.includes(education)
-            const matchTag =
-                !activeTag ||
-                job.tags?.some((t) => t.includes(activeTag)) ||
-                job.category === activeTag ||
-                job.location.includes(activeTag)
-            return matchSearch && matchLoc && matchCat && matchDur && matchEdu && matchTag
+            const matchEdu = education.includes("Semua Jenjang") || job.education.some(e => education.includes(e))
+            const matchType = type === "Semua Tipe" || job.type === type
+            return matchSearch && matchLoc && matchCat && matchDur && matchEdu && matchType
         })
 
     const sorted = [...filtered].sort((a, b) =>
@@ -74,185 +64,204 @@ const job_page = () => {
 
     const totalVacancies = sorted.reduce((s, j) => s + j.vacancies, 0)
 
+    // Count active filters for badge
+    const activeFilterCount = [
+        category !== "Semua Kategori",
+        location !== "Semua Lokasi",
+        duration !== "Semua Durasi",
+        !education.includes("Semua Jenjang"),
+        type !== "Semua Tipe",
+    ].filter(Boolean).length
+
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen" style={{ background: "#F3F4F6" }}>
             <Navbar />
 
-            {/* ── HERO ──────────────────────────────────────────────────────────── */}
-            <section
-                className="px-4 sm:px-6 pt-14 pb-20"
-                style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
-            >
-                <div className="max-w-5xl mx-auto">
-                    {/* Title row */}
-                    <div className="flex flex-wrap items-end justify-between gap-5 mb-8">
-                        <div>
-                            <p
-                                className="text-xs font-bold uppercase tracking-[0.2em] mb-2"
-                                style={{ color: "rgba(255,255,255,0.65)" }}
-                            >
-                                Lowongan Kerja
-                            </p>
-                            <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
-                                Lowongan Pekerjaan
-                            </h1>
-                            <p
-                                className="mt-3 text-sm leading-relaxed max-w-md"
-                                style={{ color: "rgba(255,255,255,0.72)" }}
-                            >
-                                Temukan pekerjaan terbaik dari perusahaan ternama dan mulai wujudkan karir impianmu hari ini.
-                            </p>
-                        </div>
+            {/* ── HERO ─────────────────────────────────────────────────────── */}
+            <section className="px-4 sm:px-6 py-16" style={{ background: GREEN_DARK }}>
+                <div className="max-w-6xl mx-auto">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+                        Browse Jobs &amp; Apply Online
+                    </h1>
+                    <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+                        Seize new career opportunities in your field.
+                    </p>
+                </div>
+            </section>
 
-                        {/* Stat chips */}
-                        <div className="flex gap-3">
-                            {[
-                                { n: jobsData.filter((j) => j.tag === "Pekerjaan").length, label: "Lowongan" },
-                                { n: jobsData.filter((j) => j.tag === "Pekerjaan").reduce((s, j) => s + j.vacancies, 0), label: "Posisi" },
-                            ].map(({ n, label }) => (
-                                <div
-                                    key={label}
-                                    className="rounded-2xl px-5 py-4 text-center"
-                                    style={{ background: "rgba(255,255,255,0.15)" }}
-                                >
-                                    <p className="text-white text-2xl font-extrabold leading-none">{n}</p>
-                                    <p
-                                        className="text-xs font-semibold uppercase tracking-wider mt-1"
-                                        style={{ color: "rgba(255,255,255,0.65)" }}
-                                    >
-                                        {label}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+            {/* ── BODY ─────────────────────────────────────────────────────── */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 pb-20">
 
-                    {/* Search bar */}
-                    <div className="flex items-center gap-3 bg-white rounded-2xl px-5 py-1.5 shadow-xl">
-                        <svg
-                            className="text-gray-400 shrink-0"
-                            width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
-                        >
+                {/* Breadcrumb */}
+                <nav className="flex items-center gap-1.5 text-sm text-gray-500 mb-5">
+                    <a href="/" className="hover:text-gray-700 cursor-pointer transition-colors">
+                        Home
+                    </a>
+                    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>
+                    <span className="font-semibold text-gray-800">Jobs</span>
+                </nav>
+
+                {/* Search bar + mobile filter button */}
+                <div className="flex items-center gap-2 mb-6">
+                    <div className="flex flex-1 items-center gap-3 bg-white border border-gray-200 rounded px-4 py-1 shadow-sm">
+                        <svg className="text-gray-400 shrink-0" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <circle cx="11" cy="11" r="8" />
                             <path d="m21 21-4.35-4.35" />
                         </svg>
                         <input
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Cari pekerjaan, perusahaan, atau kategori..."
-                            className="flex-1 py-3 text-sm text-gray-800 bg-transparent outline-none placeholder-gray-400"
+                            onChange={e => setSearch(e.target.value)}
+                            placeholder="Find Available Vacancies"
+                            className="flex-1 py-2.5 text-sm text-gray-700 bg-transparent outline-none placeholder-gray-400"
                         />
                         {search && (
                             <button
                                 onClick={() => setSearch("")}
-                                className="w-7 h-7 rounded-lg bg-gray-100 text-gray-500 text-base flex items-center justify-center cursor-pointer border-none"
+                                className="w-6 h-6 flex items-center justify-center text-gray-400 border-none bg-transparent cursor-pointer text-lg leading-none"
                             >
                                 ×
                             </button>
                         )}
-                        <button
-                            className="shrink-0 px-6 py-2.5 rounded-xl text-sm font-bold text-white border-none cursor-pointer transition-opacity duration-150"
-                            style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
-                            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
-                            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-                        >
-                            Cari
-                        </button>
                     </div>
-                </div>
-            </section>
 
-            {/* ── CONTENT ───────────────────────────────────────────────────────── */}
-            <main className="max-w-5xl mx-auto px-4 sm:px-6 pb-20" style={{ marginTop: -32 }}>
-
-                {/* Filter bar */}
-                <div className="bg-white rounded-2xl px-5 py-4 shadow-md mb-6 flex flex-wrap gap-3 items-center">
-                    <SearchableDropdown value={category} onChange={setCategory} options={CATEGORY} placeholder="Kategori" />
-                    <SearchableDropdown value={location} onChange={setLocation} options={LOCATIONS} placeholder="Lokasi" />
-                    <SearchableDropdown value={education} onChange={setEducation} options={EDUCATIONS} placeholder="Pendidikan" />
-
-                    {hasActiveFilter && (
-                        <button
-                            onClick={resetFilters}
-                            className="ml-auto text-xs font-semibold px-3.5 py-2 rounded-lg bg-red-50 text-red-600 border-none cursor-pointer"
-                        >
-                            Reset Filter
-                        </button>
-                    )}
-                </div>
-
-                <div className="flex border-b border-gray-200 mb-6">
-                    {["Pekerjaan", "Magang"].map((tab) => (
-                        <button
-                            key={tab}
-                            onClick={() => handleTabChange(tab)}
-                            className="relative px-5 py-3 text-sm font-medium transition-colors duration-150 cursor-pointer"
-                            style={{ color: activeTab === tab ? GREEN : "#6B7280" }}
-                        >
-                            {tab}
-                            {activeTab === tab && (
-                                <span
-                                    className="absolute bottom-0 left-0 right-0 h-0.5 rounded-t"
-                                    style={{ background: GREEN }}
-                                />
-                            )}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Result header */}
-                <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-                    <p className="text-sm text-gray-500">
-                        Menampilkan{" "}
-                        <span className="font-semibold text-gray-800">{sorted.length}</span> lowongan ·{" "}
-                        <span className="font-semibold" style={{ color: GREEN }}>{totalVacancies} posisi</span> tersedia
-                    </p>
-
-                    <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
-                        {["Terbaru", "Terpopuler"].map((opt) => (
-                            <button
-                                key={opt}
-                                onClick={() => setSortBy(opt)}
-                                className="text-xs font-bold px-4 py-1.5 rounded-lg border-none cursor-pointer transition-all duration-150"
-                                style={
-                                    sortBy === opt
-                                        ? { background: "white", color: GREEN, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
-                                        : { background: "transparent", color: "#9CA3AF" }
-                                }
-                            >
-                                {opt}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Cards */}
-                {sorted.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-24 text-gray-400">
-                        <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="mb-4">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.35-4.35" />
+                    {/* Filter button — visible only on mobile/tablet (hidden on lg+) */}
+                    <button
+                        onClick={() => setDrawerOpen(true)}
+                        className="lg:hidden relative flex items-center justify-center w-11 h-11 rounded shrink-0 border-none cursor-pointer transition-colors"
+                        style={{ background: GREEN_DARK }}
+                        aria-label="Open filters"
+                    >
+                        <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                            <path d="M3 6h18M7 12h10M11 18h2" strokeLinecap="round" />
                         </svg>
-                        <p className="text-base font-semibold mb-2 text-gray-500">Tidak ada lowongan ditemukan</p>
-                        <p className="text-sm mb-5">Coba ubah filter atau kata kunci pencarian</p>
-                        <button
-                            onClick={resetFilters}
-                            className="px-6 py-2.5 rounded-xl text-sm font-bold border-none cursor-pointer"
-                            style={{ background: GREEN_LIGHT, color: GREEN }}
-                        >
-                            Reset Filter
-                        </button>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {sorted.map((job) => (
-                            <JobCard key={job.id} job={job} onClick={() => setSelectedJob(job)} />
-                        ))}
-                    </div>
-                )}
-            </main>
+                        {activeFilterCount > 0 && (
+                            <span
+                                className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-white flex items-center justify-center"
+                                style={{ fontSize: "10px", background: "#EF4444" }}
+                            >
+                                {activeFilterCount}
+                            </span>
+                        )}
+                    </button>
+                </div>
 
-            {/* Detail Modal */}
+                {/* Sidebar + Cards — same row */}
+                <div className="flex gap-5 items-start">
+
+                    {/* Sidebar — hidden on mobile/tablet, visible on lg+ */}
+                    <div className="hidden lg:block">
+                        <FilterSidebar
+                            location={location}
+                            setLocation={setLocation}
+                            category={category}
+                            setCategory={setCategory}
+                            education={education}
+                            setEducation={setEducation}
+                            duration={duration}
+                            showDuration={false}
+                            setDuration={setDuration}
+                            hasActiveFilter={hasActiveFilter}
+                            resetFilters={resetFilters}
+                            type={type}
+                            setType={setType}
+                        />
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                        {/* Tabs + sort */}
+                        <div className="flex items-center justify-between border-b border-gray-200 mb-5">
+                            <div className="flex">
+                                {["Pekerjaan", "Magang"].map(tab => (
+                                    <button
+                                        key={tab}
+                                        onClick={() => handleTabChange(tab)}
+                                        className="relative px-5 py-3 text-sm font-medium transition-colors duration-150 cursor-pointer border-none bg-transparent"
+                                        style={{ color: activeTab === tab ? GREEN : "#6B7280" }}
+                                    >
+                                        {tab}
+                                        {activeTab === tab && (
+                                            <span
+                                                className="absolute bottom-0 left-0 right-0 h-0.5"
+                                                style={{ background: GREEN }}
+                                            />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="flex items-center gap-3 pb-1">
+                                <span className="text-xs text-gray-400 hidden sm:block">
+                                    {sorted.length} lowongan ·{" "}
+                                    <span style={{ color: GREEN }}>{totalVacancies} posisi</span>
+                                </span>
+                                <div className="flex bg-gray-100 rounded p-0.5 gap-0.5">
+                                    {["Terbaru", "Terpopuler"].map(opt => (
+                                        <button
+                                            key={opt}
+                                            onClick={() => setSortBy(opt)}
+                                            className="text-xs font-semibold px-3 py-1.5 rounded border-none cursor-pointer transition-all duration-150"
+                                            style={
+                                                sortBy === opt
+                                                    ? { background: "white", color: GREEN, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }
+                                                    : { background: "transparent", color: "#9CA3AF" }
+                                            }
+                                        >
+                                            {opt}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Cards */}
+                        {sorted.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-20 bg-white border border-gray-200 rounded text-gray-400">
+                                <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="mb-3">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path d="m21 21-4.35-4.35" />
+                                </svg>
+                                <p className="text-sm font-semibold text-gray-500 mb-1">Tidak ada lowongan ditemukan</p>
+                                <p className="text-xs mb-4">Coba ubah filter atau kata kunci pencarian</p>
+                                <button
+                                    onClick={resetFilters}
+                                    className="px-5 py-2 rounded text-sm font-semibold border-none cursor-pointer"
+                                    style={{ background: GREEN_LIGHT, color: GREEN }}
+                                >
+                                    Reset Filter
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {sorted.map(job => (
+                                    <JobCard key={job.id} job={job} onClick={() => setSelectedJob(job)} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile filter drawer */}
+            <FilterDrawer
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+                location={location}
+                setLocation={setLocation}
+                category={category}
+                setCategory={setCategory}
+                education={education}
+                setEducation={setEducation}
+                duration={duration}
+                showDuration={false}
+                setDuration={setDuration}
+                hasActiveFilter={hasActiveFilter}
+                resetFilters={resetFilters}
+                type={type}
+                setType={setType}
+            />
+
             {selectedJob && (
                 <DetailModal job={selectedJob} onClose={() => setSelectedJob(null)} />
             )}

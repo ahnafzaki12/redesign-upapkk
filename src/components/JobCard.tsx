@@ -19,7 +19,7 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
             onClick={onClick}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="bg-white rounded-2xl p-5 flex flex-col gap-4 cursor-pointer"
+            className="bg-white rounded-md p-5 flex flex-col gap-4 cursor-pointer"
             style={{
                 border: hovered ? `1.5px solid ${GREEN}` : "1.5px solid #F0F0F0",
                 boxShadow: hovered ? `0 12px 32px rgba(0,166,62,0.12)` : "0 2px 8px rgba(0,0,0,0.04)",
@@ -29,11 +29,24 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
         >
             {/* Top */}
             <div className="flex items-start gap-3.5">
-                <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xs font-black tracking-wide shrink-0"
-                    style={{ background: job.logoColor }}
-                >
-                    {job.logo}
+                <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 overflow-hidden bg-white shadow-sm border border-gray-100">
+                    {job.logoUrl ? (
+                        <img
+                            src={job.logoUrl}
+                            alt={job.company}
+                            className="w-full h-full object-contain p-1"
+                            onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                            }}
+                        />
+                    ) : (
+                        <div
+                            className="w-full h-full flex items-center justify-center text-white text-xs font-black tracking-wide"
+                            style={{ background: job.logoColor }}
+                        >
+                            {job.logo}
+                        </div>
+                    )}
                 </div>
                 <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 truncate">
@@ -72,7 +85,7 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
                     </span>
                 ))}
                 <span
-                    className="text-xs font-bold px-2.5 py-1 rounded-md text-white ml-auto"
+                    className="text-xs font-bold px-2.5 py-1 rounded text-white ml-auto"
                     style={{ background: GREEN }}
                 >
                     {job.vacancies} Posisi
@@ -94,7 +107,7 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
                     )}
                 </div>
                 <button
-                    className="text-xs font-bold px-4 py-2 rounded-lg border-none cursor-pointer shrink-0 transition-all duration-150"
+                    className="text-xs font-bold px-4 py-2 rounded-md border-none cursor-pointer shrink-0 transition-all duration-150"
                     style={{
                         background: hovered ? GREEN : GREEN_LIGHT,
                         color: hovered ? "white" : GREEN,

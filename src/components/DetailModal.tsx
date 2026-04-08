@@ -1,5 +1,5 @@
 // DetailModal.tsx
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { daysLeft } from "../helpers/dateHelpers"
 import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants"
 import type { Job } from "../types/types"
@@ -15,7 +15,8 @@ interface DetailModalProps {
 export default function DetailModal({ job, onClose }: DetailModalProps) {
     const dl = daysLeft(job.deadline)
     const navigate = useNavigate();
-    
+    const [imgError, setImgError] = useState(false)
+
 
     useEffect(() => {
         const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose() }
@@ -37,7 +38,7 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
                 {/* Header */}
                 <div
                     className="p-7 shrink-0"
-                    style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+                    style={{ background: GREEN_DARK }}
                 >
                     <button
                         onClick={onClose}
@@ -49,10 +50,24 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
 
                     <div className="flex items-start gap-4 mb-4">
                         <div
-                            className="w-13 h-13 rounded-xl flex items-center justify-center text-white text-xs font-bold tracking-wide shrink-0"
-                            style={{ width: 52, height: 52, background: job.logoColor, border: "2px solid rgba(255,255,255,0.3)" }}
+                            className="rounded-xl flex items-center justify-center shrink-0 overflow-hidden bg-white"
+                            style={{ width: 52, height: 52, border: "2px solid rgba(255,255,255,0.3)" }}
                         >
-                            {job.logo}
+                            {job.logoUrl && !imgError ? (
+                                <img
+                                    src={job.logoUrl}
+                                    alt={job.company}
+                                    className="w-full h-full object-contain p-1"
+                                    onError={() => setImgError(true)}
+                                />
+                            ) : (
+                                <div
+                                    className="w-full h-full flex items-center justify-center text-white text-xs font-bold tracking-wide"
+                                    style={{ background: job.logoColor }}
+                                >
+                                    {job.logo}
+                                </div>
+                            )}
                         </div>
                         <div>
                             <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.7)" }}>
@@ -149,7 +164,7 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
                         {/* Tombol Daftar Utama */}
                         <button
                             className="flex-2 py-3.5 rounded-xl text-white font-bold text-sm cursor-pointer border-none transition-opacity duration-150"
-                            style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+                            style={{ background: GREEN_DARK }}
                             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
                             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                             onClick={() => navigate(`/karir/lamar/${job.id}`)}
