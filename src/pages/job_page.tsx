@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Pagination from "../components/Pagination"
 import Footer from "../components/footer"
 import Navbar from "../components/navbar"
 import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants"
@@ -73,6 +74,17 @@ const job_page = () => {
         type !== "Semua Tipe",
     ].filter(Boolean).length
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 4
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [search, location, category, duration, education, sortBy, type])
+
+    const totalPages = Math.ceil(sorted.length / itemsPerPage)
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const paginatedJobs = sorted.slice(startIndex, startIndex + itemsPerPage)
+
     return (
         <div className="min-h-screen" style={{ background: "#F3F4F6" }}>
             <Navbar />
@@ -81,10 +93,10 @@ const job_page = () => {
             <section className="px-4 sm:px-6 py-16" style={{ background: GREEN_DARK }}>
                 <div className="max-w-6xl mx-auto">
                     <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-                        Browse Jobs &amp; Apply Online
+                        Cari Pekerjaan Impianmu
                     </h1>
                     <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
-                        Seize new career opportunities in your field.
+                        Lihat berbagai lowongan pekerjaan terbaru dari perusahaan terkemuka di Indonesia.
                     </p>
                 </div>
             </section>
@@ -95,12 +107,12 @@ const job_page = () => {
                 {/* Breadcrumb */}
                 <nav className="flex items-center gap-1.5 text-sm text-gray-500 mb-5">
                     <a href="/" className="hover:text-gray-700 cursor-pointer transition-colors">
-                        Home
+                        Beranda
                     </a>
                     <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path d="m9 18 6-6-6-6" />
                     </svg>
-                    <span className="font-semibold text-gray-800">Jobs</span>
+                    <span className="font-semibold text-gray-800">Pekerjaan</span>
                 </nav>
 
                 {/* Search bar + mobile filter button */}
@@ -113,7 +125,7 @@ const job_page = () => {
                         <input
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            placeholder="Find Available Vacancies"
+                            placeholder="Cari Pekerjaan, perusahaan, atau kategori"
                             className="flex-1 py-2.5 text-sm text-gray-700 bg-transparent outline-none placeholder-gray-400"
                         />
                         {search && (
@@ -233,11 +245,19 @@ const job_page = () => {
                                 </button>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {sorted.map(job => (
-                                    <JobCard key={job.id} job={job} onClick={() => setSelectedJob(job)} />
-                                ))}
-                            </div>
+                            <>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {paginatedJobs.map(job => (
+                                        <JobCard key={job.id} job={job} onClick={() => setSelectedJob(job)} />
+                                    ))}
+                                </div>
+
+                                <Pagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={setCurrentPage}
+                                />
+                            </>
                         )}
                     </div>
                 </div>

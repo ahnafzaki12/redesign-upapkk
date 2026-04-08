@@ -1,6 +1,6 @@
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { SidebarProps } from "../types/types";
-import { CATEGORY, EDUCATIONS, GREEN, GREEN_DARK, LOCATIONS, DURATIONS, TYPE_OPTIONS } from "../data/constants"
+import { CATEGORY, EDUCATIONS, GREEN, GREEN_DARK, LOCATIONS, DURATIONS, TYPE_OPTIONS, GREEN_LIGHT } from "../data/constants"
 
 
 // ── Shared filter fields ──────────────────────────────────────────────────────
@@ -32,36 +32,144 @@ function FilterFields({
     }
 
     const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-        <p className="text-sm font-semibold text-gray-700 mb-2">{children}</p>
+        <p className="text-[13px] font-semibold text-gray-800 mb-2.5 tracking-[0.01em]">
+            {children}
+        </p>
     )
 
-    const Divider = () => <hr className="border-gray-100 my-4" />
+    const Divider = () => <div className="h-px bg-gray-100 my-5" />
 
-    const SelectField = ({ value, onChange, options, placeholder }: {
-        value: string; onChange: (v: string) => void; options: string[]; placeholder: string
-    }) => (
-        <div className="relative">
-            <select
-                value={value}
-                onChange={e => onChange(e.target.value)}
-                className="w-full appearance-none bg-white border border-gray-200 rounded px-3 py-2 text-sm text-gray-500 pr-8 cursor-pointer transition-colors
-             hover:border-(--green-dark)
-             focus:outline-none focus:border-(--green-dark) focus:ring-1 focus:ring-(--green-dark)"
-                style={{ "--green-dark": GREEN_DARK } as React.CSSProperties}
-            >
-                <option value={options[0]}>{placeholder}</option>
-                {options.slice(1).map(o => (
-                    <option key={o} value={o}>{o}</option>
-                ))}
-            </select>
-            <svg
-                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400"
-                width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
-            >
-                <path d="m6 9 6 6 6-6" />
-            </svg>
-        </div>
-    )
+    const SelectField = ({
+        value,
+        onChange,
+        options,
+        placeholder,
+    }: {
+        value: string
+        onChange: (v: string) => void
+        options: string[]
+        placeholder: string
+    }) => {
+        const [open, setOpen] = useState(false)
+        const dropdownRef = useRef<HTMLDivElement | null>(null)
+
+        useEffect(() => {
+            const handleClickOutside = (event: MouseEvent) => {
+                if (
+                    dropdownRef.current &&
+                    !dropdownRef.current.contains(event.target as Node)
+                ) {
+                    setOpen(false)
+                }
+            }
+
+            document.addEventListener("mousedown", handleClickOutside)
+            return () => document.removeEventListener("mousedown", handleClickOutside)
+        }, [])
+
+        return (
+            <div className="relative" ref={dropdownRef}>
+                <button
+                    type="button"
+                    onClick={() => setOpen(prev => !prev)}
+                    className="w-full flex items-center justify-between rounded-md border px-4 py-3 text-sm bg-white transition-all duration-200 shadow-sm"
+                    style={{
+                        borderColor: open ? GREEN : "#E5E7EB",
+                        boxShadow: open
+                            ? "0 0 0 3px rgba(0, 166, 62, 0.08)"
+                            : "0 1px 2px rgba(0,0,0,0.03)",
+                        color: value === options[0] ? "#9CA3AF" : "#111827",
+                    }}
+                >
+                    <span className="truncate">
+                        {value === options[0] ? placeholder : value}
+                    </span>
+
+                    <svg
+                        className="shrink-0 transition-transform duration-200"
+                        style={{
+                            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+                            color: open ? GREEN_DARK : "#9CA3AF",
+                        }}
+                        width="16"
+                        height="16"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+                </button>
+
+                {open && (
+                    <div
+                        className="absolute z-30 mt-2 w-full overflow-hidden rounded border bg-white shadow-lg"
+                        style={{
+                            borderColor: "#E5E7EB",
+                            boxShadow: "0 12px 32px rgba(17, 24, 39, 0.10)",
+                        }}
+                    >
+                        <div className="max-h-60 overflow-y-auto py-2">
+                            {options.map((option) => {
+                                const isActive = value === option
+                                const isPlaceholder = option === options[0]
+
+                                return (
+                                    <button
+                                        key={option}
+                                        type="button"
+                                        onClick={() => {
+                                            onChange(option)
+                                            setOpen(false)
+                                        }}
+                                        className="w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors"
+                                        style={{
+                                            background: isActive ? GREEN_LIGHT : "white",
+                                            color: isActive
+                                                ? GREEN_DARK
+                                                : isPlaceholder
+                                                    ? "#9CA3AF"
+                                                    : "#374151",
+                                        }}
+                                        onMouseEnter={e => {
+                                            if (!isActive) {
+                                                e.currentTarget.style.background = "#F9FAFB"
+                                            }
+                                        }}
+                                        onMouseLeave={e => {
+                                            if (!isActive) {
+                                                e.currentTarget.style.background = "white"
+                                            }
+                                        }}
+                                    >
+                                        <span className="truncate">{option}</span>
+
+                                        {isActive && (
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                fill="none"
+                                                stroke={GREEN}
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    d="M5 13l4 4L19 7"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                        )}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
+            </div>
+        )
+    }
 
     return (
         <>
@@ -95,23 +203,36 @@ function FilterFields({
                     return (
                         <label
                             key={edu}
-                            className="flex items-center gap-2.5 cursor-pointer"
+                            className="flex items-center gap-3 cursor-pointer rounded-md px-3 py-2 transition-colors"
+                            style={{
+                                background: "transparent",
+                            }}
                             onClick={() => toggleEducation(edu)}
                         >
                             <span
-                                className="w-4 h-4 rounded-sm flex items-center justify-center shrink-0 border transition-all duration-150"
+                                className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 border transition-all duration-150"
                                 style={{
                                     background: checked ? GREEN : "white",
-                                    borderColor: checked ? GREEN : "#D1D5DB",
+                                    borderColor: checked ? GREEN : "#D1D5DB", 
                                 }}
                             >
                                 {checked && (
-                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                        <path d="M2 5l2.5 2.5 3.5-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    <svg width="11" height="11" viewBox="0 0 10 10" fill="none">
+                                        <path
+                                            d="M2 5l2.5 2.5 3.5-4"
+                                            stroke="white"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        />
                                     </svg>
                                 )}
                             </span>
-                            <span className="text-sm" style={{ color: checked ? GREEN_DARK : "#374151" }}>
+
+                            <span
+                                className="text-sm transition-colors"
+                                style={{ color: checked ? GREEN_DARK : "#374151" }}
+                            >
                                 {edu}
                             </span>
                         </label>
@@ -124,9 +245,7 @@ function FilterFields({
                     <Divider />
                     <button
                         onClick={resetFilters}
-                        className="w-full py-2 rounded text-sm font-semibold border-none cursor-pointer text-red-600 bg-red-50 transition-colors"
-                        onMouseEnter={e => (e.currentTarget.style.background = "#FEE2E2")}
-                        onMouseLeave={e => (e.currentTarget.style.background = "#FEF2F2")}
+                        className="w-full py-2 rounded text-sm font-semibold border-none cursor-pointer text-red-600 transition-colors"
                     >
                         Reset Filter
                     </button>

@@ -101,7 +101,7 @@ const apply_page = () => {
 
             {/* ── HERO ─────────────────────────────────────────────────────────── */}
             <section
-                className="px-4 sm:px-6 pt-14 pb-24"
+                className="px-4 sm:px-6 pt-14 pb-20"
                 style={{ background: GREEN_DARK }}
             >
                 <div className="max-w-6xl mx-auto">
@@ -139,32 +139,49 @@ const apply_page = () => {
                         </span>
                     </nav>
 
-                    {/* Job context */}
-                    <div className="flex flex-wrap items-start justify-between gap-6">
-                        <div className="flex items-start gap-5">
-                            <div
-                                className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-base font-bold shrink-0 shadow-lg"
-                                style={{ background: job.logoColor ?? GREEN_DARK }}
-                            >
-                                {job.logo}
+                    {/* Title row */}
+                    <div className="flex flex-wrap items-end justify-between gap-5">
+                        <div className="flex items-start gap-4">
+                            {/* Logo */}
+                            <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 overflow-hidden bg-white shadow-md border border-white/20">
+                                {job.logoUrl ? (
+                                    <img
+                                        src={job.logoUrl}
+                                        alt={job.company}
+                                        className="w-full h-full object-contain p-1"
+                                        onError={(e) => { e.currentTarget.style.display = "none" }}
+                                    />
+                                ) : (
+                                    <div
+                                        className="w-full h-full flex items-center justify-center text-white text-xs font-black tracking-wide"
+                                        style={{ background: job.logoColor }}
+                                    >
+                                        {job.logo}
+                                    </div>
+                                )}
                             </div>
+
                             <div>
-                                <p className="text-xs font-semibold mb-1" style={{ color: "rgba(255,255,255,0.65)" }}>
+                                <p
+                                    className="text-xs font-bold uppercase mb-1.5 text-white"
+                                >
                                     {job.company}
                                 </p>
-                                <h1 className="text-2xl sm:text-3xl font-bold text-white leading-snug">
+                                <h1 className="text-3xl sm:text-4xl font-bold text-white">
                                     {job.title}
                                 </h1>
-                                <div className="flex flex-wrap gap-2 mt-3">
+
+                                {/* Meta chips */}
+                                <div className="flex flex-wrap gap-2 mt-4">
                                     {[
-                                        { label: job.location },
-                                        { label: job.type },
-                                        { label: job.education.join(", ") },
-                                        ...(job.deadline ? [{ label: `Deadline: ${job.deadline}` }] : []),
-                                    ].map(({ label }) => (
+                                        job.location,
+                                        job.type,
+                                        job.education.join(", "),
+                                        ...(job.duration ? [job.duration] : []),
+                                    ].map((label) => (
                                         <span
                                             key={label}
-                                            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                                            className="px-3 py-1 rounded-lg text-xs font-semibold"
                                             style={{ background: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.9)" }}
                                         >
                                             {label}
@@ -178,7 +195,7 @@ const apply_page = () => {
             </section>
 
             {/* ── MAIN ─────────────────────────────────────────────────────────── */}
-            <main className="max-w-6xl mx-auto px-4 sm:px-6 pb-24" style={{ marginTop: -40 }}>
+            <main className="max-w-6xl mx-auto px-4 sm:px-6 pb-24" style={{ marginTop: -32 }}>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
                     {/* ── LEFT: Form (2/3) ── */}
