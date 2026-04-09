@@ -7,7 +7,6 @@ import { GREEN_DARK } from "../data/constants";
 
 const GREEN = pastelGreen.primary;
 const GREEN_LIGHT = pastelGreen.surfaceAlt;
-const GREEN_HERO_START = pastelGreen.heroStart;
 
 export default function ArticlePage() {
   const navigate = useNavigate();

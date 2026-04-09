@@ -7,7 +7,6 @@ import { GREEN_DARK } from "../data/constants";
 
 const GREEN = pastelGreen.primary;
 const GREEN_LIGHT = pastelGreen.surfaceAlt;
-const GREEN_HERO_START = pastelGreen.heroStart;
 
 const CATEGORY_OPTIONS = ["Semua Kategori", "Seminar", "Workshop", "Job Fair", "Rekrutmen"];
 const TYPE_OPTIONS = ["Semua Tipe", "Offline", "Online"];
