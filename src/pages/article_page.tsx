@@ -3,9 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { articleData } from "../data/articles";
 import { pastelGreen } from "../theme/pastel_green";
+import { GREEN_DARK } from "../data/constants";
 
 const GREEN = pastelGreen.primary;
-const GREEN_DARK = pastelGreen.heroEnd;
 const GREEN_LIGHT = pastelGreen.surfaceAlt;
 const GREEN_HERO_START = pastelGreen.heroStart;
 
@@ -44,7 +44,7 @@ export default function ArticlePage() {
       {/* ── HERO SEARCH SECTION ── */}
       <div
         className="px-6 py-12 md:py-16 pt-24"
-        style={{ background: `linear-gradient(135deg, ${GREEN_HERO_START} 0%, ${GREEN_DARK} 100%)` }}
+        style={{ background: GREEN_DARK }}
       >
         <div className="max-w-7xl mx-auto p-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">

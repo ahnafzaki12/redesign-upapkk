@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { articleData } from "../data/articles";
 import { eventData } from "../data/events";
 import { pastelGreen } from "../theme/pastel_green";
+import { GREEN_DARK } from "../data/constants";
 
 interface ContentItem {
   id: number;
@@ -195,7 +196,7 @@ function SectionPanel({
           to={href}
           className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-95"
           style={{
-            background: btnHover ? pastelGreen.primaryHover : pastelGreen.primary,
+            background: btnHover ? pastelGreen.primaryHover : GREEN_DARK,
             color: pastelGreen.white,
             boxShadow: btnHover ? "0 4px 12px rgba(43, 92, 56, 0.3)" : "none",
           }}

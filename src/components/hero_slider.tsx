@@ -181,7 +181,7 @@ export default function HeroSlider({
   }, [applyTransform]);
 
   return (
-    <section className="hero-slider">
+    <section className="hero-slider py-12">
       {/* Track */}
       <div 
         className="slider-wrapper" 

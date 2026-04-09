@@ -203,13 +203,13 @@ const Navbar = () => {
                 <div className="hidden lg:flex items-center gap-4 shrink-0">
                     <Link
                         to="/masuk"
-                        className="text-sm font-semibold px-4 py-2 rounded-lg text-[#00A63E] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-all duration-150"
+                        className="text-sm font-semibold px-4 py-2 rounded-lg text-[#008C34] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-all duration-150"
                     >
                         Masuk
                     </Link>
                     <Link
                         to="/registrasi"
-                        className="text-sm font-semibold px-4 py-2 rounded-lg bg-[#00A63E] text-white hover:bg-[#009935] active:scale-95 transition-all duration-150 shadow-sm"
+                        className="text-sm font-semibold px-4 py-2 rounded-lg bg-[#008C34] text-white hover:bg-[#009935] active:scale-95 transition-all duration-150 shadow-sm"
                     >
                         Registrasi
                     </Link>
@@ -279,14 +279,14 @@ const Navbar = () => {
                     <div className="pt-3 pb-1 flex flex-col gap-2 border-t border-gray-100 mt-2">
                         <Link
                             to="/masuk"
-                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg text-[#00A63E] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-colors"
+                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg text-[#008C34] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-colors"
                             onClick={() => setMobileOpen(false)}
                         >
                             Masuk
                         </Link>
                         <Link
                             to="/registrasi"
-                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg bg-[#00A63E] text-white hover:bg-[#009935] transition-colors"
+                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg bg-[#008C34] text-white hover:bg-[#009935] transition-colors"
                             onClick={() => setMobileOpen(false)}
                         >
                             Registrasi

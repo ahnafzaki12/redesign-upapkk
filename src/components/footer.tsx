@@ -1,3 +1,5 @@
+import { GREEN_DARK } from "../data/constants"
+
 const Footer = () => {
   return (
     <footer className="bg-white font-sans text-[#1e3a5f]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -127,7 +129,7 @@ const Footer = () => {
 
             {/* Social Media Banner */}
             <div className="w-full lg:max-w-2xl lg:mt-6 lg:ml-22">
-              <div className="bg-[#2b5c38] rounded-full px-3 py-2 flex flex-row items-center justify-between gap-2 lg:pl-8 lg:py-3">
+              <div className="rounded-full px-3 py-2 flex flex-row items-center justify-between gap-2 lg:pl-8 lg:py-3" style={{ background: GREEN_DARK }}>
                 <p className="text-[0.7rem] sm:text-base font-medium text-white m-0">
                   ikuti media sosial resmi UPAPKK
                 </p>
