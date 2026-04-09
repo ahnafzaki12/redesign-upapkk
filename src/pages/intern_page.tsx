@@ -91,7 +91,7 @@ const job_page = () => {
 
             {/* ── HERO ─────────────────────────────────────────────────────── */}
             <section className="px-4 sm:px-6 py-16" style={{ background: GREEN_DARK }}>
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
                         Cari Tempat Magang Impianmu
                     </h1>
@@ -102,7 +102,7 @@ const job_page = () => {
             </section>
 
             {/* ── BODY ─────────────────────────────────────────────────────── */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 pb-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-20">
 
                 {/* Breadcrumb */}
                 <nav className="flex items-center gap-1.5 text-sm text-gray-500 mb-5">

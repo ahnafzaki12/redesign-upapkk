@@ -91,7 +91,7 @@ const job_page = () => {
 
             {/* ── HERO ─────────────────────────────────────────────────────── */}
             <section className="px-4 sm:px-6 py-16" style={{ background: GREEN_DARK }}>
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
                         Cari Pekerjaan Impianmu
                     </h1>
@@ -102,7 +102,7 @@ const job_page = () => {
             </section>
 
             {/* ── BODY ─────────────────────────────────────────────────────── */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 pb-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-20">
 
                 {/* Breadcrumb */}
                 <nav className="flex items-center gap-1.5 text-sm text-gray-500 mb-5">
@@ -117,7 +117,7 @@ const job_page = () => {
 
                 {/* Search bar + mobile filter button */}
                 <div className="flex items-center gap-2 mb-6">
-                    <div className="flex flex-1 items-center gap-3 bg-white border border-gray-200 rounded px-4 py-1 shadow-sm">
+                    <div className="flex flex-1 items-center gap-3 bg-white border border-gray-200 rounded-md px-4 py-1 shadow-sm">
                         <svg className="text-gray-400 shrink-0" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <circle cx="11" cy="11" r="8" />
                             <path d="m21 21-4.35-4.35" />

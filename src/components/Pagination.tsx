@@ -45,7 +45,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="h-11 px-4 rounded-2xl border text-sm font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm"
+          className="h-11 px-4 rounded-md border text-sm font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm"
           style={{
             borderColor: "#E5E7EB",
             background: "white",
@@ -68,7 +68,7 @@ const Pagination = ({
               <button
                 key={page}
                 onClick={() => onPageChange(Number(page))}
-                className="w-11 h-11 rounded-2xl text-sm font-semibold transition-all duration-200 shadow-sm border"
+                className="w-11 h-11 rounded-md text-sm font-semibold transition-all duration-200 shadow-sm border"
                 style={
                   currentPage === page
                     ? {
@@ -92,7 +92,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="h-11 px-4 rounded-2xl border text-sm font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm"
+          className="h-11 px-4 rounded-md border text-sm font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm"
           style={{
             borderColor: "#E5E7EB",
             background: "white",
