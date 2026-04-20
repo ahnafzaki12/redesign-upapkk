@@ -6,9 +6,9 @@ import type { ArticleItem } from "../data/articles";
 import { currentTheme } from "../theme/theme";
 
 // Constants
-const GREEN = currentTheme.primary;
-const GREEN_DARK = currentTheme.heroEnd;
-const GREEN_LIGHT = currentTheme.surfaceAlt;
+const ACCENT = currentTheme.primary;
+const ACCENT_DARK = currentTheme.heroEnd;
+const ACCENT_LIGHT = currentTheme.surfaceAlt;
 
 // Toast Component
 interface ToastProps {
@@ -209,7 +209,7 @@ const StatsBar = ({
       <button
         onClick={onLike}
         className="flex items-center gap-2 text-sm transition-all duration-200 hover:scale-110 active:scale-95 theme-focus-ring rounded-lg px-2 py-1 -mx-2"
-        style={{ color: isLiked ? GREEN : "#6B7280" }}
+        style={{ color: isLiked ? ACCENT : "#6B7280" }}
         aria-label={isLiked ? "Batal suka artikel" : "Suka artikel"}
         aria-pressed={isLiked}
       >
@@ -433,7 +433,7 @@ export default function ArticleDetailPage() {
           <Link
             to="/artikel"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105"
-            style={{ background: GREEN, color: "white" }}
+            style={{ background: ACCENT, color: "white" }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -500,7 +500,7 @@ export default function ArticleDetailPage() {
             <div className="flex items-center gap-3">
               <div 
                 className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-base text-white"
-                style={{ background: GREEN }}
+                style={{ background: ACCENT }}
               >
                 {article.author.charAt(0)}
               </div>
@@ -579,7 +579,7 @@ export default function ArticleDetailPage() {
               onClick={() => navigate("/artikel")}
               className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
               style={{
-                background: GREEN,
+                background: ACCENT,
                 color: "white",
               }}
             >
@@ -611,8 +611,8 @@ export default function ArticleDetailPage() {
                   to="/artikel"
                   className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
                   style={{
-                    background: GREEN_LIGHT,
-                    color: GREEN_DARK,
+                    background: ACCENT_LIGHT,
+                    color: ACCENT_DARK,
                   }}
                 >
                   Lihat Semua Artikel

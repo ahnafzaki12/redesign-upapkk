@@ -3,9 +3,17 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
+  --pg-hero-start: #5fbfbf;
+  --pg-hero-end: #3b9c9c;
   --pg-primary: #2f8f8f;
   --pg-primary-hover: #3b9c9c;
+  --pg-primary-rgb: 47, 143, 143;
+  --pg-primary-hover-rgb: 59, 156, 156;
+  --pg-hero-start-rgb: 95, 191, 191;
   --pg-surface-alt: #e3f4f4;
+  --pg-text: #1f6464;
+  --pg-text-muted: #4a8585;
+  --pg-border: #b9e2e2;
 }
 
 @layer base {
@@ -79,7 +87,7 @@
   animation: fade-in-scale 0.2s ease-out;
 }
 
-/* Shared pastel-green interaction utilities */
+/* Shared theme interaction utilities */
 .theme-hover-surface:hover,
 .theme-hover-surface:focus-visible {
   background: var(--pg-surface-alt);
@@ -107,7 +115,7 @@
   gap: 8px;
   border-radius: 10px;
   padding: 6px 10px;
-  color: #4a8585;
+  color: var(--pg-text-muted);
   text-decoration: none;
   overflow: hidden;
   transition:
@@ -128,9 +136,9 @@
   border-radius: inherit;
   background: linear-gradient(
     90deg,
-    rgba(95, 191, 191, 0.2) 0%,
-    rgba(95, 191, 191, 0.1) 60%,
-    rgba(95, 191, 191, 0.03) 100%
+    rgba(var(--pg-hero-start-rgb), 0.2) 0%,
+    rgba(var(--pg-hero-start-rgb), 0.1) 60%,
+    rgba(var(--pg-hero-start-rgb), 0.03) 100%
   );
   opacity: 0;
   transform: translateX(-6px);
@@ -148,7 +156,7 @@
   bottom: 8px;
   width: 2.5px;
   border-radius: 999px;
-  background: #5fbfbf;
+  background: var(--pg-hero-start);
   opacity: 0;
   transform: scaleY(0.35);
   transform-origin: center;
@@ -160,7 +168,7 @@
 
 .footer-option-link:hover,
 .footer-option-link:focus-visible {
-  color: #2f8f8f;
+  color: var(--pg-primary);
   transform: translateX(4px);
 }
 
@@ -178,7 +186,7 @@
 
 .footer-option-link:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 191, 191, 0.2);
+  box-shadow: 0 0 0 2px rgba(var(--pg-hero-start-rgb), 0.2);
 }
 
 .footer-option-link:active {
@@ -189,7 +197,7 @@
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #5fbfbf;
+  background: var(--pg-hero-start);
   opacity: 0.35;
   flex-shrink: 0;
   transition:
@@ -213,7 +221,7 @@
 }
 
 .footer-option-link.selected {
-  color: #2f8f8f;
+  color: var(--pg-primary);
 }
 
 .footer-option-link.selected::before {
@@ -235,7 +243,7 @@
 
 .hero-slider {
   width: 100%;
-  background: rgba(95, 191, 191, 0.12); /* Teal pastel transparan */
+  background: rgba(var(--pg-hero-start-rgb), 0.12); /* Teal pastel transparan */
   user-select: none;
   overflow: hidden;
 }
@@ -309,9 +317,9 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1.5px solid #3b9c9c;                  /* Border diselaraskan warna teal gelap */
+  border: 1.5px solid var(--pg-primary-hover);   /* Border diselaraskan warna teal gelap */
   background: rgba(255, 255, 255, 0.7);         /* Background putih setengah transparan */
-  color: #3b9c9c;                               /* Warna ikon/chevron menjadi teal senada */
+  color: var(--pg-primary-hover);                /* Warna ikon/chevron menjadi teal senada */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -319,20 +327,20 @@
   z-index: 10;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transisi dibuat lebih halus dan natural */
   backdrop-filter: blur(4px);
-  box-shadow: 0 4px 6px rgba(59, 156, 156, 0.18); /* Bayangan teal samar */
+  box-shadow: 0 4px 6px rgba(var(--pg-primary-hover-rgb), 0.18); /* Bayangan teal samar */
 }
 
 .slider-nav:hover {
-  background: #5fbfbf;                          /* Background berubah jadi teal saat di-hover */
+  background: var(--pg-hero-start);              /* Background berubah jadi teal saat di-hover */
   transform: translateY(-50%) scale(1.15);      /* Membesar sedikit lebih kentara */
-  border-color: #5fbfbf;
+  border-color: var(--pg-hero-start);
   color: #ffffff;                               /* Warna icon/panah membalik menjadi putih bersih */
-  box-shadow: 0 6px 12px rgba(59, 156, 156, 0.32); /* Bayangan lebih intens saat tombol membesar */
+  box-shadow: 0 6px 12px rgba(var(--pg-primary-hover-rgb), 0.32); /* Bayangan lebih intens saat tombol membesar */
 }
 
 .slider-nav:active {
   transform: translateY(-50%) scale(0.95);      /* Menciut seketika saat ditekan (efek tactile/klik) */
-  box-shadow: 0 2px 4px rgba(59, 156, 156, 0.24);  /* Bayangan menipis simulasi tertekan */
+  box-shadow: 0 2px 4px rgba(var(--pg-primary-hover-rgb), 0.24);  /* Bayangan menipis simulasi tertekan */
 }
 
 .slider-nav svg {
@@ -369,7 +377,7 @@
 }
 
 .dot.active {
-  background: #3b9c9c;                          /* Titik aktif menjadi teal gelap */
+  background: var(--pg-primary-hover);           /* Titik aktif menjadi teal gelap */
   transform: scale(1.3);
 }
 

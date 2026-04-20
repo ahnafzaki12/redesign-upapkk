@@ -4,10 +4,11 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer"
 import { eventData } from "../data/events";
 import { currentTheme } from "../theme/theme";
-import { GREEN_DARK } from "../data/constants";
 
-const GREEN = currentTheme.primary;
-const GREEN_LIGHT = currentTheme.surfaceAlt;
+const ACCENT = currentTheme.primary;
+const ACCENT_DARK = currentTheme.heroEnd;
+const ACCENT_LIGHT = currentTheme.surfaceAlt;
+const HERO_BG = currentTheme.heroStart;
 
 const CATEGORY_OPTIONS = ["Semua Kategori", "Seminar", "Workshop", "Job Fair", "Rekrutmen"];
 const TYPE_OPTIONS = ["Semua Tipe", "Offline", "Online"];
@@ -101,7 +102,7 @@ function SearchableDropdown({ value, onChange, options, placeholder }: DropdownP
                     onClick={() => { onChange(opt); setOpen(false); setSearch(""); }}
                     className="flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-100"
                     style={{
-                      background: isActive ? GREEN : "transparent",
+                      background: isActive ? ACCENT : "transparent",
                       color: isActive ? "white" : "#374151",
                       borderRadius: isActive ? "8px" : "0",
                       margin: isActive ? "2px 6px" : "0",
@@ -164,7 +165,7 @@ export default function EventPage() {
       {/* ── HERO SEARCH SECTION ── */}
       <div
         className="px-4 sm:px-6 py-16"
-        style={{ background: "#5FBFBF" }}
+        style={{ background: HERO_BG }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
@@ -193,8 +194,8 @@ export default function EventPage() {
 
             <button
               className="h-12 w-full rounded-xl px-7 text-sm font-semibold shadow-md transition-all duration-150 active:scale-95 cursor-pointer sm:w-auto sm:min-w-44"
-              style={{ background: "white", color: GREEN }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = GREEN_LIGHT; }}
+              style={{ background: "white", color: ACCENT }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = ACCENT_LIGHT; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "white"; }}
             >
               Cari Sekarang
@@ -229,13 +230,13 @@ export default function EventPage() {
               key={tab}
               onClick={() => handleTabChange(tab)}
               className="relative px-5 py-3 text-sm font-medium transition-colors duration-150 cursor-pointer"
-              style={{ color: activeTab === tab ? GREEN : "#9CA3AF" }}
+              style={{ color: activeTab === tab ? ACCENT : "#9CA3AF" }}
             >
               {tab}
               {activeTab === tab && (
                 <span
                   className="absolute bottom-0 left-0 right-0 h-0.5 rounded-t"
-                  style={{ background: GREEN }}
+                  style={{ background: ACCENT }}
                 />
               )}
             </button>
@@ -258,7 +259,7 @@ export default function EventPage() {
                 className="text-xs font-semibold px-4 py-1.5 rounded-md transition-all duration-150 cursor-pointer"
                 style={
                   sortBy === opt
-                    ? { background: "white", color: GREEN, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
+                    ? { background: "white", color: ACCENT, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
                     : { background: "transparent", color: "#9CA3AF" }
                 }
               >
@@ -285,9 +286,9 @@ export default function EventPage() {
                   key={item.id}
                   className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-200 cursor-pointer"
                   style={{
-                    border: isHovered ? `1.5px solid ${GREEN}` : "1.5px solid #F0F0F0",
+                    border: isHovered ? `1.5px solid ${ACCENT}` : "1.5px solid #F0F0F0",
                     boxShadow: isHovered
-                      ? "0 12px 32px rgba(43,92,56,0.14)"
+                      ? "0 12px 32px rgba(var(--pg-primary-rgb), 0.14)"
                       : "0 2px 8px rgba(0,0,0,0.04)",
                     transform: isHovered ? "translateY(-3px)" : "translateY(0)",
                   }}
@@ -310,7 +311,7 @@ export default function EventPage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
                         className="text-xs font-semibold px-2.5 py-1 rounded-md"
-                        style={{ background: GREEN_LIGHT, color: GREEN_DARK }}
+                        style={{ background: ACCENT_LIGHT, color: ACCENT_DARK }}
                       >
                         {item.category}
                       </span>
@@ -340,7 +341,7 @@ export default function EventPage() {
                       </span>
                       <button
                         className="text-xs font-semibold transition-colors duration-150 cursor-pointer"
-                        style={{ color: isHovered ? GREEN : "#9CA3AF" }}
+                        style={{ color: isHovered ? ACCENT : "#9CA3AF" }}
                       >
                         Baca Selengkapnya →
                       </button>

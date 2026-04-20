@@ -5,8 +5,9 @@ import Footer from "../components/footer"
 import { articleData } from "../data/articles";
 import { currentTheme } from "../theme/theme";
 
-const GREEN = currentTheme.primary;
-const GREEN_LIGHT = currentTheme.surfaceAlt;
+const ACCENT = currentTheme.primary;
+const ACCENT_LIGHT = currentTheme.surfaceAlt;
+const HERO_BG = currentTheme.heroStart;
 
 export default function ArticlePage() {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export default function ArticlePage() {
       {/* ── HERO SEARCH SECTION ── */}
       <div
         className="px-4 sm:px-6 py-16"
-        style={{ background: "#5FBFBF" }}
+        style={{ background: HERO_BG }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
@@ -72,8 +73,8 @@ export default function ArticlePage() {
 
             <button
               className="h-12 w-full rounded-xl px-7 text-sm font-semibold shadow-md transition-all duration-150 active:scale-95 cursor-pointer sm:w-auto sm:min-w-44"
-              style={{ background: "white", color: GREEN }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = GREEN_LIGHT; }}
+              style={{ background: "white", color: ACCENT }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = ACCENT_LIGHT; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "white"; }}
             >
               Cari Sekarang
@@ -92,13 +93,13 @@ export default function ArticlePage() {
               key={tab}
               onClick={() => handleTabChange(tab)}
               className="relative px-5 py-3 text-sm font-medium transition-colors duration-150 cursor-pointer"
-              style={{ color: activeTab === tab ? GREEN : "#9CA3AF" }}
+              style={{ color: activeTab === tab ? ACCENT : "#9CA3AF" }}
             >
               {tab}
               {activeTab === tab && (
                 <span
                   className="absolute bottom-0 left-0 right-0 h-0.5 rounded-t"
-                  style={{ background: GREEN }}
+                  style={{ background: ACCENT }}
                 />
               )}
             </button>
@@ -121,7 +122,7 @@ export default function ArticlePage() {
                 className="text-xs font-semibold px-4 py-1.5 rounded-md transition-all duration-150 cursor-pointer"
                 style={
                   sortBy === opt
-                    ? { background: "white", color: GREEN, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
+                    ? { background: "white", color: ACCENT, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
                     : { background: "transparent", color: "#9CA3AF" }
                 }
               >
@@ -149,9 +150,9 @@ export default function ArticlePage() {
                   to={`/artikel/${item.slug}`}
                   className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-200 cursor-pointer"
                   style={{
-                    border: isHovered ? `1.5px solid ${GREEN}` : "1.5px solid #F0F0F0",
+                    border: isHovered ? `1.5px solid ${ACCENT}` : "1.5px solid #F0F0F0",
                     boxShadow: isHovered
-                      ? "0 12px 32px rgba(43,92,56,0.14)"
+                      ? "0 12px 32px rgba(var(--pg-primary-rgb), 0.14)"
                       : "0 2px 8px rgba(0,0,0,0.04)",
                     transform: isHovered ? "translateY(-3px)" : "translateY(0)",
                   }}
@@ -195,7 +196,7 @@ export default function ArticlePage() {
                     <div className="flex items-center justify-end pt-3 border-t border-gray-100">
                       <span
                         className="text-xs font-semibold transition-colors duration-150 flex items-center gap-1 cursor-pointer"
-                        style={{ color: isHovered ? GREEN : "#9CA3AF" }}
+                        style={{ color: isHovered ? ACCENT : "#9CA3AF" }}
                       >
                         Baca Selengkapnya
                         <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

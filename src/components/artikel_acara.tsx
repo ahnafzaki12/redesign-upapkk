@@ -2,20 +2,9 @@
 import { Link } from "react-router-dom";
 import { articleData } from "../data/articles";
 import { eventData } from "../data/events";
+import { currentTheme } from "../theme/theme";
 
-const HOME_CONTENT = {
-  primary: "#2C8585",
-  primaryHover: "#3B9C9C",
-  primarySoft: "#92D2D2",
-  surface: "#F2FBFB",
-  surfaceAlt: "#E3F4F4",
-  surfaceStrong: "#D0ECEC",
-  border: "#B9E2E2",
-  text: "#1F6464",
-  textMuted: "#4A8585",
-  accent: "#D8F0F0",
-  white: "#FFFFFF",
-} as const;
+const HOME_CONTENT = currentTheme;
 
 interface ContentItem {
   id: number;
@@ -54,7 +43,7 @@ const thumbPalette = [
   { bg: HOME_CONTENT.surfaceStrong, color: HOME_CONTENT.primaryHover },
   { bg: HOME_CONTENT.surface, color: HOME_CONTENT.textMuted },
   { bg: HOME_CONTENT.accent, color: HOME_CONTENT.primary },
-  { bg: "#CCECEC", color: HOME_CONTENT.primary },
+  { bg: HOME_CONTENT.surfaceStrong, color: HOME_CONTENT.primary },
 ];
 
 const IconArtikel = ({ size = 20 }: { size?: number }) => (
@@ -173,7 +162,7 @@ function SectionPanel({
       style={{
         border: `1px solid ${HOME_CONTENT.border}`,
         background: HOME_CONTENT.white,
-        boxShadow: "0 2px 20px rgba(59, 156, 156, 0.12)",
+        boxShadow: "0 2px 20px rgba(var(--pg-primary-hover-rgb), 0.12)",
       }}
     >
       {/* Panel header */}
@@ -208,9 +197,9 @@ function SectionPanel({
           to={href}
           className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-95"
           style={{
-            background: btnHover ? HOME_CONTENT.primaryHover : "#5FBFBF",
+            background: btnHover ? HOME_CONTENT.primaryHover : HOME_CONTENT.heroStart,
             color: HOME_CONTENT.white,
-            boxShadow: btnHover ? "0 4px 12px rgba(59, 156, 156, 0.3)" : "none",
+            boxShadow: btnHover ? "0 4px 12px rgba(var(--pg-primary-hover-rgb), 0.3)" : "none",
           }}
           onMouseEnter={() => setBtnHover(true)}
           onMouseLeave={() => setBtnHover(false)}

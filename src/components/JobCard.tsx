@@ -1,8 +1,12 @@
 // MagangCard.tsx
 import { useState } from "react"
 import { daysLeft } from "../helpers/dateHelpers"
-import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants"
+import { currentTheme } from "../theme/theme"
 import type { Job } from "../types/types"
+
+const DEFAULT_ACCENT = currentTheme.primary
+const DEFAULT_ACCENT_DARK = currentTheme.heroEnd
+const DEFAULT_ACCENT_LIGHT = currentTheme.surfaceAlt
 
 
 interface MagangCardProps {
@@ -23,13 +27,13 @@ export default function MagangCard({
     const [hovered, setHovered] = useState(false)
     const [logoLoadFailed, setLogoLoadFailed] = useState(false)
     const dl = daysLeft(job.deadline)
-    const accent = accentColor ?? GREEN
-    const accentDark = accentDarkColor ?? GREEN_DARK
-    const accentLight = accentLightColor ?? GREEN_LIGHT
-    const neutralBadgeBg = accentColor ? "#EAF8F8" : "#F0FDF4"
+    const accent = accentColor ?? DEFAULT_ACCENT
+    const accentDark = accentDarkColor ?? DEFAULT_ACCENT_DARK
+    const accentLight = accentLightColor ?? DEFAULT_ACCENT_LIGHT
+    const neutralBadgeBg = accentColor ? currentTheme.surfaceAlt : currentTheme.surface
     const hoverShadow = accentColor
-        ? "0 12px 32px rgba(59,156,156,0.14)"
-        : "0 12px 32px rgba(0,166,62,0.12)"
+        ? "0 12px 32px rgba(var(--pg-primary-hover-rgb), 0.14)"
+        : "0 12px 32px rgba(var(--pg-primary-rgb), 0.14)"
 
     return (
         <div

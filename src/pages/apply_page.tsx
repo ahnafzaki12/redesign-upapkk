@@ -3,7 +3,12 @@ import { useParams, useNavigate } from "react-router-dom"
 import Footer from "../components/footer"
 import Navbar from "../components/navbar"
 import { jobsData } from "../data/jobData"
-import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants"
+import { currentTheme } from "../theme/theme"
+
+const ACCENT = currentTheme.primary
+const ACCENT_DARK = currentTheme.heroEnd
+const ACCENT_LIGHT = currentTheme.surfaceAlt
+const HERO_BG = currentTheme.heroEnd
 
 const apply_page = () => {
     const { id } = useParams()
@@ -59,7 +64,7 @@ const apply_page = () => {
                 <div className="flex flex-col items-center justify-center px-4 py-32 text-center">
                     <div
                         className="w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-lg"
-                        style={{ background: GREEN_DARK }}
+                        style={{ background: ACCENT_DARK }}
                     >
                         <svg width="36" height="36" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
                             <path d="M5 13l4 4L19 7" />
@@ -68,13 +73,13 @@ const apply_page = () => {
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Lamaran Terkirim!</h2>
                     <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
                         Terima kasih, <span className="font-semibold text-gray-700">{form.fullName}</span>. Lamaran kamu untuk posisi{" "}
-                        <span className="font-semibold" style={{ color: GREEN }}>{job?.title}</span> telah kami terima.
+                        <span className="font-semibold" style={{ color: ACCENT }}>{job?.title}</span> telah kami terima.
                         Tim kami akan menghubungi kamu secepatnya.
                     </p>
                     <button
                         onClick={() => navigate("/karir/pekerjaan")}
                         className="px-8 py-3 rounded-xl text-sm font-bold text-white border-none cursor-pointer"
-                        style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+                        style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)` }}
                     >
                         Lihat Lowongan Lain
                     </button>
@@ -102,7 +107,7 @@ const apply_page = () => {
             {/* ── HERO ─────────────────────────────────────────────────────────── */}
             <section
                 className="px-4 sm:px-6 pt-14 pb-20"
-                style={{ background: GREEN_DARK }}
+                style={{ background: HERO_BG }}
             >
                 <div className="max-w-6xl mx-auto">
                     {/* Breadcrumbs */}
@@ -249,7 +254,7 @@ const apply_page = () => {
                                             backgroundPosition: "right 14px center",
                                             appearance: "none" as const,
                                         }}
-                                        onFocus={(e) => { e.currentTarget.style.borderColor = GREEN; e.currentTarget.style.background = "#fff" }}
+                                        onFocus={(e) => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.background = "#fff" }}
                                         onBlur={(e) => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.background = "#f9fafb" }}
                                     >
                                         <option value="" disabled>Pilih lama pengalaman</option>
@@ -270,7 +275,7 @@ const apply_page = () => {
                                         required
                                         rows={6}
                                         className="w-full px-4 py-3 rounded-xl text-sm text-gray-800 outline-none border border-gray-200 bg-gray-50 transition-all duration-150 resize-none leading-relaxed"
-                                        onFocus={(e) => { e.currentTarget.style.borderColor = GREEN; e.currentTarget.style.background = "#fff" }}
+                                        onFocus={(e) => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.background = "#fff" }}
                                         onBlur={(e) => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.background = "#f9fafb" }}
                                     />
                                     <p className="text-xs text-gray-400 mt-1 text-right">{form.about.length} karakter</p>
@@ -290,11 +295,11 @@ const apply_page = () => {
                                 {form.cv ? (
                                     <div
                                         className="flex items-center gap-4 p-4 rounded-xl border"
-                                        style={{ borderColor: GREEN, background: GREEN_LIGHT }}
+                                        style={{ borderColor: ACCENT, background: ACCENT_LIGHT }}
                                     >
                                         <div
                                             className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                                            style={{ background: GREEN }}
+                                            style={{ background: ACCENT }}
                                         >
                                             <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                                                 <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
@@ -321,15 +326,15 @@ const apply_page = () => {
                                         onDrop={handleDrop}
                                         className="flex flex-col items-center justify-center gap-3 py-12 rounded-xl border-2 border-dashed cursor-pointer transition-all duration-150"
                                         style={{
-                                            borderColor: dragOver ? GREEN : "#d1d5db",
-                                            background: dragOver ? GREEN_LIGHT : "#f9fafb",
+                                            borderColor: dragOver ? ACCENT : "#d1d5db",
+                                            background: dragOver ? ACCENT_LIGHT : "#f9fafb",
                                         }}
                                     >
                                         <div
                                             className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                                            style={{ background: dragOver ? GREEN_LIGHT : "#f3f4f6" }}
+                                            style={{ background: dragOver ? ACCENT_LIGHT : "#f3f4f6" }}
                                         >
-                                            <svg width="22" height="22" fill="none" stroke={dragOver ? GREEN : "#9ca3af"} strokeWidth="1.8" viewBox="0 0 24 24">
+                                            <svg width="22" height="22" fill="none" stroke={dragOver ? ACCENT : "#9ca3af"} strokeWidth="1.8" viewBox="0 0 24 24">
                                                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                                                 <polyline points="17 8 12 3 7 8" />
                                                 <line x1="12" y1="3" x2="12" y2="15" />
@@ -351,7 +356,7 @@ const apply_page = () => {
                                     className="w-full py-3.5 rounded-xl text-sm font-bold text-white border-none transition-all duration-200"
                                     style={{
                                         background: isValid
-                                            ? `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)`
+                                            ? `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`
                                             : "#d1d5db",
                                         cursor: isValid ? "pointer" : "not-allowed",
                                     }}
@@ -386,7 +391,7 @@ const apply_page = () => {
                                         <div
                                             className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-200"
                                             style={{
-                                                background: done ? GREEN : "#f3f4f6",
+                                                background: done ? ACCENT : "#f3f4f6",
                                                 border: done ? "none" : "1.5px solid #e5e7eb",
                                             }}
                                         >
@@ -405,14 +410,14 @@ const apply_page = () => {
                             <div className="mt-5">
                                 <div className="flex justify-between text-xs mb-1.5">
                                     <span className="text-gray-400 font-medium">Progress</span>
-                                    <span className="font-bold" style={{ color: GREEN }}>{progress}%</span>
+                                    <span className="font-bold" style={{ color: ACCENT }}>{progress}%</span>
                                 </div>
                                 <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
                                     <div
                                         className="h-full rounded-full transition-all duration-500"
                                         style={{
                                             width: `${progress}%`,
-                                            background: `linear-gradient(90deg, ${GREEN} 0%, ${GREEN_DARK} 100%)`,
+                                            background: `linear-gradient(90deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`,
                                         }}
                                     />
                                 </div>
@@ -448,7 +453,7 @@ const apply_page = () => {
                                         <span
                                             key={tag}
                                             className="px-3 py-1.5 rounded-full text-xs font-bold"
-                                            style={{ background: GREEN_LIGHT, color: GREEN }}
+                                            style={{ background: ACCENT_LIGHT, color: ACCENT }}
                                         >
                                             {tag}
                                         </span>
@@ -473,7 +478,7 @@ function SectionCard({ number, title, children }: { number: number; title: strin
             <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
                 <div
                     className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                    style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+                    style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)` }}
                 >
                     {number}
                 </div>
@@ -511,7 +516,7 @@ function InputField({ name, value, onChange, placeholder, type = "text" }: {
             placeholder={placeholder}
             required
             className="w-full px-4 py-3 rounded-xl text-sm text-gray-800 outline-none border border-gray-200 bg-gray-50 transition-all duration-150"
-            onFocus={(e) => { e.currentTarget.style.borderColor = GREEN; e.currentTarget.style.background = "#fff" }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.background = "#fff" }}
             onBlur={(e) => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.background = "#f9fafb" }}
         />
     )

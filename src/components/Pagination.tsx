@@ -1,5 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { GREEN, GREEN_DARK } from "../data/constants"
+import { currentTheme } from "../theme/theme"
+
+const PAGINATION_ACTIVE_BG = currentTheme.heroEnd
+const PAGINATION_ACTIVE_BORDER = currentTheme.primary
 
 type PaginationProps = {
   currentPage: number
@@ -72,9 +75,9 @@ const Pagination = ({
                 style={
                   currentPage === page
                     ? {
-                        background: GREEN_DARK,
+                        background: PAGINATION_ACTIVE_BG,
                         color: "white",
-                        borderColor: GREEN,
+                        borderColor: PAGINATION_ACTIVE_BORDER,
                       }
                     : {
                         background: "white",

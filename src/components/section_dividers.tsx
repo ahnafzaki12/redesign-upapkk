@@ -1,11 +1,13 @@
+import { currentTheme } from "../theme/theme";
+
 const HOME_DIVIDER = {
-  backdropTop: "#FFFFFF",
-  backdropBottom: "#F2FBFB",
-  line: "#B9E2E2",
-  chipStart: "#5FBFBF",
-  chipEnd: "#3B9C9C",
-  title: "#1F6464",
-  subtitle: "#4A8585",
+  backdropTop: currentTheme.white,
+  backdropBottom: currentTheme.surface,
+  line: currentTheme.border,
+  chipStart: currentTheme.heroStart,
+  chipEnd: currentTheme.heroEnd,
+  title: currentTheme.text,
+  subtitle: currentTheme.textMuted,
 } as const;
 
 export function SectionHeaderDivider() {

@@ -2,13 +2,18 @@ import { useEffect, useState } from "react"
 import Pagination from "../components/Pagination"
 import Footer from "../components/footer"
 import Navbar from "../components/navbar"
-import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants"
 import DetailModal from "../components/DetailModal"
 import JobCard from "../components/JobCard"
 import type { Job } from "../types/types"
 import { jobsData } from "../data/jobData"
 import { useNavigate } from "react-router-dom"
 import { FilterSidebar, FilterDrawer } from "../components/sidebar"
+import { currentTheme } from "../theme/theme"
+
+const ACCENT = currentTheme.primary
+const ACCENT_DARK = currentTheme.heroEnd
+const ACCENT_LIGHT = currentTheme.surfaceAlt
+const HERO_BG = currentTheme.heroStart
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 const job_page = () => {
@@ -90,7 +95,7 @@ const job_page = () => {
             <Navbar />
 
             {/* ── HERO ─────────────────────────────────────────────────────── */}
-            <section className="px-4 sm:px-6 py-16" style={{ background: "#5FBFBF" }}>
+            <section className="px-4 sm:px-6 py-16" style={{ background: HERO_BG }}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
                         Cari Tempat Magang Impianmu
@@ -140,7 +145,7 @@ const job_page = () => {
                     <button
                         onClick={() => setDrawerOpen(true)}
                         className="lg:hidden relative flex items-center justify-center w-11 h-11 rounded shrink-0 border-none cursor-pointer transition-colors"
-                        style={{ background: GREEN_DARK }}
+                        style={{ background: ACCENT_DARK }}
                         aria-label="Open filters"
                     >
                         <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
@@ -188,13 +193,13 @@ const job_page = () => {
                                         key={tab}
                                         onClick={() => handleTabChange(tab)}
                                         className="relative px-5 py-3 text-sm font-medium transition-colors duration-150 cursor-pointer border-none bg-transparent"
-                                        style={{ color: activeTab === tab ? GREEN : "#6B7280" }}
+                                        style={{ color: activeTab === tab ? ACCENT : "#6B7280" }}
                                     >
                                         {tab}
                                         {activeTab === tab && (
                                             <span
                                                 className="absolute bottom-0 left-0 right-0 h-0.5"
-                                                style={{ background: GREEN }}
+                                                style={{ background: ACCENT }}
                                             />
                                         )}
                                     </button>
@@ -204,7 +209,7 @@ const job_page = () => {
                             <div className="flex items-center gap-3 pb-1">
                                 <span className="text-xs text-gray-400 hidden sm:block">
                                     {sorted.length} lowongan ·{" "}
-                                    <span style={{ color: GREEN }}>{totalVacancies} posisi</span>
+                                    <span style={{ color: ACCENT }}>{totalVacancies} posisi</span>
                                 </span>
                                 <div className="flex bg-gray-100 rounded p-0.5 gap-0.5">
                                     {["Terbaru", "Terpopuler"].map(opt => (
@@ -214,7 +219,7 @@ const job_page = () => {
                                             className="text-xs font-semibold px-3 py-1.5 rounded border-none cursor-pointer transition-all duration-150"
                                             style={
                                                 sortBy === opt
-                                                    ? { background: "white", color: GREEN, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }
+                                                    ? { background: "white", color: ACCENT, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }
                                                     : { background: "transparent", color: "#9CA3AF" }
                                             }
                                         >
@@ -237,7 +242,7 @@ const job_page = () => {
                                 <button
                                     onClick={resetFilters}
                                     className="px-5 py-2 rounded text-sm font-semibold border-none cursor-pointer"
-                                    style={{ background: GREEN_LIGHT, color: GREEN }}
+                                    style={{ background: ACCENT_LIGHT, color: ACCENT }}
                                 >
                                     Reset Filter
                                 </button>

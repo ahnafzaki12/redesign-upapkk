@@ -1,9 +1,13 @@
 // DetailModal.tsx
 import { useEffect, useState } from "react"
 import { daysLeft } from "../helpers/dateHelpers"
-import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants"
+import { currentTheme } from "../theme/theme"
 import type { Job } from "../types/types"
 import { Link, useNavigate } from "react-router-dom"
+
+const ACCENT = currentTheme.primary
+const ACCENT_DARK = currentTheme.heroEnd
+const ACCENT_LIGHT = currentTheme.surfaceAlt
 
 
 
@@ -38,7 +42,7 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
                 {/* Header */}
                 <div
                     className="p-7 shrink-0"
-                    style={{ background: GREEN_DARK }}
+                    style={{ background: ACCENT_DARK }}
                 >
                     <button
                         onClick={onClose}
@@ -98,9 +102,9 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-3 mb-6">
                         {[
-                            { label: "Lowongan", value: `${job.vacancies} Posisi`, color: GREEN },
+                            { label: "Lowongan", value: `${job.vacancies} Posisi`, color: ACCENT },
                             { label: "Deadline", value: job.deadline.replace(" 2026", ""), color: dl.urgent ? "#DC2626" : "#374151" },
-                            { label: "Sisa Waktu", value: dl.label, color: dl.urgent ? "#DC2626" : GREEN },
+                            { label: "Sisa Waktu", value: dl.label, color: dl.urgent ? "#DC2626" : ACCENT },
                         ].map((s) => (
                             <div key={s.label} className="bg-gray-50 rounded-xl p-3 text-center">
                                 <p className="text-xs text-gray-400 font-semibold mb-1">{s.label}</p>
@@ -112,11 +116,11 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
                     {/* Salary */}
                     <div
                         className="flex items-center gap-3 rounded-xl p-3.5 mb-5"
-                        style={{ background: GREEN_LIGHT }}
+                        style={{ background: ACCENT_LIGHT }}
                     >
                         <div>
-                            <p className="text-xs font-bold uppercase tracking-wide mb-0.5" style={{ color: GREEN_DARK }}>Kompensasi</p>
-                            <p className="text-sm font-bold" style={{ color: GREEN_DARK }}>{job.salary}</p>
+                            <p className="text-xs font-bold uppercase tracking-wide mb-0.5" style={{ color: ACCENT_DARK }}>Kompensasi</p>
+                            <p className="text-sm font-bold" style={{ color: ACCENT_DARK }}>{job.salary}</p>
                         </div>
                     </div>
 
@@ -140,9 +144,9 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
                             <li key={r} className="flex items-center gap-3 text-sm text-gray-700">
                                 <span
                                     className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                                    style={{ background: GREEN_LIGHT }}
+                                    style={{ background: ACCENT_LIGHT }}
                                 >
-                                    <svg width="10" height="10" fill={GREEN} viewBox="0 0 16 16">
+                                    <svg width="10" height="10" fill={ACCENT} viewBox="0 0 16 16">
                                         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                                     </svg>
                                 </span>
@@ -164,7 +168,7 @@ export default function DetailModal({ job, onClose }: DetailModalProps) {
                         {/* Tombol Daftar Utama */}
                         <button
                             className="flex-2 py-3.5 rounded-xl text-white font-bold text-sm cursor-pointer border-none transition-opacity duration-150"
-                            style={{ background: GREEN_DARK }}
+                            style={{ background: ACCENT_DARK }}
                             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
                             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                             onClick={() => navigate(`/karir/lamar/${job.id}`)}

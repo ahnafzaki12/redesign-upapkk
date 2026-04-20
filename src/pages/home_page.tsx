@@ -5,6 +5,7 @@ import ArtikelAcara from "../components/artikel_acara";
 import Job from "../components/job";
 import { SectionHeaderDivider } from "../components/section_dividers";
 import Footer from "../components/footer";
+import { currentTheme } from "../theme/theme";
 
 const slides: SlideItem[] = [
   {
@@ -34,7 +35,7 @@ const HomePage = () => {
       <section
         className="w-full pt-2 pb-12"
         style={{
-          background: "linear-gradient(180deg, #F2FBFB 0%, #EAF7F7 100%)"
+          background: `linear-gradient(180deg, ${currentTheme.surface} 0%, ${currentTheme.surfaceAlt} 100%)`
         }}
       >
         <ArtikelAcara />

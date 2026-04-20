@@ -5,10 +5,11 @@ import SearchableDropdown from "./SearchableDropdown";
 import MagangCard from "./JobCard";
 import DetailModal from "./DetailModal";
 import type { Job } from "../types/types";
+import { currentTheme } from "../theme/theme";
 
-const HOME_ACCENT = "#5FBFBF";
-const HOME_ACCENT_DARK = "#3B9C9C";
-const HOME_ACCENT_LIGHT = "#E3F4F4";
+const HOME_ACCENT = currentTheme.heroStart;
+const HOME_ACCENT_DARK = currentTheme.heroEnd;
+const HOME_ACCENT_LIGHT = currentTheme.surfaceAlt;
 
 
 // ── Main Component ───────────────────────────────────────────────────────────
@@ -45,7 +46,7 @@ export default function Job() {
       {/* ── HERO ── */}
       <div
         className="px-4 sm:px-6 py-10 md:py-4 rounded-xl"
-        style={{ background: "#5FBFBF" }}
+        style={{ background: HOME_ACCENT }}
       >
         <div className="max-w-7xl mx-auto p-4 sm:p-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">

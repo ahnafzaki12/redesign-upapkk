@@ -1,6 +1,6 @@
 // SearchableDropdown.tsx
 import { useState, useRef, useEffect } from "react"
-import { GREEN } from "../data/constants"
+import { currentTheme } from "../theme/theme"
 
 interface DropdownProps {
     value: string;
@@ -108,7 +108,7 @@ export default function SearchableDropdown({ value, onChange, options, placehold
                                         onClick={() => { onChange(opt); setOpen(false); setSearch(""); }}
                                         className="flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-100"
                                         style={{
-                                            background: isActive ? GREEN : "transparent",
+                                            background: isActive ? currentTheme.primary : "transparent",
                                             color: isActive ? "white" : "#374151",
                                             borderRadius: isActive ? "8px" : "0",
                                             margin: isActive ? "2px 6px" : "0",

@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import type { SidebarProps } from "../types/types";
-import { CATEGORY, EDUCATIONS, GREEN, GREEN_DARK, LOCATIONS, DURATIONS, TYPE_OPTIONS, GREEN_LIGHT } from "../data/constants"
+import { CATEGORY, EDUCATIONS, LOCATIONS, DURATIONS, TYPE_OPTIONS } from "../data/constants"
+import { currentTheme } from "../theme/theme"
+
+const ACCENT = currentTheme.primary
+const ACCENT_DARK = currentTheme.heroEnd
+const ACCENT_LIGHT = currentTheme.surfaceAlt
 
 
 // ── Shared filter fields ──────────────────────────────────────────────────────
@@ -74,9 +79,9 @@ function FilterFields({
                     onClick={() => setOpen(prev => !prev)}
                     className="w-full flex items-center justify-between rounded-md border px-4 py-3 text-sm bg-white transition-all duration-200 shadow-sm"
                     style={{
-                        borderColor: open ? GREEN : "#E5E7EB",
+                        borderColor: open ? ACCENT : "#E5E7EB",
                         boxShadow: open
-                            ? "0 0 0 3px rgba(0, 166, 62, 0.08)"
+                            ? "0 0 0 3px rgba(var(--pg-primary-rgb), 0.12)"
                             : "0 1px 2px rgba(0,0,0,0.03)",
                         color: value === options[0] ? "#9CA3AF" : "#111827",
                     }}
@@ -89,7 +94,7 @@ function FilterFields({
                         className="shrink-0 transition-transform duration-200"
                         style={{
                             transform: open ? "rotate(180deg)" : "rotate(0deg)",
-                            color: open ? GREEN_DARK : "#9CA3AF",
+                            color: open ? ACCENT_DARK : "#9CA3AF",
                         }}
                         width="16"
                         height="16"
@@ -125,9 +130,9 @@ function FilterFields({
                                         }}
                                         className="w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors"
                                         style={{
-                                            background: isActive ? GREEN_LIGHT : "white",
+                                            background: isActive ? ACCENT_LIGHT : "white",
                                             color: isActive
-                                                ? GREEN_DARK
+                                                ? ACCENT_DARK
                                                 : isPlaceholder
                                                     ? "#9CA3AF"
                                                     : "#374151",
@@ -150,7 +155,7 @@ function FilterFields({
                                                 width="16"
                                                 height="16"
                                                 fill="none"
-                                                stroke={GREEN}
+                                                stroke={ACCENT}
                                                 strokeWidth="2"
                                                 viewBox="0 0 24 24"
                                             >
@@ -212,8 +217,8 @@ function FilterFields({
                             <span
                                 className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 border transition-all duration-150"
                                 style={{
-                                    background: checked ? GREEN : "white",
-                                    borderColor: checked ? GREEN : "#D1D5DB", 
+                                    background: checked ? ACCENT : "white",
+                                    borderColor: checked ? ACCENT : "#D1D5DB", 
                                 }}
                             >
                                 {checked && (
@@ -231,7 +236,7 @@ function FilterFields({
 
                             <span
                                 className="text-sm transition-colors"
-                                style={{ color: checked ? GREEN_DARK : "#374151" }}
+                                style={{ color: checked ? ACCENT_DARK : "#374151" }}
                             >
                                 {edu}
                             </span>
@@ -258,7 +263,7 @@ function FilterFields({
                         <button
                             onClick={onApply}
                             className="w-full py-2.5 rounded text-sm font-semibold border-none cursor-pointer text-white transition-colors"
-                            style={{ background: GREEN_DARK }}
+                            style={{ background: ACCENT_DARK }}
                         >
                             Terapkan Filter
                         </button>
@@ -329,7 +334,7 @@ export function FilterDrawer({ open, onClose, ...filterProps }: DrawerProps) {
                 {/* Drag handle + header */}
                 <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100 shrink-0">
                     <div className="flex items-center gap-2">
-                        <svg width="16" height="16" fill="none" stroke={GREEN_DARK} strokeWidth="2" viewBox="0 0 24 24">
+                            <svg width="16" height="16" fill="none" stroke={ACCENT_DARK} strokeWidth="2" viewBox="0 0 24 24">
                             <path d="M3 6h18M7 12h10M11 18h2" strokeLinecap="round" />
                         </svg>
                         <h2 className="text-sm font-semibold text-gray-800">Filter</h2>

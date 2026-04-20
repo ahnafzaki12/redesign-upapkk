@@ -2,7 +2,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { jobsData } from "../data/jobData";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import { GREEN, GREEN_DARK, GREEN_LIGHT } from "../data/constants";
+import { currentTheme } from "../theme/theme";
+
+const ACCENT = currentTheme.primary;
+const ACCENT_DARK = currentTheme.heroEnd;
+const ACCENT_LIGHT = currentTheme.surfaceAlt;
+const HERO_BG = currentTheme.heroEnd;
 
 export default function JobDetailPage() {
   const { id } = useParams();
@@ -18,7 +23,7 @@ export default function JobDetailPage() {
           <button
             onClick={() => navigate(-1)}
             className="mt-4 px-6 py-2.5 rounded-xl text-sm font-bold text-white border-none cursor-pointer"
-            style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+            style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)` }}
           >
             Kembali
           </button>
@@ -35,7 +40,7 @@ export default function JobDetailPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
       <section
         className="px-4 sm:px-6 pt-14 pb-20"
-        style={{ background: GREEN_DARK }}
+        style={{ background: HERO_BG }}
       >
         <div className="max-w-6xl mx-auto">
 
@@ -150,9 +155,9 @@ export default function JobDetailPage() {
                     <li key={i} className="flex items-start gap-3">
                       <span
                         className="mt-0.5 w-5 h-5 rounded-md flex items-center justify-center shrink-0"
-                        style={{ background: GREEN_LIGHT }}
+                        style={{ background: ACCENT_LIGHT }}
                       >
-                        <svg width="10" height="10" fill="none" stroke={GREEN} strokeWidth="2.5" viewBox="0 0 24 24">
+                        <svg width="10" height="10" fill="none" stroke={ACCENT} strokeWidth="2.5" viewBox="0 0 24 24">
                           <path d="M5 13l4 4L19 7" />
                         </svg>
                       </span>
@@ -172,7 +177,7 @@ export default function JobDetailPage() {
                     <span
                       key={tag}
                       className="px-3 py-1.5 rounded-lg text-xs font-bold"
-                      style={{ background: GREEN_LIGHT, color: GREEN }}
+                      style={{ background: ACCENT_LIGHT, color: ACCENT }}
                     >
                       {tag}
                     </span>
@@ -189,7 +194,7 @@ export default function JobDetailPage() {
             <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
               <button
                 className="w-full py-3 rounded-lg text-sm font-bold text-white border-none cursor-pointer transition-opacity duration-150"
-                style={{ background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)` }}
+                style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)` }}
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                 onClick={() => navigate(`/karir/lamar/${job.id}`)}
