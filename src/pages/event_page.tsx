@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
+import Footer from "../components/footer"
 import { eventData } from "../data/events";
 import { pastelGreen } from "../theme/pastel_green";
 import { GREEN_DARK } from "../data/constants";
@@ -162,10 +163,10 @@ export default function EventPage() {
 
       {/* ── HERO SEARCH SECTION ── */}
       <div
-        className="px-6 py-12 md:py-16 pt-24"
-        style={{ background: `${GREEN_DARK}` }}
+        className="px-4 sm:px-6 py-16"
+        style={{ background: "#5FBFBF" }}
       >
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
             Kumpulan Acara & Event
           </p>
@@ -177,13 +178,13 @@ export default function EventPage() {
           </p>
 
           {/* Search bar */}
-          <div className="flex flex-col sm:flex-row gap-3 relative z-10">
-            <div className="flex items-center gap-3 bg-white rounded-xl px-4 h-12 flex-1 shadow-sm">
+          <div className="relative z-10 flex w-full flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex h-12 w-full items-center gap-3 rounded-xl bg-white px-4 shadow-sm sm:flex-1">
               <svg className="text-gray-400 shrink-0" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
               </svg>
               <input
-                className="bg-transparent outline-none text-sm text-gray-700 w-full placeholder-gray-400"
+                className="w-full bg-transparent text-sm text-gray-700 outline-none placeholder-gray-400"
                 placeholder="Cari acara anda"
                 value={searchEvent}
                 onChange={(e) => setSearchEvent(e.target.value)}
@@ -191,7 +192,7 @@ export default function EventPage() {
             </div>
 
             <button
-              className="h-12 px-7 rounded-xl text-sm font-semibold shadow-md transition-all duration-150 active:scale-95 cursor-pointer"
+              className="h-12 w-full rounded-xl px-7 text-sm font-semibold shadow-md transition-all duration-150 active:scale-95 cursor-pointer sm:w-auto sm:min-w-44"
               style={{ background: "white", color: GREEN }}
               onMouseEnter={(e) => { e.currentTarget.style.background = GREEN_LIGHT; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "white"; }}
@@ -351,7 +352,7 @@ export default function EventPage() {
           )}
         </div>
       </div>
-
+          <Footer />
     </div>
   );
 }

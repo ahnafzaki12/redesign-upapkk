@@ -41,7 +41,7 @@ export default function Job() {
       {/* ── HERO ── */}
       <div
         className="px-4 sm:px-6 py-10 md:py-4 rounded-xl"
-        style={{ background: GREEN_DARK }}
+        style={{ background: "#5FBFBF" }}
       >
         <div className="max-w-7xl mx-auto p-4 sm:p-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
