@@ -1,11 +1,19 @@
-import { pastelGreen } from "../theme/pastel_green";
+const HOME_DIVIDER = {
+  backdropTop: "#FFFFFF",
+  backdropBottom: "#F2FBFB",
+  line: "#B9E2E2",
+  chipStart: "#5FBFBF",
+  chipEnd: "#3B9C9C",
+  title: "#1F6464",
+  subtitle: "#4A8585",
+} as const;
 
 export function SectionHeaderDivider() {
   return (
     <div 
       className="w-full pt-8"
       style={{
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFDFB 100%)'
+        background: `linear-gradient(180deg, ${HOME_DIVIDER.backdropTop} 0%, ${HOME_DIVIDER.backdropBottom} 100%)`
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -14,7 +22,7 @@ export function SectionHeaderDivider() {
           <div 
             className="flex-1 h-px" 
             style={{
-              background: `linear-gradient(to right, transparent, ${pastelGreen.border})`
+              background: `linear-gradient(to right, transparent, ${HOME_DIVIDER.line})`
             }}
           />
           
@@ -23,7 +31,7 @@ export function SectionHeaderDivider() {
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center shadow-md"
               style={{ 
-                background: `linear-gradient(135deg, ${pastelGreen.primary} 0%, ${pastelGreen.primaryHover} 100%)`,
+                background: `linear-gradient(135deg, ${HOME_DIVIDER.chipStart} 0%, ${HOME_DIVIDER.chipEnd} 100%)`,
               }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
@@ -33,13 +41,13 @@ export function SectionHeaderDivider() {
             <div>
               <h2 
                 className="text-2xl font-bold tracking-tight" 
-                style={{ color: pastelGreen.text }}
+                style={{ color: HOME_DIVIDER.title }}
               >
                 Berita & Kegiatan
               </h2>
               <p 
                 className="text-sm mt-0.5" 
-                style={{ color: pastelGreen.textMuted }}
+                style={{ color: HOME_DIVIDER.subtitle }}
               >
                 Artikel terbaru dan acara mendatang
               </p>
@@ -50,7 +58,7 @@ export function SectionHeaderDivider() {
           <div 
             className="flex-1 h-px" 
             style={{
-              background: `linear-gradient(to left, transparent, ${pastelGreen.border})`
+              background: `linear-gradient(to left, transparent, ${HOME_DIVIDER.line})`
             }}
           />
         </div>

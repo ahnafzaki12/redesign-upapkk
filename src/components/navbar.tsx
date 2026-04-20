@@ -67,8 +67,8 @@ const DropdownMenu = ({ items, currentPath }: { items: DropdownItem[], currentPa
                     to={item.href}
                     className={`flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors duration-150 font-medium 
                         ${isActive
-                            ? "text-[#00A63E]" // Hanya teks hijau jika aktif
-                            : "text-gray-600 hover:text-[#00A63E]" // Hover tetap teks hijau
+                            ? "text-[#2F8F8F]" // Hanya teks teal jika aktif
+                            : "text-gray-600 hover:text-[#2F8F8F]" // Hover tetap teks teal
                         }`}
                 >
                     {item.label}
@@ -134,12 +134,12 @@ const NavLink = ({ item }: { item: NavItem }) => {
                 <button
                     type="button"
                     className={`group relative flex items-center text-sm font-semibold px-4 py-3 transition-colors duration-150 
-                    ${open || shouldBeHighlighted ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"}`}
+                    ${open || shouldBeHighlighted ? "text-[#2F8F8F]" : "text-gray-600 hover:text-[#2F8F8F]"}`}
                 >
                     {item.label}
                     <ChevronIcon open={open} />
                     <span
-                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 
+                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#5FBFBF] rounded-full transition-all duration-200 
                         ${open || shouldBeHighlighted ? "w-4/5" : "w-0 group-hover:w-4/5"}`}
                     />
                 </button>
@@ -158,10 +158,10 @@ const NavLink = ({ item }: { item: NavItem }) => {
         <Link
             to={item.href || "#"}
             className={`group relative flex items-center text-sm font-semibold px-3 py-2 transition-colors duration-150 
-                ${isActive ? "text-[#00A63E]" : "text-gray-600 hover:text-[#00A63E]"}`}
+                ${isActive ? "text-[#2F8F8F]" : "text-gray-600 hover:text-[#2F8F8F]"}`}
         >
             {item.label}
-            <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#00A63E] rounded-full transition-all duration-200 
+            <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#5FBFBF] rounded-full transition-all duration-200 
                 ${isActive ? "w-3/5" : "w-0 group-hover:w-3/5"}`}
             />
         </Link>
@@ -203,13 +203,13 @@ const Navbar = () => {
                 <div className="hidden lg:flex items-center gap-4 shrink-0">
                     <Link
                         to="/masuk"
-                        className="text-sm font-semibold px-4 py-2 rounded-lg text-[#008C34] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-all duration-150"
+                        className="text-sm font-semibold px-4 py-2 rounded-lg text-[#2F8F8F] border border-[#5FBFBF]/40 hover:bg-[#5FBFBF]/10 transition-all duration-150"
                     >
                         Masuk
                     </Link>
                     <Link
                         to="/registrasi"
-                        className="text-sm font-semibold px-4 py-2 rounded-lg bg-[#008C34] text-white hover:bg-[#009935] active:scale-95 transition-all duration-150 shadow-sm"
+                        className="text-sm font-semibold px-4 py-2 rounded-lg bg-[#5FBFBF] text-white hover:bg-[#3B9C9C] active:scale-95 transition-all duration-150 shadow-sm"
                     >
                         Registrasi
                     </Link>
@@ -239,19 +239,19 @@ const Navbar = () => {
                                     <button
                                         onClick={() => setMobileExpanded((prev) => (prev === item.label ? null : item.label))}
                                         className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors
-                                            ${isChildActive ? "text-[#00A63E] bg-[#00A63E]/5" : "text-gray-700 hover:bg-[#00A63E]/5"}`}
+                                            ${isChildActive ? "text-[#2F8F8F] bg-[#5FBFBF]/10" : "text-gray-700 hover:bg-[#5FBFBF]/10"}`}
                                     >
                                         {item.label}
                                         <ChevronIcon open={mobileExpanded === item.label} />
                                     </button>
                                     {mobileExpanded === item.label && (
-                                        <div className="ml-3 mt-0.5 border-l-2 border-[#00A63E]/20 pl-3 space-y-0.5">
+                                        <div className="ml-3 mt-0.5 border-l-2 border-[#5FBFBF]/35 pl-3 space-y-0.5">
                                             {item.dropdown.map((sub) => (
                                                 <Link
                                                     key={sub.href}
                                                     to={sub.href}
                                                     className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors
-                                                        ${location.pathname === sub.href ? "text-[#00A63E]" : "text-gray-500 hover:text-[#00A63E]"}`}
+                                                        ${location.pathname === sub.href ? "text-[#2F8F8F]" : "text-gray-500 hover:text-[#2F8F8F]"}`}
                                                     onClick={() => setMobileOpen(false)}
                                                 >
                                                     {sub.label}
@@ -268,7 +268,7 @@ const Navbar = () => {
                                 key={item.label}
                                 to={item.href || "#"}
                                 className={`block px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors
-                                    ${isActive ? "text-[#00A63E] bg-[#00A63E]/5" : "text-gray-700 hover:bg-[#00A63E]/5"}`}
+                                    ${isActive ? "text-[#2F8F8F] bg-[#5FBFBF]/10" : "text-gray-700 hover:bg-[#5FBFBF]/10"}`}
                                 onClick={() => setMobileOpen(false)}
                             >
                                 {item.label}
@@ -279,14 +279,14 @@ const Navbar = () => {
                     <div className="pt-3 pb-1 flex flex-col gap-2 border-t border-gray-100 mt-2">
                         <Link
                             to="/masuk"
-                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg text-[#008C34] border border-[#00A63E]/30 hover:bg-[#00A63E]/5 transition-colors"
+                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg text-[#2F8F8F] border border-[#5FBFBF]/40 hover:bg-[#5FBFBF]/10 transition-colors"
                             onClick={() => setMobileOpen(false)}
                         >
                             Masuk
                         </Link>
                         <Link
                             to="/registrasi"
-                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg bg-[#008C34] text-white hover:bg-[#009935] transition-colors"
+                            className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg bg-[#5FBFBF] text-white hover:bg-[#3B9C9C] transition-colors"
                             onClick={() => setMobileOpen(false)}
                         >
                             Registrasi

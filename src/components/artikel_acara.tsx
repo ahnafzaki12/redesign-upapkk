@@ -2,8 +2,20 @@
 import { Link } from "react-router-dom";
 import { articleData } from "../data/articles";
 import { eventData } from "../data/events";
-import { pastelGreen } from "../theme/pastel_green";
-import { GREEN_DARK } from "../data/constants";
+
+const HOME_CONTENT = {
+  primary: "#2C8585",
+  primaryHover: "#3B9C9C",
+  primarySoft: "#92D2D2",
+  surface: "#F2FBFB",
+  surfaceAlt: "#E3F4F4",
+  surfaceStrong: "#D0ECEC",
+  border: "#B9E2E2",
+  text: "#1F6464",
+  textMuted: "#4A8585",
+  accent: "#D8F0F0",
+  white: "#FFFFFF",
+} as const;
 
 interface ContentItem {
   id: number;
@@ -38,11 +50,11 @@ const latestAcaraData: ContentItem[] = [...eventData]
   }));
 
 const thumbPalette = [
-  { bg: pastelGreen.surfaceAlt, color: pastelGreen.primary },
-  { bg: pastelGreen.surfaceStrong, color: pastelGreen.primaryHover },
-  { bg: pastelGreen.surface, color: pastelGreen.textMuted },
-  { bg: pastelGreen.accent, color: pastelGreen.primary },
-  { bg: "#CFEAD4", color: pastelGreen.primary },
+  { bg: HOME_CONTENT.surfaceAlt, color: HOME_CONTENT.primary },
+  { bg: HOME_CONTENT.surfaceStrong, color: HOME_CONTENT.primaryHover },
+  { bg: HOME_CONTENT.surface, color: HOME_CONTENT.textMuted },
+  { bg: HOME_CONTENT.accent, color: HOME_CONTENT.primary },
+  { bg: "#CCECEC", color: HOME_CONTENT.primary },
 ];
 
 const IconArtikel = ({ size = 20 }: { size?: number }) => (
@@ -86,12 +98,12 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
   const [hovered, setHovered] = useState(false);
 
   return (
-    <li style={{ borderBottom: `1px solid ${pastelGreen.surfaceAlt}` }}>
+    <li style={{ borderBottom: `1px solid ${HOME_CONTENT.surfaceAlt}` }}>
       <Link
         to={item.href}
         className="flex gap-3 py-3 px-2 -mx-2 rounded-xl transition-all duration-200 cursor-pointer"
         style={{
-          background: hovered ? pastelGreen.accent : "transparent",
+          background: hovered ? HOME_CONTENT.accent : "transparent",
           transform: hovered ? "translateX(3px)" : "translateX(0px)",
         }}
         onMouseEnter={() => setHovered(true)}
@@ -105,13 +117,13 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
 
         <div className="flex flex-col justify-center gap-1 min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-medium tracking-wide" style={{ color: pastelGreen.textMuted }}>
+            <span className="text-xs font-medium tracking-wide" style={{ color: HOME_CONTENT.textMuted }}>
               {item.date}
             </span>
             {type === "acara" && item.category && (
               <span
                 className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                style={{ background: pastelGreen.surfaceStrong, color: pastelGreen.primary }}
+                style={{ background: HOME_CONTENT.surfaceStrong, color: HOME_CONTENT.primary }}
               >
                 {item.category}
               </span>
@@ -119,7 +131,7 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
           </div>
           <span
             className="text-sm font-semibold leading-snug line-clamp-2 transition-colors duration-200"
-            style={{ color: pastelGreen.text }}
+            style={{ color: HOME_CONTENT.text }}
           >
             {item.title}
           </span>
@@ -128,7 +140,7 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
         <div
           className="shrink-0 self-center transition-all duration-200 mr-2"
           style={{
-            color: pastelGreen.primaryHover,
+            color: HOME_CONTENT.primaryHover,
             opacity: hovered ? 1 : 0,
             transform: hovered ? "translateX(-2px)" : "translateX(-10px)",
           }}
@@ -159,26 +171,26 @@ function SectionPanel({
     <div
       className="flex flex-col rounded-2xl overflow-hidden transition-shadow duration-300"
       style={{
-        border: `1px solid ${pastelGreen.border}`,
-        background: pastelGreen.white,
-        boxShadow: "0 2px 20px rgba(43, 92, 56, 0.08)",
+        border: `1px solid ${HOME_CONTENT.border}`,
+        background: HOME_CONTENT.white,
+        boxShadow: "0 2px 20px rgba(59, 156, 156, 0.12)",
       }}
     >
       {/* Panel header */}
       <div
         className="flex items-center gap-3 px-5 py-4"
-        style={{ background: pastelGreen.surface, borderBottom: `1px solid ${pastelGreen.border}` }}
+        style={{ background: HOME_CONTENT.surface, borderBottom: `1px solid ${HOME_CONTENT.border}` }}
       >
         <div
           className="flex items-center justify-center w-9 h-9 rounded-xl"
-          style={{ background: pastelGreen.surfaceAlt, color: pastelGreen.primaryHover }}
+          style={{ background: HOME_CONTENT.surfaceAlt, color: HOME_CONTENT.primaryHover }}
         >
           {type === "artikel" ? <IconArtikel size={18} /> : <IconAcara size={18} />}
         </div>
-        <h2 className="text-base font-bold tracking-tight" style={{ color: pastelGreen.text }}>
+        <h2 className="text-base font-bold tracking-tight" style={{ color: HOME_CONTENT.text }}>
           {title}
         </h2>
-        <div className="flex-1 h-px" style={{ background: pastelGreen.primarySoft }} />
+        <div className="flex-1 h-px" style={{ background: HOME_CONTENT.primarySoft }} />
       </div>
 
       {/* List */}
@@ -191,14 +203,14 @@ function SectionPanel({
       </div>
 
       {/* Footer */}
-      <div className="px-5 pb-5 pt-3" style={{ borderTop: `1px solid ${pastelGreen.border}` }}>
+      <div className="px-5 pb-5 pt-3" style={{ borderTop: `1px solid ${HOME_CONTENT.border}` }}>
         <Link
           to={href}
           className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-95"
           style={{
-            background: btnHover ? pastelGreen.primaryHover : GREEN_DARK,
-            color: pastelGreen.white,
-            boxShadow: btnHover ? "0 4px 12px rgba(43, 92, 56, 0.3)" : "none",
+            background: btnHover ? HOME_CONTENT.primaryHover : "#5FBFBF",
+            color: HOME_CONTENT.white,
+            boxShadow: btnHover ? "0 4px 12px rgba(59, 156, 156, 0.3)" : "none",
           }}
           onMouseEnter={() => setBtnHover(true)}
           onMouseLeave={() => setBtnHover(false)}

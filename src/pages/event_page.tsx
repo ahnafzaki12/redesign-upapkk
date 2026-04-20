@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer"
 import { eventData } from "../data/events";
-import { pastelGreen } from "../theme/pastel_green";
+import { currentTheme } from "../theme/theme";
 import { GREEN_DARK } from "../data/constants";
 
-const GREEN = pastelGreen.primary;
-const GREEN_LIGHT = pastelGreen.surfaceAlt;
+const GREEN = currentTheme.primary;
+const GREEN_LIGHT = currentTheme.surfaceAlt;
 
 const CATEGORY_OPTIONS = ["Semua Kategori", "Seminar", "Workshop", "Job Fair", "Rekrutmen"];
 const TYPE_OPTIONS = ["Semua Tipe", "Offline", "Online"];
@@ -332,8 +332,8 @@ export default function EventPage() {
                       <span
                         className="text-xs font-semibold px-3 py-1.5 rounded-full"
                         style={{
-                          background: item.type === "Online" ? pastelGreen.surfaceStrong : pastelGreen.surface,
-                          color: item.type === "Online" ? pastelGreen.primary : pastelGreen.textMuted,
+                          background: item.type === "Online" ? currentTheme.surfaceStrong : currentTheme.surface,
+                          color: item.type === "Online" ? currentTheme.primary : currentTheme.textMuted,
                         }}
                       >
                         {item.type}

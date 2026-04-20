@@ -1,0 +1,15 @@
+export const currentTheme = {
+  heroStart: "#5FBFBF",
+  heroEnd: "#3B9C9C",
+  primary: "#2F8F8F",
+  primaryHover: "#3B9C9C",
+  primarySoft: "#92D2D2",
+  surface: "#F2FBFB",
+  surfaceAlt: "#E3F4F4",
+  surfaceStrong: "#D0ECEC",
+  border: "#B9E2E2",
+  text: "#1F6464",
+  textMuted: "#4A8585",
+  accent: "#D8F0F0",
+  white: "#FFFFFF",
+} as const;

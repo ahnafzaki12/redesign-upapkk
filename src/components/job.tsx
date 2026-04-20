@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { jobsData } from "../data/jobData";
-import { CATEGORY, EDUCATIONS, GREEN, GREEN_DARK, GREEN_LIGHT, LOCATIONS, TYPE_OPTIONS } from "../data/constants";
+import { CATEGORY, EDUCATIONS, LOCATIONS, TYPE_OPTIONS } from "../data/constants";
 import SearchableDropdown from "./SearchableDropdown";
 import MagangCard from "./JobCard";
 import DetailModal from "./DetailModal";
 import type { Job } from "../types/types";
+
+const HOME_ACCENT = "#5FBFBF";
+const HOME_ACCENT_DARK = "#3B9C9C";
+const HOME_ACCENT_LIGHT = "#E3F4F4";
 
 
 // ── Main Component ───────────────────────────────────────────────────────────
@@ -85,8 +89,8 @@ export default function Job() {
             {/* Search button */}
             <button
               className="h-12 px-7 rounded-xl text-sm font-semibold shadow-md transition-all duration-150 active:scale-95 w-full lg:w-auto"
-              style={{ background: "white", color: GREEN }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = GREEN_LIGHT; }}
+              style={{ background: "white", color: HOME_ACCENT_DARK }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = HOME_ACCENT_LIGHT; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "white"; }}
             >
               Cari Sekarang
@@ -133,13 +137,13 @@ export default function Job() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className="relative px-5 py-3 text-sm font-medium transition-colors duration-150"
-              style={{ color: activeTab === tab ? GREEN : "#9CA3AF" }}
+              style={{ color: activeTab === tab ? HOME_ACCENT_DARK : "#9CA3AF" }}
             >
               {tab}
               {activeTab === tab && (
                 <span
                   className="absolute bottom-0 left-0 right-0 h-0.5 rounded-t"
-                  style={{ background: GREEN }}
+                  style={{ background: HOME_ACCENT }}
                 />
               )}
             </button>
@@ -162,7 +166,7 @@ export default function Job() {
                 className="text-xs font-semibold px-4 py-1.5 rounded-md transition-all duration-150"
                 style={
                   sortBy === opt
-                    ? { background: "white", color: GREEN, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
+                    ? { background: "white", color: HOME_ACCENT_DARK, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
                     : { background: "transparent", color: "#9CA3AF" }
                 }
               >
@@ -187,6 +191,9 @@ export default function Job() {
                 <MagangCard
                   key={job.id}
                   job={job}
+                  accentColor={HOME_ACCENT}
+                  accentDarkColor={HOME_ACCENT_DARK}
+                  accentLightColor={HOME_ACCENT_LIGHT}
                   onClick={() => setSelectedJob(job)}
                 />
               )

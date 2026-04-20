@@ -3,12 +3,12 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { articleData } from "../data/articles";
 import type { ArticleItem } from "../data/articles";
-import { pastelGreen } from "../theme/pastel_green";
+import { currentTheme } from "../theme/theme";
 
 // Constants
-const GREEN = pastelGreen.primary;
-const GREEN_DARK = pastelGreen.heroEnd;
-const GREEN_LIGHT = pastelGreen.surfaceAlt;
+const GREEN = currentTheme.primary;
+const GREEN_DARK = currentTheme.heroEnd;
+const GREEN_LIGHT = currentTheme.surfaceAlt;
 
 // Toast Component
 interface ToastProps {
@@ -21,7 +21,7 @@ const Toast = ({ message, isVisible }: ToastProps) => {
 
   return (
     <div 
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-xl shadow-2xl z-[100] animate-fade-in-up"
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-xl shadow-2xl z-100 animate-fade-in-up"
       role="alert"
       aria-live="polite"
     >
@@ -132,7 +132,7 @@ const ShareMenu = ({ isOpen, onClose, onShare, onCopyLink }: ShareMenuProps) => 
   return (
     <div 
       ref={menuRef}
-      className="absolute top-full mt-2 right-0 bg-white rounded-xl shadow-2xl border border-gray-200 py-2 min-w-[200px] z-50 animate-fade-in-scale"
+      className="absolute top-full mt-2 right-0 bg-white rounded-xl shadow-2xl border border-gray-200 py-2 min-w-50 z-50 animate-fade-in-scale"
       role="menu"
       aria-label="Opsi berbagi"
     >
@@ -276,7 +276,7 @@ const RelatedArticleCard = ({ article }: RelatedArticleCardProps) => {
         />
       </div>
       <div className="p-4">
-        <h4 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2 leading-snug group-hover:text-[var(--pg-primary-hover)] transition-colors">
+        <h4 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2 leading-snug group-hover:text-(--pg-primary-hover) transition-colors">
           {article.title}
         </h4>
         <div className="flex items-center justify-between text-xs text-gray-500">

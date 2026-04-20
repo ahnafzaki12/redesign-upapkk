@@ -3,10 +3,10 @@ import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer"
 import { articleData } from "../data/articles";
-import { pastelGreen } from "../theme/pastel_green";
+import { currentTheme } from "../theme/theme";
 
-const GREEN = pastelGreen.primary;
-const GREEN_LIGHT = pastelGreen.surfaceAlt;
+const GREEN = currentTheme.primary;
+const GREEN_LIGHT = currentTheme.surfaceAlt;
 
 export default function ArticlePage() {
   const navigate = useNavigate();

@@ -27,16 +27,14 @@ const HomePage = () => {
       <Navbar />
       <Hero_slider slides={slides} />
 
-      
-      <Job />
-  
+      <Job />  
 
       <SectionHeaderDivider />
 
       <section
         className="w-full pt-2 pb-12"
         style={{
-          background: 'linear-gradient(180deg, #FAFDFB 0%, #F4FBF5 100%)'
+          background: "linear-gradient(180deg, #F2FBFB 0%, #EAF7F7 100%)"
         }}
       >
         <ArtikelAcara />

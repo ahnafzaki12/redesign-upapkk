@@ -8,11 +8,28 @@ import type { Job } from "../types/types"
 interface MagangCardProps {
     job: Job
     onClick: () => void
+    accentColor?: string
+    accentDarkColor?: string
+    accentLightColor?: string
 }
 
-export default function MagangCard({ job, onClick }: MagangCardProps) {
+export default function MagangCard({
+    job,
+    onClick,
+    accentColor,
+    accentDarkColor,
+    accentLightColor,
+}: MagangCardProps) {
     const [hovered, setHovered] = useState(false)
+    const [logoLoadFailed, setLogoLoadFailed] = useState(false)
     const dl = daysLeft(job.deadline)
+    const accent = accentColor ?? GREEN
+    const accentDark = accentDarkColor ?? GREEN_DARK
+    const accentLight = accentLightColor ?? GREEN_LIGHT
+    const neutralBadgeBg = accentColor ? "#EAF8F8" : "#F0FDF4"
+    const hoverShadow = accentColor
+        ? "0 12px 32px rgba(59,156,156,0.14)"
+        : "0 12px 32px rgba(0,166,62,0.12)"
 
     return (
         <div
@@ -21,8 +38,8 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
             onMouseLeave={() => setHovered(false)}
             className="bg-white rounded-md p-5 flex flex-col gap-4 cursor-pointer"
             style={{
-                border: hovered ? `1.5px solid ${GREEN}` : "1.5px solid #F0F0F0",
-                boxShadow: hovered ? `0 12px 32px rgba(0,166,62,0.12)` : "0 2px 8px rgba(0,0,0,0.04)",
+                border: hovered ? `1.5px solid ${accent}` : "1.5px solid #F0F0F0",
+                boxShadow: hovered ? hoverShadow : "0 2px 8px rgba(0,0,0,0.04)",
                 transform: hovered ? "translateY(-4px)" : "translateY(0)",
                 transition: "all 0.2s cubic-bezier(0.34,1.56,0.64,1)",
             }}
@@ -30,13 +47,14 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
             {/* Top */}
             <div className="flex items-start gap-3.5">
                 <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 overflow-hidden bg-white shadow-sm border border-gray-100">
-                    {job.logoUrl ? (
+                    {job.logoUrl && !logoLoadFailed ? (
                         <img
                             src={job.logoUrl}
                             alt={job.company}
                             className="w-full h-full object-contain p-1"
                             onError={(e) => {
                                 e.currentTarget.style.display = "none";
+                                setLogoLoadFailed(true)
                             }}
                         />
                     ) : (
@@ -57,8 +75,8 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
                 <span
                     className="text-xs font-bold px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap"
                     style={{
-                        background: dl.urgent ? "#FEF2F2" : "#F0FDF4",
-                        color: dl.urgent ? "#DC2626" : GREEN_DARK,
+                        background: dl.urgent ? "#FEF2F2" : neutralBadgeBg,
+                        color: dl.urgent ? "#DC2626" : accentDark,
                     }}
                 >
                     {dl.label}
@@ -74,7 +92,7 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
                     <span
                         key={edu}
                         className="text-xs font-bold px-2.5 py-1 rounded-md"
-                        style={{ background: GREEN_LIGHT, color: GREEN_DARK }}
+                        style={{ background: accentLight, color: accentDark }}
                     >
                         {edu}
                     </span>
@@ -86,7 +104,7 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
                 ))}
                 <span
                     className="text-xs font-bold px-2.5 py-1 rounded text-white ml-auto"
-                    style={{ background: GREEN }}
+                    style={{ background: accent }}
                 >
                     {job.vacancies} Posisi
                 </span>
@@ -109,8 +127,8 @@ export default function MagangCard({ job, onClick }: MagangCardProps) {
                 <button
                     className="text-xs font-bold px-4 py-2 rounded-md border-none cursor-pointer shrink-0 transition-all duration-150"
                     style={{
-                        background: hovered ? GREEN : GREEN_LIGHT,
-                        color: hovered ? "white" : GREEN,
+                        background: hovered ? accent : accentLight,
+                        color: hovered ? "white" : accent,
                     }}
                     onClick={(e) => { e.stopPropagation(); onClick() }}
                 >
