@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer"
 import { eventData } from "../data/events";
@@ -164,17 +164,17 @@ export default function EventPage() {
 
       {/* ── HERO SEARCH SECTION ── */}
       <div
-        className="px-4 sm:px-6 py-16"
+        className="px-4 sm:px-6 py-12 sm:py-14"
         style={{ background: HERO_BG }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
             Kumpulan Acara & Event
           </p>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-white mb-2 leading-tight tracking-tight">
             Temukan Acara & Event
           </h1>
-          <p className="text-sm text-white opacity-70 mb-8 max-w-lg leading-relaxed">
+          <p className="text-sm sm:text-base text-white opacity-75 mb-6 max-w-xl leading-relaxed">
             Ikuti berbagai acara menarik seperti seminar, workshop, career fair, dan event lainnya untuk mengembangkan karier Anda.
           </p>
 
@@ -203,7 +203,7 @@ export default function EventPage() {
           </div>
 
           {/* Filter dropdowns */}
-          <div className="flex flex-wrap gap-2 mt-5">
+          <div className="flex flex-wrap gap-2 mt-4">
             <SearchableDropdown
               value={category}
               onChange={setCategory}
@@ -221,15 +221,15 @@ export default function EventPage() {
       </div>
 
       {/* ── BODY SECTION ── */}
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-7 sm:py-8">
 
         {/* Tabs Artikel/Acara */}
-        <div className="flex border-b border-gray-200 mb-6">
+        <div className="flex border-b border-gray-200 mb-5">
           {["Artikel", "Acara"].map((tab) => (
             <button
               key={tab}
               onClick={() => handleTabChange(tab)}
-              className="relative px-5 py-3 text-sm font-medium transition-colors duration-150 cursor-pointer"
+              className="relative px-4 sm:px-5 py-2.5 text-sm font-medium transition-colors duration-150 cursor-pointer"
               style={{ color: activeTab === tab ? ACCENT : "#9CA3AF" }}
             >
               {tab}
@@ -244,7 +244,7 @@ export default function EventPage() {
         </div>
 
         {/* Sort row */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
           <p className="text-sm text-gray-500">
             Menampilkan{" "}
             <span className="font-semibold text-gray-800">{sorted.length}</span>{" "}
@@ -270,7 +270,7 @@ export default function EventPage() {
         </div>
 
         {/* Grid Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {sorted.length === 0 ? (
             <div className="col-span-3 flex flex-col items-center justify-center py-20 text-gray-400">
               <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -282,9 +282,11 @@ export default function EventPage() {
             sorted.map((item) => {
               const isHovered = hoveredCard === item.id;
               return (
-                <div
+                <Link
                   key={item.id}
                   className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-200 cursor-pointer"
+                  to={item.href}
+                  aria-label={`Baca detail acara ${item.title}`}
                   style={{
                     border: isHovered ? `1.5px solid ${ACCENT}` : "1.5px solid #F0F0F0",
                     boxShadow: isHovered
@@ -296,17 +298,16 @@ export default function EventPage() {
                   onMouseLeave={() => setHoveredCard(null)}
                 >
                   {/* Image */}
-                  <div className="w-full h-40 bg-gray-200 overflow-hidden">
+                  <div className="w-full h-42 sm:h-46 overflow-hidden p-1.5 flex items-center justify-center">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-300"
-                      style={{ transform: isHovered ? "scale(1.05)" : "scale(1)" }}
+                      className="w-auto h-auto max-w-full max-h-full object-contain"
                     />
                   </div>
 
                   {/* Content */}
-                  <div className="p-5 flex flex-col gap-3 flex-1">
+                  <div className="p-4.5 sm:p-5 flex flex-col gap-3 flex-1">
                     {/* Meta */}
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
@@ -319,12 +320,12 @@ export default function EventPage() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-base font-bold text-gray-800 leading-snug line-clamp-2">
+                    <h3 className="text-[17px] font-bold text-gray-800 leading-snug line-clamp-2">
                       {item.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-3 flex-1">
+                    <p className="text-sm text-gray-500 leading-relaxed line-clamp-3 flex-1">
                       {item.description}
                     </p>
 
@@ -339,15 +340,15 @@ export default function EventPage() {
                       >
                         {item.type}
                       </span>
-                      <button
-                        className="text-xs font-semibold transition-colors duration-150 cursor-pointer"
+                      <span
+                        className="text-xs font-semibold transition-colors duration-150"
                         style={{ color: isHovered ? ACCENT : "#9CA3AF" }}
                       >
                         Baca Selengkapnya →
-                      </button>
+                      </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })
           )}

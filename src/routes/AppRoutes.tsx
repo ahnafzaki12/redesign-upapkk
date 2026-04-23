@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import ArticlePage from "../pages/article_page";
 import ArticleDetailPage from "../pages/article_detail_page";
 import EventPage from "../pages/event_page";
+import EventDetailPage from "../pages/event_detail_page";
 import HomePage from "../pages/home_page";
 import MagangPage from "../pages/intern_page";
 import JobPag from "../pages/job_page";
@@ -30,6 +31,7 @@ const AppRoutes = () => {
         <Route path="/artikel" element={<ArticlePage />} />
         <Route path="/artikel/:slug" element={<ArticleDetailPage />} />
         <Route path="/karir/acara" element={<EventPage />} />
+        <Route path="/karir/acara/:slug" element={<EventDetailPage />} />
         <Route path="/karir/magang" element={<MagangPage />} />
         <Route path="/karir/pekerjaan" element={<JobPag />} />
         <Route path="/karir/detail/:id" element={<JobDetailPage />} />

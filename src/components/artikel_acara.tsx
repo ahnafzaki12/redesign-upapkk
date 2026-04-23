@@ -99,7 +99,20 @@ function ContentCard({ item, index, type }: { item: ContentItem; index: number; 
         onMouseLeave={() => setHovered(false)}
       >
         {item.image ? (
-          <img src={item.image} alt={item.title} className="shrink-0 rounded-xl object-cover" style={{ width: 66, height: 52 }} />
+          type === "acara" ? (
+            <div
+              className="shrink-0 rounded-xl p-1 flex items-center justify-center overflow-hidden"
+              style={{
+                width: 66,
+                height: 52,
+                background: `linear-gradient(145deg, ${HOME_CONTENT.surfaceAlt} 0%, ${HOME_CONTENT.surface} 100%)`,
+              }}
+            >
+              <img src={item.image} alt={item.title} className="w-full h-full rounded-lg object-contain" />
+            </div>
+          ) : (
+            <img src={item.image} alt={item.title} className="shrink-0 rounded-xl object-cover" style={{ width: 66, height: 52 }} />
+          )
         ) : (
           <Thumbnail index={index} type={type} />
         )}
