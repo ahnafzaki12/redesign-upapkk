@@ -23,7 +23,7 @@ const job_page = () => {
     const [category, setCategory] = useState("Semua Kategori")
     const [duration, setDuration] = useState("Semua Durasi")
     const [education, setEducation] = useState<string[]>(["Semua Jenjang"])
-    const [sortBy, setSortBy] = useState("Terbaru")
+    const [sortBy] = useState("Terbaru")
     const [selectedJob, setSelectedJob] = useState<Job | null>(null)
     const [activeTab, setActiveTab] = useState("Magang")
     const [type, setType] = useState("Semua Tipe")
