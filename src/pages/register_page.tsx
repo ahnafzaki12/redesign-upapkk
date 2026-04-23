@@ -27,6 +27,13 @@ interface RegisterForm {
   confirmPassword: string;
 }
 
+interface RegistrationNavigationState {
+  registrationSuccess?: {
+    universityType: UniversityType;
+    fullName: string;
+  };
+}
+
 type FormKey = keyof RegisterForm;
 
 type FormErrors = Partial<Record<FormKey, string>>;
@@ -333,13 +340,12 @@ const RegisterPage = () => {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const [showNonUpnModal, setShowNonUpnModal] = useState(false);
-  const [showUpnSuccess, setShowUpnSuccess] = useState(false);
+  const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
-    if (!showNonUpnModal) {
+    if (!showSubmitConfirmation) {
       return;
     }
 
@@ -347,7 +353,7 @@ const RegisterPage = () => {
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setShowNonUpnModal(false);
+        setShowSubmitConfirmation(false);
       }
     };
 
@@ -358,7 +364,7 @@ const RegisterPage = () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [showNonUpnModal]);
+  }, [showSubmitConfirmation]);
 
   const completionChecklist = useMemo(
     () => [
@@ -492,12 +498,19 @@ const RegisterPage = () => {
       return;
     }
 
-    if (form.universityType === "NON_UPN") {
-      setShowNonUpnModal(true);
-      return;
-    }
+    setShowSubmitConfirmation(true);
+  };
 
-    setShowUpnSuccess(true);
+  const handleConfirmSubmission = () => {
+    const navigationState: RegistrationNavigationState = {
+      registrationSuccess: {
+        universityType: form.universityType,
+        fullName: form.fullName.trim(),
+      },
+    };
+
+    setShowSubmitConfirmation(false);
+    navigate("/", { state: navigationState });
   };
 
   return (
@@ -542,35 +555,6 @@ const RegisterPage = () => {
       <main className="relative z-20 mx-auto mt-6 max-w-6xl px-4 pb-24 sm:px-6">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="space-y-5 lg:col-span-2">
-            {showUpnSuccess ? (
-              <div
-                className="rounded-2xl border px-5 py-4 shadow-sm"
-                style={{
-                  borderColor: `rgba(var(--pg-primary-rgb),0.28)`,
-                  background: `linear-gradient(135deg, rgba(var(--pg-primary-rgb),0.12), rgba(var(--pg-primary-rgb),0.04))`,
-                }}
-                role="status"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-bold" style={{ color: ACCENT_DARK }}>
-                      Registrasi berhasil dikirim.
-                    </p>
-                    <p className="mt-1 text-xs text-gray-600">
-                      Cek email Anda untuk langkah aktivasi akun selanjutnya.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowUpnSuccess(false)}
-                    className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-600 transition hover:bg-gray-50"
-                  >
-                    Tutup
-                  </button>
-                </div>
-              </div>
-            ) : null}
-
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
               <SectionCard
                 step={1}
@@ -987,54 +971,63 @@ const RegisterPage = () => {
         </div>
       </main>
 
-      {showNonUpnModal ? (
+      {showSubmitConfirmation ? (
         <div
           className="fixed inset-0 z-70 flex items-center justify-center bg-black/45 p-4"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
-              setShowNonUpnModal(false);
+              setShowSubmitConfirmation(false);
             }
           }}
         >
           <div
-            className="w-full max-w-3xl rounded-2xl bg-white px-6 py-10 text-center shadow-2xl sm:px-14 sm:py-12"
+            className="w-full max-w-xl rounded-2xl bg-white px-6 py-8 text-center shadow-2xl sm:px-10 sm:py-10"
             role="dialog"
             aria-modal="true"
-            aria-labelledby="non-upn-success-title"
-            aria-describedby="non-upn-success-desc"
+            aria-labelledby="submit-confirm-title"
+            aria-describedby="submit-confirm-desc"
           >
             <div
-              className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border-4"
-              style={{ borderColor: `rgba(var(--pg-primary-rgb),0.92)` }}
+              className="mx-auto flex h-16 w-16 items-center justify-center rounded-full"
+              style={{ background: "rgba(var(--pg-primary-rgb),0.12)" }}
             >
               <svg
-                width="54"
-                height="54"
+                width="28"
+                height="28"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke={ACCENT_DARK}
-                strokeWidth="2.6"
+                strokeWidth="2.2"
               >
-                <path d="M5 13l4 4L19 7" />
+                <path d="M12 9v4m0 4h.01M5.07 19h13.86a1 1 0 00.87-1.5L12.93 5.5a1 1 0 00-1.74 0L4.2 17.5a1 1 0 00.87 1.5z" />
               </svg>
             </div>
 
-            <h2 id="non-upn-success-title" className="mt-8 text-4xl font-bold text-gray-700">
-              Success
+            <h2 id="submit-confirm-title" className="mt-5 text-2xl font-bold text-gray-800">
+              Konfirmasi Data
             </h2>
-            <p id="non-upn-success-desc" className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-gray-600">
-              Registration is success. An email has been sent to your email, follow the instruction
-              there. If you do not receive email please contact <span className="font-semibold">upapkk@upnjatim.ac.id</span>.
+            <p id="submit-confirm-desc" className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-gray-600 sm:text-base">
+              Apakah data yang diinputkan sudah benar? Jika Anda klik OK, data registrasi akan
+              diproses dan Anda akan diarahkan ke halaman beranda.
             </p>
 
-            <button
-              type="button"
-              onClick={() => setShowNonUpnModal(false)}
-              className="mt-10 rounded-lg px-8 py-3 text-3xl font-bold text-white transition hover:opacity-90"
-              style={{ backgroundColor: ACCENT_DARK }}
-            >
-              OK
-            </button>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <button
+                type="button"
+                onClick={() => setShowSubmitConfirmation(false)}
+                className="rounded-lg border border-gray-200 bg-white px-6 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmSubmission}
+                className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition hover:opacity-90"
+                style={{ backgroundColor: ACCENT_DARK }}
+              >
+                OK
+              </button>
+            </div>
           </div>
         </div>
       ) : null}

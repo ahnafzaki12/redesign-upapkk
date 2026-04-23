@@ -136,7 +136,7 @@ export default function MembershipJobseekerPage() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/registrasi"
-                className="rounded-xl bg-white px-5 py-3 text-center text-sm font-bold text-gray-800 shadow-lg transition hover:-translate-y-0.5 hover:bg-gray-100"
+                className="rounded-xl bg-(--pg-hero-start) px-5 py-3 text-center text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-(--pg-primary-hover) active:scale-95"
               >
                 Kembali ke Registrasi
               </Link>
@@ -196,7 +196,7 @@ export default function MembershipJobseekerPage() {
               <NumberedList items={ACTIVATION_NOTES} />
             </div>
 
-            <div className="rounded-xl border border-[rgba(var(--pg-primary-rgb),0.22)] bg-[rgba(var(--pg-primary-rgb),0.05)] px-5 pb-5 pt-3 lg:-mt-8">
+            <div className="rounded-xl border border-[rgba(var(--pg-primary-rgb),0.22)] bg-[rgba(var(--pg-primary-rgb),0.05)] px-5 pb-5 pt-3 lg:-mt-14">
               <h3 className="text-sm font-bold uppercase tracking-wide text-gray-700">Kontak Resmi</h3>
               <div className="mt-3 space-y-3 text-sm text-gray-700">
                 {CONTACTS.map((contact) => (
