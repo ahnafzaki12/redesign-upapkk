@@ -12,7 +12,7 @@ import ApplyPage from "../pages/apply_page";
 import CompanyDetailPage from "../pages/company_detail_page";
 import CompanyPage from "../pages/company_page";
 import RegisterPage from "../pages/register_page";
-import MembershipJobseekerPage from "../pages/membership_jobseeker_page";
+import MembershipJobseekerPage from "../pages/membership_guide_page";
 
 function ScrollToTop() {
   const { pathname } = useLocation();

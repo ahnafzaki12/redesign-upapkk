@@ -528,7 +528,7 @@ const RegisterPage = () => {
         <div className="pointer-events-none absolute -bottom-28 left-10 h-96 w-96 rounded-full bg-white/15 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <nav className="mb-8 flex items-center gap-2 text-xs font-semibold text-white/70">
+           <nav className="mb-8 flex items-center flex-wrap gap-1.5 text-xs sm:text-sm font-semibold text-white/70">
             <Link to="/" className="transition-colors hover:text-white">
               Beranda
             </Link>

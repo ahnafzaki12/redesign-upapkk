@@ -109,7 +109,7 @@ export default function MembershipJobseekerPage() {
         <div className="pointer-events-none absolute -bottom-24 left-0 h-72 w-72 rounded-full bg-white/15 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <nav className="mb-8 flex items-center gap-2 text-xs font-semibold text-white/70">
+           <nav className="mb-8 flex items-center flex-wrap gap-1.5 text-xs sm:text-sm font-semibold text-white/70">
             <Link to="/" className="transition-colors hover:text-white">
               Beranda
             </Link>
@@ -136,7 +136,7 @@ export default function MembershipJobseekerPage() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/registrasi"
-                className="rounded-xl bg-(--pg-hero-start) px-5 py-3 text-center text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-(--pg-primary-hover) active:scale-95"
+                className="rounded-xl border border-[rgba(var(--pg-primary-rgb),0.32)] bg-white px-5 py-3 text-center text-sm font-semibold text-(--pg-primary) shadow-sm transition hover:bg-[var(--pg-surface-alt)]"
               >
                 Kembali ke Registrasi
               </Link>
