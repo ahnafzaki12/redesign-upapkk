@@ -1,9 +1,11 @@
+// jobData.ts
 import type { Job } from "../types/types";
 
 export const jobsData: Job[] = [
   // ── Pekerjaan ──
   {
     id: 1,
+    companyId: 4,
     company: "PT Yamaha Motor R&D Indonesia",
     logo: "YMH",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/yamaha.png",
@@ -24,6 +26,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 2,
+    companyId: 0,
     company: "PT Shopfloor Leader Dev",
     logo: "SLD",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/download%20(1)%20(1).png",
@@ -45,6 +48,7 @@ export const jobsData: Job[] = [
 
   {
     id: 3,
+    companyId: 1,
     company: "PT Telkom Indonesia",
     logo: "TLKM",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/telkom.png",
@@ -65,6 +69,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 4,
+    companyId: 3,
     company: "PT Pertamina Patra Niaga",
     logo: "PRTM",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/pertamina.png",
@@ -85,6 +90,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 5,
+    companyId: 0,
     company: "PT Mayora Indah Tbk",
     logo: "MYR",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/mayora.png",
@@ -105,6 +111,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 6,
+    companyId: 2,
     company: "PT Bank Central Asia Tbk",
     logo: "BCA",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/bca.png",
@@ -125,6 +132,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 7,
+    companyId: 0,
     company: "PT PLN (Persero)",
     logo: "PLN",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/pln.png",
@@ -145,6 +153,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 8,
+    companyId: 0,
     company: "Shopee Indonesia",
     logo: "SHP",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/images.png",
@@ -167,6 +176,7 @@ export const jobsData: Job[] = [
   // ── Magang ──
   {
     id: 9,
+    companyId: 0,
     company: "PT. Brexa Raya Indonesia",
     logo: "BRX",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/brexa.png",
@@ -188,6 +198,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 10,
+    companyId: 0,
     company: "PT BAS Bumi Alam Segar",
     logo: "BAS",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/bas.png",
@@ -209,6 +220,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 11,
+    companyId: 7,
     company: "PT Astra Honda Motor",
     logo: "AHM",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/ahm.png",
@@ -230,6 +242,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 12,
+    companyId: 6,
     company: "Bank Mandiri",
     logo: "BM",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/mandiri.jpg",
@@ -251,6 +264,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 13,
+    companyId: 5,
     company: "Tokopedia",
     logo: "TKP",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/tokped.png",
@@ -272,6 +286,7 @@ export const jobsData: Job[] = [
   },
   {
     id: 14,
+    companyId: 0,
     company: "Unilever Indonesia",
     logo: "ULV",
     logoUrl: "https://rvrienhitlrjmvztqulq.supabase.co/storage/v1/object/public/product_images/products/unilever.png",

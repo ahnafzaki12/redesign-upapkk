@@ -1,3 +1,4 @@
+// intern_page.tsx
 import { useEffect, useState } from "react"
 import Pagination from "../components/Pagination"
 import Footer from "../components/footer"
@@ -48,6 +49,7 @@ const job_page = () => {
 
     const handleTabChange = (tab: string) => {
         if (tab === "Pekerjaan") { navigate("/karir/pekerjaan"); return }
+        if (tab === "Perusahaan") { navigate("/karir/perusahaan"); return }
         setActiveTab(tab)
     }
 
@@ -188,7 +190,7 @@ const job_page = () => {
                         {/* Tabs + sort */}
                         <div className="flex items-center justify-between border-b border-gray-200 mb-5">
                             <div className="flex">
-                                {["Pekerjaan", "Magang"].map(tab => (
+                                {["Pekerjaan", "Magang", "Perusahaan"].map(tab => (
                                     <button
                                         key={tab}
                                         onClick={() => handleTabChange(tab)}
@@ -211,22 +213,6 @@ const job_page = () => {
                                     {sorted.length} lowongan ·{" "}
                                     <span style={{ color: ACCENT }}>{totalVacancies} posisi</span>
                                 </span>
-                                <div className="flex bg-gray-100 rounded p-0.5 gap-0.5">
-                                    {["Terbaru", "Terpopuler"].map(opt => (
-                                        <button
-                                            key={opt}
-                                            onClick={() => setSortBy(opt)}
-                                            className="text-xs font-semibold px-3 py-1.5 rounded border-none cursor-pointer transition-all duration-150"
-                                            style={
-                                                sortBy === opt
-                                                    ? { background: "white", color: ACCENT, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }
-                                                    : { background: "transparent", color: "#9CA3AF" }
-                                            }
-                                        >
-                                            {opt}
-                                        </button>
-                                    ))}
-                                </div>
                             </div>
                         </div>
 

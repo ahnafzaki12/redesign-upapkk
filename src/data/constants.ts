@@ -9,3 +9,10 @@ export const CATEGORY = [
   "Semua Kategori", "Accounting", "Admin & Clerical Support", "Advertising",
   "Aerospace", "Agriculture & Forestry", "Engineering", "IT", "Management", "Finance",
 ];
+export const INDUSTRIES = [
+  "Semua Industri", "Telekomunikasi", "Perbankan", "Energi & Migas", "Teknologi", 
+  "Retail", "Manufacturing", "Healthcare", "Education", "Transportasi"
+];
+export const PACKAGES = [
+  "Semua Paket", "Gold", "Silver", "Bronze"
+];

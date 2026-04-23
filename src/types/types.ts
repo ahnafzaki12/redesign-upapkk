@@ -1,5 +1,6 @@
 export interface Job {
   id: number
+  companyId: number
   company: string
   logo: string
   logoColor: string
@@ -34,4 +35,21 @@ export interface SidebarProps {
   showDuration?: boolean
   type: string;
   setType: (val: string) => void;
+}
+
+export type CompanyPackage = "Bronze" | "Silver" | "Gold";
+
+export interface Company {
+  id: number;
+  name: string;
+  logo: string;
+  logoUrl?: string;
+  logoColor: string;
+  package: CompanyPackage;
+  industry: string;
+  location: string;
+  description: string;
+  website?: string;
+  employeeCount?: string;
+  founded?: string;
 }

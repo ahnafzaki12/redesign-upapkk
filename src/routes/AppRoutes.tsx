@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import ArticlePage from "../pages/article_page";
 import ArticleDetailPage from "../pages/article_detail_page";
 import EventPage from "../pages/event_page";
@@ -7,19 +8,36 @@ import MagangPage from "../pages/intern_page";
 import JobPag from "../pages/job_page";
 import JobDetailPage from "../pages/job_detail_page";
 import ApplyPage from "../pages/apply_page";
+import CompanyDetailPage from "../pages/company_detail_page";
+import CompanyPage from "../pages/company_page";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
+
+  return null;
+}
 
 const AppRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/artikel" element={<ArticlePage />} />
-      <Route path="/artikel/:slug" element={<ArticleDetailPage />} />
-      <Route path="/karir/acara" element={<EventPage />} />
-      <Route path="/karir/magang" element={<MagangPage />} />
-      <Route path="/karir/pekerjaan" element={<JobPag />} />
-      <Route path="/karir/detail/:id" element={<JobDetailPage />} />
-      <Route path="/karir/lamar/:id" element={<ApplyPage />} />
-    </Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/artikel" element={<ArticlePage />} />
+        <Route path="/artikel/:slug" element={<ArticleDetailPage />} />
+        <Route path="/karir/acara" element={<EventPage />} />
+        <Route path="/karir/magang" element={<MagangPage />} />
+        <Route path="/karir/pekerjaan" element={<JobPag />} />
+        <Route path="/karir/detail/:id" element={<JobDetailPage />} />
+        <Route path="/karir/lamar/:id" element={<ApplyPage />} />
+        <Route path="/karir/perusahaan" element={<CompanyPage />} />
+        <Route path="/karir/perusahaan/:id" element={<CompanyDetailPage />} />
+      </Routes>
+    </>
   );
 };
 

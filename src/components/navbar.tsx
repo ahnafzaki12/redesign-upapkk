@@ -19,6 +19,7 @@ const NAV_ITEMS: NavItem[] = [
         dropdown: [
             { label: "Lowongan Pekerjaan", href: "/karir/pekerjaan" },
             { label: "Lowongan Magang", href: "/karir/magang" },
+            { label: "Perusahaan", href: "/karir/perusahaan" },
             { label: "Acara", href: "/karir/acara" },
             { label: "CV Builder", href: "/karir/cv-builder" },
             { label: "Virtual Career Expo", href: "/karir/expo" },
