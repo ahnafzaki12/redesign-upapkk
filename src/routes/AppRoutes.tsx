@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import ArticlePage from "../pages/article_page";
 import ArticleDetailPage from "../pages/article_detail_page";
@@ -11,6 +11,8 @@ import JobDetailPage from "../pages/job_detail_page";
 import ApplyPage from "../pages/apply_page";
 import CompanyDetailPage from "../pages/company_detail_page";
 import CompanyPage from "../pages/company_page";
+import RegisterPage from "../pages/register_page";
+import MembershipJobseekerPage from "../pages/membership_jobseeker_page";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -38,6 +40,12 @@ const AppRoutes = () => {
         <Route path="/karir/lamar/:id" element={<ApplyPage />} />
         <Route path="/karir/perusahaan" element={<CompanyPage />} />
         <Route path="/karir/perusahaan/:id" element={<CompanyDetailPage />} />
+        <Route path="/registrasi" element={<RegisterPage />} />
+        <Route path="/panduan/keanggotaan" element={<MembershipJobseekerPage />} />
+        <Route
+          path="/membership/jobseeker"
+          element={<Navigate to="/panduan/keanggotaan" replace />}
+        />
       </Routes>
     </>
   );
