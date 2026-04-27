@@ -2,6 +2,7 @@ import { Eye, EyeOff, LogIn, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { currentTheme } from "../theme/theme";
+import { useAuth } from "../contexts/AuthContext";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface LoginForm {
@@ -138,6 +139,7 @@ function FloatingInput({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [form, setForm] = useState<LoginForm>({
     email: "",
@@ -174,19 +176,26 @@ const LoginPage = () => {
     setIsLoading(true);
     setErrors({});
 
-    // Simulate async auth
-    await new Promise((r) => setTimeout(r, 1200));
+    const result = await login(form.email, form.password);
 
     setIsLoading(false);
 
-    // Simulate login success for demonstration
-    setSuccessUser({ name: "Pengguna", role: "Mahasiswa" });
+    if (!result.success || !result.user) {
+      setErrors({ general: result.error });
+      return;
+    }
+
+    setSuccessUser({ name: result.user.nickname, role: result.user.role });
     setLoginSuccess(true);
 
     // Navigate after short delay to show success state
     setTimeout(() => {
-      navigate("/", { state: { loginSuccess: true, name: "Pengguna" } });
-    }, 1800);
+      if (result.user!.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
+    }, 1500);
   };
 
   return (
