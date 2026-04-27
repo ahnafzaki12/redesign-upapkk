@@ -12,6 +12,7 @@ import ApplyPage from "../pages/apply_page";
 import CompanyDetailPage from "../pages/company_detail_page";
 import CompanyPage from "../pages/company_page";
 import RegisterPage from "../pages/register_page";
+import LoginPage from "../pages/login_page";
 import MembershipJobseekerPage from "../pages/membership_guide_page";
 
 function ScrollToTop() {
@@ -41,6 +42,7 @@ const AppRoutes = () => {
         <Route path="/karir/perusahaan" element={<CompanyPage />} />
         <Route path="/karir/perusahaan/:id" element={<CompanyDetailPage />} />
         <Route path="/registrasi" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/panduan/keanggotaan" element={<MembershipJobseekerPage />} />
         <Route
           path="/membership/jobseeker"

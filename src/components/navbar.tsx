@@ -203,7 +203,7 @@ const Navbar = () => {
 
                 <div className="hidden lg:flex items-center gap-4 shrink-0">
                     <Link
-                        to="/masuk"
+                        to="/login"
                         className="text-sm font-semibold px-4 py-2 rounded-lg text-(--pg-primary) border border-[rgba(var(--pg-hero-start-rgb),0.4)] hover:bg-[rgba(var(--pg-hero-start-rgb),0.1)] transition-all duration-150"
                     >
                         Masuk
@@ -279,7 +279,7 @@ const Navbar = () => {
 
                     <div className="pt-3 pb-1 flex flex-col gap-2 border-t border-gray-100 mt-2">
                         <Link
-                            to="/masuk"
+                            to="/login"
                             className="text-center text-sm font-semibold px-4 py-2.5 rounded-lg text-(--pg-primary) border border-[rgba(var(--pg-hero-start-rgb),0.4)] hover:bg-[rgba(var(--pg-hero-start-rgb),0.1)] transition-colors"
                             onClick={() => setMobileOpen(false)}
                         >
