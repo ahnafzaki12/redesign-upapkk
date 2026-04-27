@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
@@ -39,11 +40,15 @@ type FormKey = keyof RegisterForm;
 type FormErrors = Partial<Record<FormKey, string>>;
 
 const DEGREE_OPTIONS = [
-  "Undergraduate",
-  "Diploma",
-  "Postgraduate",
-  "Doctoral",
-  "Professional",
+  "SMA/SMK",
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "S1",
+  "S2",
+  "S3",
+  "Profesi",
 ] as const;
 
 const UNIVERSITY_OPTIONS = [
@@ -118,10 +123,9 @@ function validateField(field: FormKey, value: string, form: RegisterForm): strin
 
     const hasLetter = /[A-Za-z]/.test(trimmedValue);
     const hasNumber = /\d/.test(trimmedValue);
-    const hasSymbol = /[^A-Za-z0-9]/.test(trimmedValue);
 
-    if (!(hasLetter && hasNumber && hasSymbol)) {
-      return "Password wajib mengandung huruf, angka, dan simbol.";
+    if (!(hasLetter && hasNumber)) {
+      return "Password wajib mengandung huruf dan angka.";
     }
   }
 
@@ -213,8 +217,8 @@ interface SelectInputProps {
   error?: string;
   options: readonly string[];
   placeholder: string;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  onBlur: (event: React.FocusEvent<HTMLSelectElement>) => void;
+  onChange: (name: FormKey, value: string) => void;
+  onBlur: (name: FormKey, value: string) => void;
 }
 
 function SelectInput({
@@ -227,36 +231,136 @@ function SelectInput({
   onChange,
   onBlur,
 }: SelectInputProps) {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (open && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+        onBlur(name, value);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [name, onBlur, open, value]);
+
+  const isPlaceholder = value.trim().length === 0;
+
   return (
-    <select
-      id={id}
-      name={name}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      aria-invalid={Boolean(error)}
-      aria-describedby={error ? `${id}-error` : undefined}
-      className={`theme-focus-ring-inset w-full cursor-pointer appearance-none rounded-xl border bg-white px-4 py-3.5 pr-12 text-sm text-gray-800 outline-none transition-all ${
-        error
-          ? "border-red-300 bg-red-50"
-          : "border-gray-200 hover:border-[rgba(var(--pg-primary-rgb),0.45)]"
-      }`}
-      style={{
-        backgroundImage:
-          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E\")",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "right 14px center",
-      }}
-    >
-      <option value="" disabled>
-        {placeholder}
-      </option>
-      {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
+    <div className={`relative ${open ? "z-50" : "z-10"}`} ref={dropdownRef}>
+      <button
+        type="button"
+        id={id}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={`${id}-listbox`}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${id}-error` : undefined}
+        onClick={() => setOpen((previous) => !previous)}
+        onBlur={(event) => {
+          const nextFocused = event.relatedTarget as Node | null;
+          if (!dropdownRef.current?.contains(nextFocused)) {
+            setOpen(false);
+            onBlur(name, value);
+          }
+        }}
+        className="w-full flex items-center justify-between rounded-md border px-4 py-3 text-sm bg-white transition-all duration-200 shadow-sm"
+        style={{
+          borderColor: error ? "#FCA5A5" : open ? ACCENT : "#E5E7EB",
+          boxShadow: error
+            ? "0 0 0 3px rgba(252, 165, 165, 0.2)"
+            : open
+              ? "0 0 0 3px rgba(var(--pg-primary-rgb), 0.12)"
+              : "0 1px 2px rgba(0,0,0,0.03)",
+          color: isPlaceholder ? "#9CA3AF" : "#111827",
+          background: error ? "#FEF2F2" : "white",
+        }}
+      >
+        <span className="truncate">{isPlaceholder ? placeholder : value}</span>
+
+        <svg
+          className="shrink-0 transition-transform duration-200"
+          style={{
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+            color: open ? ACCENT_DARK : "#9CA3AF",
+          }}
+          width="16"
+          height="16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+
+      {open ? (
+        <div
+          id={`${id}-listbox`}
+          role="listbox"
+          className="absolute left-0 top-full z-50 mt-2 w-full overflow-hidden rounded border bg-white shadow-lg"
+          style={{
+            borderColor: "#E5E7EB",
+            boxShadow: "0 12px 32px rgba(17, 24, 39, 0.10)",
+          }}
+        >
+          <div className="max-h-60 overflow-y-auto py-2">
+            {options.map((option) => {
+              const isActive = value === option;
+
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  role="option"
+                  aria-selected={isActive}
+                  onClick={() => {
+                    onChange(name, option);
+                    onBlur(name, option);
+                    setOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors"
+                  style={{
+                    background: isActive ? currentTheme.surfaceAlt : "white",
+                    color: isActive ? ACCENT_DARK : "#374151",
+                  }}
+                  onMouseEnter={(event) => {
+                    if (!isActive) {
+                      event.currentTarget.style.background = "#F9FAFB";
+                    }
+                  }}
+                  onMouseLeave={(event) => {
+                    if (!isActive) {
+                      event.currentTarget.style.background = "white";
+                    }
+                  }}
+                >
+                  <span className="truncate">{option}</span>
+
+                  {isActive ? (
+                    <svg
+                      width="16"
+                      height="16"
+                      fill="none"
+                      stroke={ACCENT}
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -298,7 +402,7 @@ interface SectionCardProps {
 
 function SectionCard({ step, title, description, children }: SectionCardProps) {
   return (
-    <section className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_24px_rgba(var(--pg-primary-rgb),0.08)]">
+    <section className="overflow-visible rounded-2xl bg-white shadow-[0_8px_24px_rgba(var(--pg-primary-rgb),0.08)]">
       <header className="border-b border-gray-100 px-6 py-4">
         <div className="flex items-center gap-3">
           <div
@@ -424,6 +528,11 @@ const RegisterPage = () => {
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
+    handleSelectValueChange(name as FormKey, value);
+  };
+
+  const handleSelectValueChange = (field: FormKey, value: string) => {
+    const name = field;
 
     if (name === "universityType") {
       const nextType = value as UniversityType;
@@ -452,13 +561,13 @@ const RegisterPage = () => {
       return;
     }
 
-    const field = name as FormKey;
-    setForm((previous) => ({ ...previous, [field]: value }));
+    const nextFormState = { ...form, [field]: value };
+    setForm(nextFormState);
 
     if (submitted) {
       setErrors((previous) => ({
         ...previous,
-        [field]: validateField(field, value, { ...form, [field]: value }),
+        [field]: validateField(field, value, nextFormState),
       }));
     }
   };
@@ -475,11 +584,15 @@ const RegisterPage = () => {
 
   const handleSelectBlur = (event: React.FocusEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
-    const field = name as FormKey;
+    handleSelectValueBlur(name as FormKey, value);
+  };
+
+  const handleSelectValueBlur = (field: FormKey, value: string) => {
+    const nextFormState = { ...form, [field]: value };
 
     setErrors((previous) => ({
       ...previous,
-      [field]: validateField(field, value, { ...form, [field]: value }),
+      [field]: validateField(field, value, nextFormState),
     }));
   };
 
@@ -540,10 +653,10 @@ const RegisterPage = () => {
             <p className="mb-3 inline-flex rounded-full border border-white/40 bg-white/15 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-sm">
               Form Jobseeker UPA PKK
             </p>
-            <h1 className="max-w-3xl text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
+            <h1 className="max-w-5xl text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
               Registrasi Akun dengan Tampilan Modern, Rapi, dan Cepat Diselesaikan.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/85 sm:text-base">
+            <p className="mt-4 max-w-4xl text-sm leading-relaxed text-white/85 sm:text-base">
               Lengkapi data Anda untuk mendapatkan akses lowongan, kegiatan karier, dan pembaruan
               informasi secara berkala. Jika Anda memilih kategori Non-UPN, akun akan diproses sesuai
               alur verifikasi administrasi.
@@ -610,8 +723,8 @@ const RegisterPage = () => {
                       value={form.degree}
                       options={DEGREE_OPTIONS}
                       placeholder="Pilih jenjang"
-                      onChange={handleSelectChange}
-                      onBlur={handleSelectBlur}
+                      onChange={handleSelectValueChange}
+                      onBlur={handleSelectValueBlur}
                       error={errors.degree}
                     />
                   </Field>
@@ -744,8 +857,8 @@ const RegisterPage = () => {
                         value={form.universityName}
                         options={UNIVERSITY_OPTIONS}
                         placeholder="Pilih universitas"
-                        onChange={handleSelectChange}
-                        onBlur={handleSelectBlur}
+                        onChange={handleSelectValueChange}
+                        onBlur={handleSelectValueBlur}
                         error={errors.universityName}
                       />
                     )}
@@ -817,7 +930,7 @@ const RegisterPage = () => {
                     id="password"
                     label="Password"
                     required
-                    hint="Huruf, angka, simbol"
+                    hint="Huruf dan angka"
                     error={errors.password}
                   >
                     <TextInput
@@ -834,9 +947,10 @@ const RegisterPage = () => {
                         <button
                           type="button"
                           onClick={() => setShowPassword((previous) => !previous)}
-                          className="rounded-lg px-2 py-1 text-xs font-semibold text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                          aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+                          className="rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
                         >
-                          {showPassword ? "Hide" : "Show"}
+                          {showPassword ? <Eye size={16} /> : <EyeOff size={16} />}
                         </button>
                       }
                     />
@@ -862,9 +976,10 @@ const RegisterPage = () => {
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword((previous) => !previous)}
-                          className="rounded-lg px-2 py-1 text-xs font-semibold text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+                          aria-label={showConfirmPassword ? "Sembunyikan konfirmasi password" : "Tampilkan konfirmasi password"}
+                          className="rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
                         >
-                          {showConfirmPassword ? "Hide" : "Show"}
+                          {showConfirmPassword ? <Eye size={16} /> : <EyeOff size={16} />}
                         </button>
                       }
                     />
