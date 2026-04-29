@@ -15,6 +15,7 @@ import RegisterPage from "../pages/register_page";
 import LoginPage from "../pages/login_page";
 import DashboardPage from "../pages/dashboard_page";
 import MembershipJobseekerPage from "../pages/membership_guide_page";
+import KewirausahaanPage from "../pages/kewirausahaan_page";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -47,6 +48,7 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/dashboard/:section" element={<DashboardPage />} />
         <Route path="/panduan/keanggotaan" element={<MembershipJobseekerPage />} />
+        <Route path="/kewirausahaan" element={<KewirausahaanPage />} />
         <Route
           path="/membership/jobseeker"
           element={<Navigate to="/panduan/keanggotaan" replace />}

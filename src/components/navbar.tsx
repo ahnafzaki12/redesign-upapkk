@@ -26,15 +26,15 @@ const NAV_ITEMS: NavItem[] = [
             { label: "Perusahaan", href: "/karir/perusahaan" },
             { label: "Acara", href: "/karir/acara" },
             { label: "CV Builder", href: "/karir/cv-builder" },
-            { label: "Virtual Career Expo", href: "/karir/expo" },
+            { label: "Virtual Career Expo", href: "https://upnjatim.dashboard.kinobi.asia/login?message=Unauthorized" },
         ],
     },
     { label: "Kewirausahaan", href: "/kewirausahaan" },
     {
         label: "Tracer Study",
         dropdown: [
-            { label: "Tracer Study Lulusan", href: "/tracer-study/lulusan" },
-            { label: "Kepuasan Pengguna", href: "/tracer-study/kepuasan" },
+            { label: "Tracer Study Lulusan", href: "https://tracerstudy.upnjatim.ac.id/" },
+            { label: "Kepuasan Pengguna", href: "https://docs.google.com/forms/d/e/1FAIpQLSe7z79tbm8xUmRAkmGmEQmPnc24r9zmLrXT-DgXVytRSY8uTQ/viewform" },
         ],
     },
     { label: "Artikel", href: "/artikel" },
@@ -66,12 +66,28 @@ const DropdownMenu = ({ items, currentPath }: { items: DropdownItem[]; currentPa
     <div className="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-50 py-1.5">
         {items.map((item) => {
             const isActive = currentPath === item.href;
+            const className = `flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors duration-150 font-medium
+                        ${isActive ? "text-(--pg-primary)" : "text-gray-600 hover:text-(--pg-primary)"}`;
+            
+            if (item.href.startsWith("http")) {
+                return (
+                    <a
+                        key={item.href}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={className}
+                    >
+                        {item.label}
+                    </a>
+                );
+            }
+
             return (
                 <Link
                     key={item.href}
                     to={item.href}
-                    className={`flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors duration-150 font-medium
-                        ${isActive ? "text-(--pg-primary)" : "text-gray-600 hover:text-(--pg-primary)"}`}
+                    className={className}
                 >
                     {item.label}
                 </Link>
@@ -88,8 +104,9 @@ const NavLink = ({ item }: { item: NavItem }) => {
 
     const isActive = item.href === location.pathname;
     const isChildActive = item.dropdown?.some((sub) => {
+        if (sub.href.startsWith("http")) return false;
         const parentPath = sub.href.split("/")[1];
-        return location.pathname.startsWith(`/${parentPath}`);
+        return parentPath ? location.pathname.startsWith(`/${parentPath}`) : false;
     });
     const shouldBeHighlighted = isActive || isChildActive;
 
