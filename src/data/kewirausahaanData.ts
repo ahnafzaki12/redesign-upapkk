@@ -44,6 +44,30 @@ export const KEWIRAUSAHAAN_PARTICIPANTS = [
 
 export const kewirausahaanData: KewirausahaanItem[] = [
   {
+    id: 10,
+    title: "PMW 2025",
+    category: "Bisnis Plan",
+    level: "Kampus/instansi",
+    participantType: "2-3 Peserta",
+    method: "Online",
+    status: "Buka",
+    schedule: "10 Jun 2025 - 27 Jun 2025",
+    quota: "Terbuka",
+    fee: "Gratis",
+    description: "🚀 PROGRAM MAHASISWA WIRAUSAHA 2025. \"Future Makers: Menjadi Pelopor Bisnis Masa Depan\". Saatnya kamu wujudkan ide bisnis inovatifmu!",
+    image: "PMW 2025.png",
+    slug: "pmw-2025",
+    uploadedAt: "Baru saja",
+    featured: true,
+    content: [
+      "🚀 PROGRAM MAHASISWA WIRAUSAHA 2025\n\"Future Makers: Menjadi Pelopor Bisnis Masa Depan\"",
+      "✨ Saatnya kamu wujudkan ide bisnis inovatifmu!\n📌 Pengumpulan Proposal: 10 - 24 Juni 2025\n📢 Pengumuman Penerima Hibah: 27 Juni 2025",
+      "💼 Bidang usaha yang bisa kamu pilih:\nF&B, Budidaya, Jasa & Perdagangan, Industri Kreatif, Manufaktur, dan Bisnis Digital!",
+      "📲 Scan QR Code atau klik link di bio untuk download panduan & daftar sekarang!",
+      "📍 Info lengkap:\n🌐 upapkk.upnjatim.ac.id\n📧 upapkk@upnjatim.ac.id\n📸 @upapkk_upnvjt\n\n#PMW2025 #MahasiswaWirausaha #FutureMakers #BisnisMuda #UPNVJT #PMW #WirausahaMuda #EntrepreneurshipProgram"
+    ],
+  },
+  {
     id: 1,
     title: "National Business Plan Competition 2026: Inovasi Ekonomi Hijau",
     category: "Bisnis Plan",

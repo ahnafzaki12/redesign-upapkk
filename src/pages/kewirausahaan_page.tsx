@@ -62,6 +62,16 @@ interface CompetitionCardProps {
 function CompetitionCard({ item }: CompetitionCardProps) {
   const [hovered, setHovered] = useState(false);
 
+  const getImageUrl = (img: string) => {
+    if (!img) return "";
+    if (img.startsWith("http") || img.startsWith("data:") || img.startsWith("/")) {
+      return img;
+    }
+    return `/${img}`;
+  };
+
+  const resolvedImage = getImageUrl(item.image);
+
   // Status Badge Color
   let statusColor = "";
   let statusBg = "";
@@ -89,10 +99,10 @@ function CompetitionCard({ item }: CompetitionCardProps) {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Image / Poster */}
-      <div className="w-full relative overflow-hidden bg-gray-900 flex items-center justify-center group" style={{ aspectRatio: "4/5", maxHeight: "400px" }}>
+      <div className="w-full relative overflow-hidden bg-gray-900 flex items-center justify-center group" style={{ aspectRatio: "4/5" }}>
         {/* Background layer (Blurred & Darkened) to fill empty space */}
         <img 
-          src={item.image} 
+          src={resolvedImage} 
           alt="blur-bg" 
           className="absolute inset-0 w-full h-full object-cover opacity-60 blur-xl scale-110"
           style={{ transform: hovered ? "scale(1.15)" : "scale(1.1)" }}
@@ -100,7 +110,7 @@ function CompetitionCard({ item }: CompetitionCardProps) {
         
         {/* Foreground Image (Original Aspect Ratio) */}
         <img
-          src={item.image}
+          src={resolvedImage}
           alt={item.title}
           className="w-full h-full object-contain transition-transform duration-350 ease-out relative z-10 drop-shadow-xl"
           style={{ transform: hovered ? "scale(1.04)" : "scale(1)" }}
