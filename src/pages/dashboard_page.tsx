@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Home,
   Briefcase,
@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { currentTheme } from "../theme/theme";
 import { useAuth } from "../contexts/AuthContext";
+import WishlistPage from "./dashboard/wishlist_page";
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 const STATS = [
@@ -249,10 +250,11 @@ function SidebarContent({ active, onNavigate, onLogout, onClose, userName, userN
 
 // ─── Main Dashboard Page ──────────────────────────────────────────────────────
 const DashboardPage = () => {
-  const [activeMenu, setActiveMenu] = useState("beranda");
+  const { section } = useParams<{ section?: string }>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const activeMenu = section || "beranda";
 
   // Fallback if somehow accessed without auth (shouldn't happen with protected routes)
   const displayName = user?.name ?? "Pengguna";
@@ -262,10 +264,13 @@ const DashboardPage = () => {
   const displayAccountType = user?.accountType ?? "-";
 
   const handleNavigate = (id: string) => {
-    setActiveMenu(id);
     const all = [...MENU_ITEMS, ...ACCOUNT_ITEMS];
     const item = all.find((m) => m.id === id);
-    if (item && !item.path.includes("#")) navigate(item.path);
+    if (item && !item.path.includes("#")) {
+      navigate(item.path);
+    } else {
+      navigate(`/dashboard/${id}`);
+    }
   };
 
   const handleLogout = () => {
@@ -371,10 +376,13 @@ const DashboardPage = () => {
 
         {/* Page body */}
         <main className="flex-1 px-4 sm:px-6 py-6 space-y-6">
+          {section === "wishlist" && <WishlistPage />}
 
-          {/* ── Welcome banner ── */}
-          <div
-            className="relative overflow-hidden rounded-2xl p-6 sm:p-8"
+          {(!section || section === "beranda") && (
+            <>
+              {/* ── Welcome banner ── */}
+              <div
+                className="relative overflow-hidden rounded-2xl p-6 sm:p-8"
             style={{
               background: `linear-gradient(135deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 55%, ${currentTheme.heroEnd} 100%)`,
             }}
@@ -572,6 +580,8 @@ const DashboardPage = () => {
               </div>
             </div>
           </div>
+          </>
+          )}
         </main>
 
         {/* Footer */}

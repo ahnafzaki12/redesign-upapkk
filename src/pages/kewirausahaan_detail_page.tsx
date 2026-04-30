@@ -4,18 +4,53 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { kewirausahaanData } from "../data/kewirausahaanData";
 import type { KewirausahaanItem } from "../data/kewirausahaanData";
+import SearchableDropdown from "../components/SearchableDropdown";
 import { currentTheme } from "../theme/theme";
+import { Heart, X } from "lucide-react";
 
 // Constants for styling based on theme
 const ACCENT = currentTheme.primary;
 const ACCENT_DARK = currentTheme.heroEnd;
 const HERO_BG = currentTheme.heroStart;
 
+// Dummy data for Dosen
+const DOSEN_LIST = [
+  "Dr. Ir. Wahyu Hidayat, M.Sc.",
+  "Prof. Dr. Ir. Budi Santoso, M.T.",
+  "Siti Aminah, S.Kom., M.Kom.",
+  "Agus Prasetyo, S.T., M.Eng.",
+  "Rina Wati, S.E., M.Si.",
+  "Dr. H. Ahmad Fauzi, S.T., M.T.",
+  "Dra. Lina Herawati, M.Pd.",
+  "Ir. Dedi Kurniawan, M.Eng.",
+  "Prof. Dr. Maya Sari, S.E., M.Si.",
+  "Hendra Gunawan, S.Kom., M.Kom.",
+  "Novi Pratiwi, S.Pd., M.Pd.",
+  "Dr. Farid Maulana, S.T., Ph.D.",
+  "Sri Handayani, S.E., M.M.",
+  "Andi Saputra, S.T., M.T.",
+  "Dewi Lestari, S.Kom., M.T.",
+  "Muhammad Rizki, S.E., M.Ak.",
+  "Dr. Nabila Rahma, S.Psi., M.Psi.",
+  "Eko Prabowo, S.T., M.Eng.",
+  "Fitri Anggraini, S.Kom., M.Kom.",
+  "Rudi Hartono, S.E., M.M.",
+  "Yuni Astuti, S.Pd., M.Pd.",
+  "Dr. Iqbal Syah, S.T., M.T.",
+  "Putri Amelia, S.E., M.Si.",
+  "Bambang Setiawan, S.Kom., M.T."
+];
+
 export default function KewirausahaanDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [data, setData] = useState<KewirausahaanItem | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
+
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDosen, setSelectedDosen] = useState("");
 
   // Load data based on slug
   useEffect(() => {
@@ -32,7 +67,15 @@ export default function KewirausahaanDetailPage() {
   }, [slug]);
 
   const handleDaftarClick = () => {
-    alert("Fitur pendaftaran atau tautan eksternal belum tersedia saat ini.");
+    setIsModalOpen(true);
+  };
+
+  const handleSaveModal = () => {
+    if (!selectedDosen) return;
+    setIsModalOpen(false);
+    // Dummy success action
+    alert(`Berhasil mendaftar kompetisi "${data?.title}" dengan dosen pembimbing: ${selectedDosen}`);
+    setSelectedDosen(""); // reset
   };
 
   if (loading) {
@@ -277,22 +320,36 @@ export default function KewirausahaanDetailPage() {
                 </div>
               </div>
 
-              {/* Action Button */}
-              <button
-                onClick={handleDaftarClick}
-                disabled={data.status === "Tutup"}
-                className={`w-full py-3.5 rounded-xl text-[15px] font-bold text-white shadow-lg transition-all active:scale-95 flex justify-center items-center gap-2 ${
-                  data.status === "Tutup" ? "bg-gray-400 cursor-not-allowed shadow-none" : "hover:opacity-90"
-                }`}
-                style={{ background: data.status !== "Tutup" ? ACCENT : undefined }}
-              >
-                {data.status === "Tutup" ? "Pendaftaran Ditutup" : "Daftar Kompetisi"}
-                {data.status !== "Tutup" && (
-                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                )}
-              </button>
+              <div className="flex flex-col gap-3">
+                {/* Action Button */}
+                <button
+                  onClick={handleDaftarClick}
+                  disabled={data.status === "Tutup"}
+                  className={`w-full py-3.5 rounded-xl text-[15px] font-bold text-white shadow-lg transition-all active:scale-95 flex justify-center items-center gap-2 ${
+                    data.status === "Tutup" ? "bg-gray-400 cursor-not-allowed shadow-none" : "hover:opacity-90"
+                  }`}
+                  style={{ background: data.status !== "Tutup" ? ACCENT : undefined }}
+                >
+                  {data.status === "Tutup" ? "Pendaftaran Ditutup" : "Daftar Kompetisi"}
+                  {data.status !== "Tutup" && (
+                    <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setIsSaved(!isSaved)}
+                  className={`group w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[15px] font-bold border-2 cursor-pointer transition-colors duration-200 active:scale-95 ${
+                    isSaved 
+                      ? "bg-red-50 border-red-100 text-red-500" 
+                      : "bg-white border-gray-200 text-gray-700 hover:border-red-400 hover:text-red-500 hover:bg-red-50"
+                  }`}
+                >
+                  <Heart size={18} className={isSaved ? "fill-red-500 text-red-500" : "text-gray-400 group-hover:text-red-500 transition-colors"} />
+                  {isSaved ? "Tersimpan di Wishlist" : "Simpan Kewirausahaan"}
+                </button>
+              </div>
               
               <p className="text-center text-xs text-gray-400 mt-4">
                 Diunggah {data.uploadedAt}
@@ -337,6 +394,78 @@ export default function KewirausahaanDetailPage() {
           </div>
         )}
       </div>
+
+      {/* Modal Daftar Kompetisi - Memilih Dosen Pembimbing */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-gray-900/60 backdrop-blur-sm transition-all duration-300"
+          onClick={() => setIsModalOpen(false)}
+        >
+          {/* Modal Container */}
+          <div 
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-[420px] transform scale-100 transition-all duration-300 flex flex-col animate-in fade-in zoom-in-95"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-white rounded-t-3xl relative z-10">
+              <h3 className="text-[17px] font-extrabold text-gray-800 tracking-tight">Pilih Dosen Pembimbing</h3>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-400 hover:text-red-500 bg-transparent hover:bg-red-50 p-2 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-red-100 active:scale-90"
+                aria-label="Tutup"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            {/* Modal Body */}
+            <div className="px-6 py-6 bg-gray-50/30 flex-1 overflow-visible">
+              <p className="text-[14px] text-gray-600 mb-6 leading-relaxed">
+                Untuk melanjutkan pendaftaran kompetisi <span className="font-bold text-gray-800">"{data?.title}"</span>, silakan tentukan dosen pembimbing dari tim Anda.
+              </p>
+              
+              <div className="flex flex-col gap-2 relative z-[9999]">
+                <label htmlFor="dosen" className="text-[11px] font-extrabold text-gray-500 uppercase tracking-widest">
+                  Nama Dosen <span className="text-red-500">*</span>
+                </label>
+                <div className="w-full">
+                  <SearchableDropdown
+                    value={selectedDosen}
+                    onChange={setSelectedDosen}
+                    options={DOSEN_LIST}
+                    placeholder="-- Klik untuk memilih dosen --"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="px-6 py-5 border-t border-gray-100 flex justify-end gap-3 bg-white mt-auto rounded-b-3xl relative z-10">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-5 py-2.5 rounded-xl text-[14px] font-extrabold text-gray-600 bg-white border-2 border-gray-200 hover:bg-gray-50 hover:text-gray-800 hover:border-gray-300 transition-all active:scale-95 focus:outline-none"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleSaveModal}
+                disabled={!selectedDosen}
+                className={`px-5 py-2.5 rounded-xl text-[14px] font-extrabold text-white transition-all duration-200 flex items-center justify-center border-2 border-transparent ${
+                  !selectedDosen 
+                    ? "opacity-50 cursor-not-allowed bg-gray-400" 
+                    : "hover:opacity-90 shadow-md hover:shadow-lg active:scale-95 focus:outline-none focus:ring-4 focus:ring-opacity-50"
+                }`}
+                style={{ 
+                  background: selectedDosen ? ACCENT : undefined,
+                  ['--tw-ring-color' as string]: selectedDosen ? ACCENT : undefined
+                }}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

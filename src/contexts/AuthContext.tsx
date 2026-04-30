@@ -6,11 +6,11 @@ import { createContext, useContext, useState, useEffect } from "react";
 export const HARDCODED_ACCOUNTS = [
   {
     id: "1",
-    email: "user@upapkk.ac.id",
-    password: "User@2026",
+    email: "user@gmail.com",
+    password: "User123",
     role: "user" as const,
-    name: "Muhammad Ikhlasul Amal Akbar",
-    nickname: "Ikhlasul",
+    name: "Ahnaf Zaki",
+    nickname: "Ahnaf",
     nim: "21082010001",
     prodi: "Sistem Informasi",
     accountType: "Permanent Account",

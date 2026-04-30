@@ -9,6 +9,34 @@ const ACCENT = currentTheme.primary;
 const ACCENT_LIGHT = currentTheme.surfaceAlt;
 const HERO_BG = currentTheme.heroStart;
 
+const MONTHS: Record<string, number> = {
+  Januari: 0,
+  Februari: 1,
+  Maret: 2,
+  April: 3,
+  Mei: 4,
+  Juni: 5,
+  Juli: 6,
+  Agustus: 7,
+  September: 8,
+  Oktober: 9,
+  November: 10,
+  Desember: 11,
+};
+
+const parseArticleDate = (date: string) => {
+  const [dayPart, monthPart, yearPart] = date.split(" ");
+  const day = Number(dayPart);
+  const month = MONTHS[monthPart] ?? 0;
+  const year = Number(yearPart);
+
+  if (!day || !year) {
+    return 0;
+  }
+
+  return new Date(year, month, day).getTime();
+};
+
 export default function ArticlePage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Artikel");
@@ -33,7 +61,9 @@ export default function ArticlePage() {
 
   // Sort data
   const sorted = [...filtered].sort((a, b) =>
-    sortBy === "Terbaru" ? b.id - a.id : a.id - b.id
+    sortBy === "Terbaru"
+      ? parseArticleDate(b.date) - parseArticleDate(a.date)
+      : parseArticleDate(a.date) - parseArticleDate(b.date)
   );
 
   return (
