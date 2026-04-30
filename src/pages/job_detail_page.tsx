@@ -1,8 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { jobsData } from "../data/jobData";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { currentTheme } from "../theme/theme";
+import { Heart } from "lucide-react";
 
 const ACCENT = currentTheme.primary;
 const ACCENT_DARK = currentTheme.heroEnd;
@@ -12,6 +14,7 @@ const HERO_BG = currentTheme.heroEnd;
 export default function JobDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isSaved, setIsSaved] = useState(false);
 
   const job = jobsData.find((item) => item.id === Number(id));
 
@@ -191,7 +194,7 @@ export default function JobDetailPage() {
           <div className="flex flex-col gap-4">
 
             {/* Apply CTA */}
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex flex-col gap-3">
               <button
                 className="w-full py-3 rounded-lg text-sm font-bold text-white border-none cursor-pointer transition-opacity duration-150"
                 style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)` }}
@@ -201,8 +204,21 @@ export default function JobDetailPage() {
               >
                 Lamar Sekarang
               </button>
+              
+              <button
+                onClick={() => setIsSaved(!isSaved)}
+                className={`group w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold border-2 cursor-pointer transition-colors duration-200 active:scale-95 ${
+                  isSaved 
+                    ? "bg-red-50 border-red-100 text-red-500" 
+                    : "bg-white border-gray-200 text-gray-700 hover:border-red-400 hover:text-red-500 hover:bg-red-50"
+                }`}
+              >
+                <Heart size={18} className={isSaved ? "fill-red-500 text-red-500" : "text-gray-400 group-hover:text-red-500 transition-colors"} />
+                {isSaved ? "Tersimpan di Wishlist" : `Simpan ${isInternship ? "Magang" : "Pekerjaan"}`}
+              </button>
+
               {job.deadline && (
-                <p className="text-xs text-center text-gray-400 mt-3">
+                <p className="text-xs text-center text-gray-400 mt-2">
                   Batas lamar:{" "}
                   <span className="font-semibold text-gray-600">{job.deadline}</span>
                 </p>

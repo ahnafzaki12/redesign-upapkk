@@ -2,6 +2,10 @@
 import { useState, useRef, useEffect } from "react"
 import { currentTheme } from "../theme/theme"
 
+const ACCENT = currentTheme.primary
+const ACCENT_DARK = currentTheme.heroEnd
+const ACCENT_LIGHT = currentTheme.surfaceAlt
+
 interface DropdownProps {
     value: string;
     onChange: (val: string) => void;
@@ -30,102 +34,96 @@ export default function SearchableDropdown({ value, onChange, options, placehold
     );
 
     return (
-        <div ref={ref} className="relative w-full lg:w-auto items-center">
+        <div ref={ref} className="relative w-full items-center">
             <button
                 type="button"
-                onClick={() => setOpen((p) => !p)}
-                className={`
-    flex items-center justify-between
-    px-4 py-2.5 min-w-40 w-full
-    text-sm font-semibold tracking-tight
-    bg-white border border-slate-200/60
-    rounded-xl shadow-sm
-    hover:bg-slate-50 hover:border-slate-300
-    active:scale-[0.98]
-    transition-all duration-200 ease-in-out
-    cursor-pointer group
-  `}
+                onClick={() => setOpen(prev => !prev)}
+                className="w-full flex items-center justify-between rounded-md border px-4 py-3 text-sm bg-white transition-all duration-200 shadow-sm"
+                style={{
+                    borderColor: open ? ACCENT : "#E5E7EB",
+                    boxShadow: open
+                        ? "0 0 0 3px rgba(var(--pg-primary-rgb), 0.12)"
+                        : "0 1px 2px rgba(0,0,0,0.03)",
+                    color: !value ? "#9CA3AF" : "#111827",
+                }}
             >
-                <span className={`truncate ${!value ? 'text-slate-400' : 'text-slate-400'}`}>
-                    {value || placeholder}
+                <span className="truncate text-left font-medium">
+                    {!value ? placeholder : value}
                 </span>
 
                 <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
+                    className="shrink-0 transition-transform duration-200"
+                    style={{
+                        transform: open ? "rotate(180deg)" : "rotate(0deg)",
+                        color: open ? ACCENT_DARK : "#9CA3AF",
+                    }}
+                    width="16"
+                    height="16"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`
-      text-slate-500 group-hover:text-slate-900
-      transition-transform duration-300 ease-out
-      ${open ? "rotate-180" : "rotate-0"}
-    `}
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
                 >
-                    <polyline points="6 9 12 15 18 9"></polyline>
+                    <path d="m6 9 6 6 6-6" />
                 </svg>
             </button>
 
             {/* Panel */}
             {open && (
                 <div
-                    className="absolute top-full left-0 mt-2 w-full lg:w-64 min-w-55 rounded-2xl shadow-xl z-50 overflow-hidden"
-                    style={{ background: "white", border: "1px solid #E5E7EB" }}
+                    className="absolute z-30 mt-2 w-full overflow-hidden rounded border bg-white shadow-lg"
+                    style={{
+                        borderColor: "#E5E7EB",
+                        boxShadow: "0 12px 32px rgba(17, 24, 39, 0.10)",
+                    }}
                 >
-                    {/* Header row */}
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-                        <span className="text-sm font-semibold text-gray-700">{value || placeholder}</span>
-                        <svg width="10" height="10" fill="#9CA3AF" viewBox="0 0 16 16">
-                            <path d="M7.247 4.86 2.451 10.342C1.885 10.987 2.345 12 3.204 12h9.592a1 1 0 0 0 .753-1.659L8.753 4.86a1 1 0 0 0-1.506 0z" />
-                        </svg>
-                    </div>
-
                     {/* Search input */}
-                    <div className="px-3 py-2 border-b border-gray-100">
-                        <input
-                            autoFocus
-                            className="w-full bg-white rounded-full px-4 py-2 text-sm text-gray-700 outline-none placeholder-gray-400"
-                            style={{ border: "1px solid #E5E7EB" }}
-                            placeholder="Cari..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
+                    <div className="p-3 border-b border-gray-100 bg-gray-50/50">
+                        <div className="relative">
+                            <input
+                                autoFocus
+                                className="w-full bg-white rounded-md pl-10 pr-4 py-2.5 text-[14px] text-gray-700 outline-none border border-gray-200 focus:border-[#0F766E] focus:ring-1 focus:ring-[#0F766E] transition-all placeholder-gray-400"
+                                placeholder="Cari..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
                     </div>
 
                     {/* Options list */}
-                    <ul className="max-h-52 overflow-y-auto py-1">
+                    <div className="max-h-60 overflow-y-auto py-2">
                         {filtered.length === 0 ? (
-                            <li className="px-4 py-3 text-sm text-gray-400">Tidak ditemukan</li>
+                            <div className="px-4 py-3 text-sm text-gray-400">Tidak ditemukan</div>
                         ) : (
                             filtered.map((opt) => {
                                 const isActive = opt === value;
                                 return (
-                                    <li
+                                    <button
                                         key={opt}
+                                        type="button"
                                         onClick={() => { onChange(opt); setOpen(false); setSearch(""); }}
-                                        className="flex items-center px-4 py-3 text-sm cursor-pointer transition-colors duration-100"
+                                        className="w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors"
                                         style={{
-                                            background: isActive ? currentTheme.primary : "transparent",
-                                            color: isActive ? "white" : "#374151",
-                                            borderRadius: isActive ? "8px" : "0",
-                                            margin: isActive ? "2px 6px" : "0",
+                                            background: isActive ? ACCENT_LIGHT : "white",
+                                            color: isActive ? ACCENT_DARK : "#374151",
                                         }}
                                         onMouseEnter={(e) => {
-                                            if (!isActive) e.currentTarget.style.background = "#F3F4F6";
+                                            if (!isActive) e.currentTarget.style.background = "#F9FAFB";
                                         }}
                                         onMouseLeave={(e) => {
-                                            if (!isActive) e.currentTarget.style.background = "transparent";
+                                            if (!isActive) e.currentTarget.style.background = "white";
                                         }}
                                     >
                                         {opt}
-                                    </li>
+                                    </button>
                                 );
                             })
                         )}
-                    </ul>
+                    </div>
                 </div>
             )}
         </div>
