@@ -44,7 +44,6 @@ const NAV_ITEMS: NavItem[] = [
             { label: "Tentang", href: "/tentang" },
             { label: "FAQ", href: "/faq" },
             { label: "Kontak", href: "/kontak" },
-            { label: "Peta Kampus", href: "/peta-kampus" },
         ],
     },
 ];
@@ -227,7 +226,7 @@ function UserMenu() {
                     {initials}
                 </div>
                 <div className="hidden md:block text-left">
-                    <p className="text-xs font-semibold text-gray-800 leading-tight max-w-[120px] truncate">
+                    <p className="text-xs font-semibold text-gray-800 leading-tight max-w-30 truncate">
                         {user.nickname}
                     </p>
                     <p className="text-[10px]" style={{ color: "var(--pg-primary)" }}>
@@ -356,9 +355,10 @@ const Navbar = () => {
                 <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-0.5">
                     {NAV_ITEMS.map((item) => {
                         const isActive = item.href === location.pathname;
+                        // Only highlight if any sub-menu (internal link) matches exactly
                         const isChildActive = item.dropdown?.some((sub) => {
-                            const parentPath = sub.href.split("/")[1];
-                            return location.pathname.startsWith(`/${parentPath}`);
+                            if (sub.href.startsWith("http")) return false;
+                            return location.pathname === sub.href;
                         });
 
                         if (item.dropdown) {
