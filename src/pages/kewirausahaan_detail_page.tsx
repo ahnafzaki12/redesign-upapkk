@@ -179,7 +179,7 @@ export default function KewirausahaanDetailPage() {
                   {data.category}
                 </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 tracking-tight">
                 {data.title}
               </h1>
               <p className="text-white/80 text-lg flex items-center gap-2">
@@ -214,8 +214,8 @@ export default function KewirausahaanDetailPage() {
 
             {/* Description Box */}
             <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <svg width="24" height="24" fill="none" stroke={ACCENT} strokeWidth="2" viewBox="0 0 24 24">
+              <h2 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <svg width="22" height="22" fill="none" stroke={ACCENT} strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Tentang Kompetisi
@@ -224,10 +224,10 @@ export default function KewirausahaanDetailPage() {
                 {data.description}
               </p>
 
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Informasi Selengkapnya</h3>
-              <div className="prose prose-lg max-w-none">
+              <h3 className="text-lg font-bold text-gray-800 mb-3">Informasi Selengkapnya</h3>
+              <div className="prose max-w-none">
                 {data.content.map((paragraph, idx) => (
-                  <p key={idx} className="text-gray-600 leading-relaxed mb-4 text-[15px] sm:text-base whitespace-pre-line">
+                  <p key={idx} className="text-gray-600 leading-relaxed mb-4 text-base whitespace-pre-line">
                     {paragraph}
                   </p>
                 ))}
@@ -239,7 +239,7 @@ export default function KewirausahaanDetailPage() {
           {/* Right Column (Sticky Sidebar) */}
           <div className="lg:col-span-4 w-full">
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 lg:sticky lg:top-24">
-              <h3 className="text-lg font-bold text-gray-800 mb-5 border-b border-gray-100 pb-4">
+              <h3 className="text-xl font-bold text-gray-800 mb-5 border-b border-gray-100 pb-4">
                 Ringkasan Detail
               </h3>
               
@@ -325,7 +325,7 @@ export default function KewirausahaanDetailPage() {
                 <button
                   onClick={handleDaftarClick}
                   disabled={data.status === "Tutup"}
-                  className={`w-full py-3.5 rounded-xl text-[15px] font-bold text-white shadow-lg transition-all active:scale-95 flex justify-center items-center gap-2 ${
+                  className={`w-full py-3.5 rounded-xl text-base font-semibold text-white shadow-lg transition-all active:scale-95 flex justify-center items-center gap-2 ${
                     data.status === "Tutup" ? "bg-gray-400 cursor-not-allowed shadow-none" : "hover:opacity-90"
                   }`}
                   style={{ background: data.status !== "Tutup" ? ACCENT : undefined }}
@@ -340,7 +340,7 @@ export default function KewirausahaanDetailPage() {
 
                 <button
                   onClick={() => setIsSaved(!isSaved)}
-                  className={`group w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[15px] font-bold border-2 cursor-pointer transition-colors duration-200 active:scale-95 ${
+                  className={`group w-full flex items-center justify-center gap-2 py-3 rounded-xl text-base font-semibold border-2 cursor-pointer transition-colors duration-200 active:scale-95 ${
                     isSaved 
                       ? "bg-red-50 border-red-100 text-red-500" 
                       : "bg-white border-gray-200 text-gray-700 hover:border-red-400 hover:text-red-500 hover:bg-red-50"

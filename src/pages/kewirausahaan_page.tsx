@@ -149,7 +149,7 @@ function CompetitionCard({ item }: CompetitionCardProps) {
         </div>
 
         {/* Title */}
-        <h3 className="text-[17px] font-bold text-gray-800 leading-snug line-clamp-2" title={item.title}>
+        <h3 className="text-base font-bold text-gray-800 leading-snug line-clamp-2" title={item.title}>
           {item.title}
         </h3>
 
@@ -162,7 +162,7 @@ function CompetitionCard({ item }: CompetitionCardProps) {
               <line x1="8" y1="2" x2="8" y2="6" />
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
-            <span className="text-[11px] leading-tight">{item.schedule}</span>
+            <span className="text-xs leading-tight">{item.schedule}</span>
           </div>
           <div className="flex items-start gap-1.5 text-gray-500">
             <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -171,19 +171,19 @@ function CompetitionCard({ item }: CompetitionCardProps) {
               <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
-            <span className="text-[11px] leading-tight">{item.quota}</span>
+            <span className="text-xs leading-tight">{item.quota}</span>
           </div>
           <div className="flex items-start gap-1.5 text-gray-500 col-span-2">
              <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
              </svg>
-             <span className="text-[11px] leading-tight">Tk. {item.level} ({item.participantType})</span>
+             <span className="text-xs leading-tight">Tk. {item.level} ({item.participantType})</span>
           </div>
         </div>
 
         {/* Description */}
         <p 
-          className="text-[13px] text-gray-500 overflow-hidden"
+          className="text-xs text-gray-500 overflow-hidden"
           style={{ 
             display: '-webkit-box', 
             WebkitLineClamp: 2, 
@@ -295,7 +295,7 @@ export default function KewirausahaanPage() {
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
             Pusat Kompetisi
           </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-white mb-2 leading-tight tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight tracking-tight">
             Perlombaan &amp; Kompetisi
           </h1>
           <p className="text-sm sm:text-base text-white opacity-85 mb-7 max-w-2xl leading-relaxed">

@@ -26,69 +26,61 @@ import { useAuth } from "../contexts/AuthContext";
 import WishlistPage from "./dashboard/wishlist_page";
 import KewirausahaanDiikutiPage from "./dashboard/kewirausahaan_diikuti_page";
 import ProfilePage from "./dashboard/profile_page";
+import FileManagerPage from "./dashboard/file_manager_page";
+import { kewirausahaanData } from "../data/kewirausahaanData";
 
 // ─── Static data ──────────────────────────────────────────────────────────────
-const STATS = [
-  {
-    id: "lowongan",
-    label: "Total Lowongan",
-    value: 125,
-    icon: Briefcase,
-    color: currentTheme.primary,
-    colorBg: currentTheme.surfaceAlt,
-    trend: "+12 minggu ini",
-  },
-  {
-    id: "magang",
-    label: "Total Magang",
-    value: 10,
-    icon: BookOpen,
-    color: "#16A34A",
-    colorBg: "#DCFCE7",
-    trend: "+2 bulan ini",
-  },
-  {
-    id: "dilamar",
-    label: "Total yang Dilamar",
-    value: 7,
-    icon: CheckCircle,
-    color: "#D97706",
-    colorBg: "#FEF3C7",
-    trend: "3 menunggu",
-  },
-];
-
-const RECENT_APPLICATIONS = [
+const RECENT_KEWIRAUSAHAAN = [
   {
     id: 1,
-    position: "Frontend Developer",
-    company: "PT. Teknologi Maju",
-    location: "Surabaya",
+    program: "Program Mahasiswa Wirausaha (PMW) 2026",
+    role: "Ketua Tim",
     date: "24 Apr 2026",
     status: "review",
   },
   {
     id: 2,
-    position: "UI/UX Designer",
-    company: "Startup Kreatif",
-    location: "Jakarta",
-    date: "20 Apr 2026",
+    program: "Kompetisi Bisnis Mahasiswa Indonesia",
+    role: "Anggota",
+    date: "10 Mar 2026",
     status: "accepted",
   },
+];
+
+const STATS = [
   {
-    id: 3,
-    position: "Backend Engineer",
-    company: "PT. Digital Nusantara",
-    location: "Bandung",
-    date: "15 Apr 2026",
-    status: "rejected",
+    id: "kewirausahaan",
+    label: "Program Kewirausahaan",
+    value: kewirausahaanData.length,
+    icon: Briefcase,
+    color: currentTheme.primary,
+    colorBg: currentTheme.surfaceAlt,
+    trend: "Tersedia saat ini",
+  },
+  {
+    id: "diikuti",
+    label: "Program Diikuti",
+    value: RECENT_KEWIRAUSAHAAN.length,
+    icon: BookOpen,
+    color: "#16A34A",
+    colorBg: "#DCFCE7",
+    trend: "Sedang berjalan",
+  },
+  {
+    id: "files",
+    label: "Total File",
+    value: 2,
+    icon: FileText,
+    color: "#D97706",
+    colorBg: "#FEF3C7",
+    trend: "Tersimpan",
   },
 ];
 
 const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
-  review: { label: "Ditinjau", color: "#D97706", bg: "#FEF3C7" },
-  accepted: { label: "Diterima", color: "#16A34A", bg: "#DCFCE7" },
-  rejected: { label: "Ditolak", color: "#DC2626", bg: "#FEE2E2" },
+  review: { label: "Seleksi", color: "#D97706", bg: "#FEF3C7" },
+  accepted: { label: "Aktif", color: "#16A34A", bg: "#DCFCE7" },
+  rejected: { label: "Selesai/Ditolak", color: "#DC2626", bg: "#FEE2E2" },
 };
 
 // ─── Sidebar menu data ────────────────────────────────────────────────────────
@@ -101,7 +93,7 @@ const MENU_ITEMS = [
 
 const ACCOUNT_ITEMS = [
   { id: "cv", label: "Curriculum Vitae", icon: FileText, path: "/dashboard/cv" },
-  { id: "file-manager", label: "File Manager", icon: FolderOpen, path: "/dashboard/files" },
+  { id: "files", label: "File Manager", icon: FolderOpen, path: "/dashboard/files" },
   { id: "profile", label: "Profile", icon: User, path: "/dashboard/profile" },
   { id: "password", label: "Change Password", icon: Key, path: "/dashboard/password" },
 ];
@@ -364,6 +356,7 @@ const DashboardPage = () => {
           {section === "kewirausahaan-diikuti" && <KewirausahaanDiikutiPage />}
           {section === "wishlist" && <WishlistPage />}
           {section === "profile" && <ProfilePage />}
+          {section === "files" && <FileManagerPage />}
 
           {(!section || section === "beranda") && (
             <>
@@ -437,38 +430,37 @@ const DashboardPage = () => {
               {/* ── Bottom grid ── */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-                {/* Recent applications */}
+                {/* Recent kewirausahaan */}
                 <div
                   className="lg:col-span-2 bg-white rounded-2xl p-5"
                   style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-base font-bold text-gray-800">Lamaran Terkini</h2>
+                    <h2 className="text-base font-bold text-gray-800">Kewirausahaan yang Diikuti</h2>
                   </div>
 
                   <div className="space-y-3">
-                    {RECENT_APPLICATIONS.map((app) => {
-                      const s = STATUS_MAP[app.status];
+                    {RECENT_KEWIRAUSAHAAN.map((item) => {
+                      const s = STATUS_MAP[item.status];
                       return (
                         <div
-                          key={app.id}
+                          key={item.id}
                           className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-all cursor-pointer"
                         >
                           <div
                             className="flex items-center justify-center rounded-xl shrink-0"
                             style={{ width: 42, height: 42, background: currentTheme.surfaceAlt }}
                           >
-                            <Building2 size={18} color={currentTheme.primary} />
+                            <BookOpen size={18} color={currentTheme.primary} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-gray-800 truncate">{app.position}</p>
-                            <p className="text-xs text-gray-500 mt-0.5 truncate">{app.company}</p>
-                            <div className="flex items-center gap-3 mt-1.5">
-                              <span className="flex items-center gap-1 text-[11px] text-gray-400">
-                                <MapPin size={10} /> {app.location}
+                            <p className="text-sm font-semibold text-gray-800 truncate">{item.program}</p>
+                            <div className="flex items-center gap-3 mt-1">
+                              <span className="flex items-center gap-1 text-[11px] text-gray-500 font-medium">
+                                <User size={10} /> {item.role}
                               </span>
                               <span className="flex items-center gap-1 text-[11px] text-gray-400">
-                                <Calendar size={10} /> {app.date}
+                                <Calendar size={10} /> {item.date}
                               </span>
                             </div>
                           </div>
@@ -483,10 +475,10 @@ const DashboardPage = () => {
                     })}
                   </div>
 
-                  {RECENT_APPLICATIONS.length === 0 && (
+                  {RECENT_KEWIRAUSAHAAN.length === 0 && (
                     <div className="text-center py-10">
                       <AlertCircle size={32} color="#D1D5DB" className="mx-auto mb-2" />
-                      <p className="text-sm text-gray-400">Belum ada lamaran</p>
+                      <p className="text-sm text-gray-400">Belum ada program yang diikuti</p>
                     </div>
                   )}
                 </div>
@@ -499,7 +491,7 @@ const DashboardPage = () => {
                     <div className="space-y-1">
                       {[
                         { label: "Upload CV", icon: FileText, id: "cv" },
-                        { label: "File Manager", icon: FolderOpen, id: "file-manager" },
+                        { label: "File Manager", icon: FolderOpen, id: "files" },
                       ].map((item) => {
                         const Icon = item.icon;
                         return (
