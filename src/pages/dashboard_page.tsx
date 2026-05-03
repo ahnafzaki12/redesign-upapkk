@@ -14,7 +14,6 @@ import {
   X,
   ChevronRight,
   Bell,
-  Search,
   TrendingUp,
   CheckCircle,
   AlertCircle,
@@ -26,6 +25,7 @@ import { currentTheme } from "../theme/theme";
 import { useAuth } from "../contexts/AuthContext";
 import WishlistPage from "./dashboard/wishlist_page";
 import KewirausahaanDiikutiPage from "./dashboard/kewirausahaan_diikuti_page";
+import ProfilePage from "./dashboard/profile_page";
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 const STATS = [
@@ -138,7 +138,7 @@ interface SidebarContentProps {
   userNim: string;
 }
 
-function SidebarContent({ active, onNavigate, onLogout, onClose, userName, userNim }: SidebarContentProps) {
+function SidebarContent({ active, onNavigate, onLogout, onClose }: SidebarContentProps) {
   const handleClick = (id: string) => {
     onNavigate(id);
     onClose?.();
@@ -363,166 +363,167 @@ const DashboardPage = () => {
         <main className="flex-1 px-4 sm:px-6 py-6 space-y-6">
           {section === "kewirausahaan-diikuti" && <KewirausahaanDiikutiPage />}
           {section === "wishlist" && <WishlistPage />}
+          {section === "profile" && <ProfilePage />}
 
           {(!section || section === "beranda") && (
             <>
               {/* ── Welcome banner ── */}
               <div
                 className="relative overflow-hidden rounded-2xl p-6 sm:p-8"
-            style={{
-              background: `linear-gradient(135deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 55%, ${currentTheme.heroEnd} 100%)`,
-            }}
-          >
-            <div className="pointer-events-none absolute -top-10 -right-10 h-48 w-48 rounded-full opacity-20 blur-2xl" style={{ background: "#fff" }} />
-            <div className="pointer-events-none absolute bottom-0 right-24 h-32 w-32 rounded-full opacity-10 blur-xl" style={{ background: "#B9E2E2" }} />
+                style={{
+                  background: `linear-gradient(135deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 55%, ${currentTheme.heroEnd} 100%)`,
+                }}
+              >
+                <div className="pointer-events-none absolute -top-10 -right-10 h-48 w-48 rounded-full opacity-20 blur-2xl" style={{ background: "#fff" }} />
+                <div className="pointer-events-none absolute bottom-0 right-24 h-32 w-32 rounded-full opacity-10 blur-xl" style={{ background: "#B9E2E2" }} />
 
-            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <p className="text-white/70 text-sm font-medium mb-1">Selamat datang kembali 👋</p>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                  Hi, {displayNickname}!
-                </h1>
-                <p className="mt-1 text-white/60 text-sm">{displayProdi} · {displayAccountType}</p>
-              </div>
-              <div className="flex gap-3 shrink-0">
-                <Link
-                  to="/karir/pekerjaan"
-                  className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white border border-white/30 hover:bg-white/15 transition-colors"
-                >
-                  <Briefcase size={15} />
-                  Cari Lowongan
-                </Link>
-                <Link
-                  to="/dashboard/cv"
-                  className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold bg-white hover:bg-gray-50 transition-colors"
-                  style={{ color: currentTheme.primary }}
-                >
-                  <FileText size={15} />
-                  Update CV
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Stats cards ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {STATS.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <div
-                  key={stat.id}
-                  className="bg-white rounded-2xl p-5 flex items-start justify-between transition-shadow hover:shadow-md"
-                  style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
-                >
+                <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <p className="text-sm text-gray-500 font-medium mb-1">{stat.label}</p>
-                    <p className="text-4xl font-extrabold" style={{ color: stat.color }}>{stat.value}</p>
-                    <p className="mt-2 flex items-center gap-1 text-xs font-medium" style={{ color: stat.color }}>
-                      <TrendingUp size={12} />
-                      {stat.trend}
-                    </p>
+                    <p className="text-white/70 text-sm font-medium mb-1">Selamat datang kembali 👋</p>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                      Hi, {displayNickname}!
+                    </h1>
+                    <p className="mt-1 text-white/60 text-sm">{displayProdi} · {displayAccountType}</p>
                   </div>
-                  <div
-                    className="flex items-center justify-center rounded-xl"
-                    style={{ background: stat.colorBg, width: 44, height: 44 }}
-                  >
-                    <Icon size={20} color={stat.color} />
+                  <div className="flex gap-3 shrink-0">
+                    <Link
+                      to="/karir/pekerjaan"
+                      className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white border border-white/30 hover:bg-white/15 transition-colors"
+                    >
+                      <Briefcase size={15} />
+                      Cari Lowongan
+                    </Link>
+                    <Link
+                      to="/dashboard/cv"
+                      className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold bg-white hover:bg-gray-50 transition-colors"
+                      style={{ color: currentTheme.primary }}
+                    >
+                      <FileText size={15} />
+                      Update CV
+                    </Link>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* ── Bottom grid ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-
-            {/* Recent applications */}
-            <div
-              className="lg:col-span-2 bg-white rounded-2xl p-5"
-              style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold text-gray-800">Lamaran Terkini</h2>
               </div>
 
-              <div className="space-y-3">
-                {RECENT_APPLICATIONS.map((app) => {
-                  const s = STATUS_MAP[app.status];
+              {/* ── Stats cards ── */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {STATS.map((stat) => {
+                  const Icon = stat.icon;
                   return (
                     <div
-                      key={app.id}
-                      className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-all cursor-pointer"
+                      key={stat.id}
+                      className="bg-white rounded-2xl p-5 flex items-start justify-between transition-shadow hover:shadow-md"
+                      style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
                     >
+                      <div>
+                        <p className="text-sm text-gray-500 font-medium mb-1">{stat.label}</p>
+                        <p className="text-4xl font-extrabold" style={{ color: stat.color }}>{stat.value}</p>
+                        <p className="mt-2 flex items-center gap-1 text-xs font-medium" style={{ color: stat.color }}>
+                          <TrendingUp size={12} />
+                          {stat.trend}
+                        </p>
+                      </div>
                       <div
-                        className="flex items-center justify-center rounded-xl shrink-0"
-                        style={{ width: 42, height: 42, background: currentTheme.surfaceAlt }}
+                        className="flex items-center justify-center rounded-xl"
+                        style={{ background: stat.colorBg, width: 44, height: 44 }}
                       >
-                        <Building2 size={18} color={currentTheme.primary} />
+                        <Icon size={20} color={stat.color} />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-gray-800 truncate">{app.position}</p>
-                        <p className="text-xs text-gray-500 mt-0.5 truncate">{app.company}</p>
-                        <div className="flex items-center gap-3 mt-1.5">
-                          <span className="flex items-center gap-1 text-[11px] text-gray-400">
-                            <MapPin size={10} /> {app.location}
-                          </span>
-                          <span className="flex items-center gap-1 text-[11px] text-gray-400">
-                            <Calendar size={10} /> {app.date}
-                          </span>
-                        </div>
-                      </div>
-                      <span
-                        className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold"
-                        style={{ background: s.bg, color: s.color }}
-                      >
-                        {s.label}
-                      </span>
                     </div>
                   );
                 })}
               </div>
 
-              {RECENT_APPLICATIONS.length === 0 && (
-                <div className="text-center py-10">
-                  <AlertCircle size={32} color="#D1D5DB" className="mx-auto mb-2" />
-                  <p className="text-sm text-gray-400">Belum ada lamaran</p>
-                </div>
-              )}
-            </div>
+              {/* ── Bottom grid ── */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-            {/* Right column */}
-            <div className="flex flex-col gap-4">
-              {/* Quick links */}
-              <div className="bg-white rounded-2xl p-5" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <h2 className="text-sm font-bold text-gray-800 mb-3">Akses Cepat</h2>
-                <div className="space-y-1">
-                  {[
-                    { label: "Upload CV", icon: FileText, id: "cv" },
-                    { label: "File Manager", icon: FolderOpen, id: "file-manager" },
-                  ].map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => handleNavigate(item.id)}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                      >
+                {/* Recent applications */}
+                <div
+                  className="lg:col-span-2 bg-white rounded-2xl p-5"
+                  style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-base font-bold text-gray-800">Lamaran Terkini</h2>
+                  </div>
+
+                  <div className="space-y-3">
+                    {RECENT_APPLICATIONS.map((app) => {
+                      const s = STATUS_MAP[app.status];
+                      return (
                         <div
-                          className="flex items-center justify-center rounded-lg shrink-0"
-                          style={{ width: 30, height: 30, background: currentTheme.surfaceAlt }}
+                          key={app.id}
+                          className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-all cursor-pointer"
                         >
-                          <Icon size={14} color={currentTheme.primary} />
+                          <div
+                            className="flex items-center justify-center rounded-xl shrink-0"
+                            style={{ width: 42, height: 42, background: currentTheme.surfaceAlt }}
+                          >
+                            <Building2 size={18} color={currentTheme.primary} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-gray-800 truncate">{app.position}</p>
+                            <p className="text-xs text-gray-500 mt-0.5 truncate">{app.company}</p>
+                            <div className="flex items-center gap-3 mt-1.5">
+                              <span className="flex items-center gap-1 text-[11px] text-gray-400">
+                                <MapPin size={10} /> {app.location}
+                              </span>
+                              <span className="flex items-center gap-1 text-[11px] text-gray-400">
+                                <Calendar size={10} /> {app.date}
+                              </span>
+                            </div>
+                          </div>
+                          <span
+                            className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold"
+                            style={{ background: s.bg, color: s.color }}
+                          >
+                            {s.label}
+                          </span>
                         </div>
-                        {item.label}
-                        <ChevronRight size={14} color="#D1D5DB" className="ml-auto" />
-                      </button>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
+
+                  {RECENT_APPLICATIONS.length === 0 && (
+                    <div className="text-center py-10">
+                      <AlertCircle size={32} color="#D1D5DB" className="mx-auto mb-2" />
+                      <p className="text-sm text-gray-400">Belum ada lamaran</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right column */}
+                <div className="flex flex-col gap-4">
+                  {/* Quick links */}
+                  <div className="bg-white rounded-2xl p-5" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+                    <h2 className="text-sm font-bold text-gray-800 mb-3">Akses Cepat</h2>
+                    <div className="space-y-1">
+                      {[
+                        { label: "Upload CV", icon: FileText, id: "cv" },
+                        { label: "File Manager", icon: FolderOpen, id: "file-manager" },
+                      ].map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => handleNavigate(item.id)}
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            <div
+                              className="flex items-center justify-center rounded-lg shrink-0"
+                              style={{ width: 30, height: 30, background: currentTheme.surfaceAlt }}
+                            >
+                              <Icon size={14} color={currentTheme.primary} />
+                            </div>
+                            {item.label}
+                            <ChevronRight size={14} color="#D1D5DB" className="ml-auto" />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          </>
+            </>
           )}
         </main>
 
