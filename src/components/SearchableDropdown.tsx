@@ -7,9 +7,11 @@ interface DropdownProps {
     onChange: (val: string) => void;
     options: string[];
     placeholder?: string;
+    showSearch?: boolean;
+    containerClass?: string;
 }
 
-export default function SearchableDropdown({ value, onChange, options, placeholder }: DropdownProps) {
+export default function SearchableDropdown({ value, onChange, options, placeholder, showSearch = true, containerClass = "w-full" }: DropdownProps) {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
     const ref = useRef<HTMLDivElement>(null);
@@ -30,13 +32,13 @@ export default function SearchableDropdown({ value, onChange, options, placehold
     );
 
     return (
-        <div ref={ref} className="relative w-full lg:w-auto items-center">
+        <div ref={ref} className={`relative ${containerClass} lg:w-auto items-center`}>
             <button
                 type="button"
                 onClick={() => setOpen((p) => !p)}
                 className={`
     flex items-center justify-between
-    px-4 py-2.5 min-w-40 w-full
+    px-4 py-2.5 w-full
     text-sm font-semibold tracking-tight
     bg-white border border-slate-200/60
     rounded-xl shadow-sm
@@ -84,16 +86,18 @@ export default function SearchableDropdown({ value, onChange, options, placehold
                     </div>
 
                     {/* Search input */}
-                    <div className="px-3 py-2 border-b border-gray-100">
-                        <input
-                            autoFocus
-                            className="w-full bg-white rounded-full px-4 py-2 text-sm text-gray-700 outline-none placeholder-gray-400"
-                            style={{ border: "1px solid #E5E7EB" }}
-                            placeholder="Cari..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                    </div>
+                    {showSearch && (
+                        <div className="px-3 py-2 border-b border-gray-100">
+                            <input
+                                autoFocus
+                                className="w-full bg-white rounded-full px-4 py-2 text-sm text-gray-700 outline-none placeholder-gray-400"
+                                style={{ border: "1px solid #E5E7EB" }}
+                                placeholder="Cari..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </div>
+                    )}
 
                     {/* Options list */}
                     <ul className="max-h-52 overflow-y-auto py-1">

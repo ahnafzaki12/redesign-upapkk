@@ -7,10 +7,7 @@ import {
   Heart,
   User,
   FileText,
-  Mail,
   FolderOpen,
-  Star,
-  MessageSquare,
   Key,
   LogOut,
   Menu,
@@ -19,10 +16,8 @@ import {
   Bell,
   Search,
   TrendingUp,
-  Clock,
   CheckCircle,
   AlertCircle,
-  ArrowUpRight,
   Building2,
   MapPin,
   Calendar,
@@ -30,6 +25,7 @@ import {
 import { currentTheme } from "../theme/theme";
 import { useAuth } from "../contexts/AuthContext";
 import WishlistPage from "./dashboard/wishlist_page";
+import KewirausahaanDiikutiPage from "./dashboard/kewirausahaan_diikuti_page";
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 const STATS = [
@@ -98,19 +94,14 @@ const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> =
 // ─── Sidebar menu data ────────────────────────────────────────────────────────
 const MENU_ITEMS = [
   { id: "beranda", label: "Beranda", icon: Home, path: "/dashboard" },
-  { id: "lowongan", label: "Lowongan Kerja", icon: Briefcase, path: "/karir/pekerjaan" },
-  { id: "magang", label: "Magang", icon: BookOpen, path: "/karir/magang" },
+  { id: "kewirausahaan", label: "Kewirausahaan", icon: Briefcase, path: "/kewirausahaan" },
+  { id: "kewirausahaan-diikuti", label: "Kewirausahaan di ikuti", icon: BookOpen, path: "/dashboard/kewirausahaan-diikuti" },
   { id: "wishlist", label: "Whislist", icon: Heart, path: "/dashboard/wishlist" },
 ];
 
 const ACCOUNT_ITEMS = [
   { id: "cv", label: "Curriculum Vitae", icon: FileText, path: "/dashboard/cv" },
-  { id: "applied-vacancy", label: "Applied Vacancy", icon: Briefcase, path: "/dashboard/applied-vacancy" },
-  { id: "applied-internship", label: "Applied Internship", icon: BookOpen, path: "/dashboard/applied-internship" },
-  { id: "cover-letter", label: "Cover Letter", icon: Mail, path: "/dashboard/cover-letter" },
   { id: "file-manager", label: "File Manager", icon: FolderOpen, path: "/dashboard/files" },
-  { id: "talent", label: "Talent (Minat Bakat)", icon: Star, path: "/dashboard/talent" },
-  { id: "counseling", label: "Career Counseling", icon: MessageSquare, path: "/dashboard/counseling" },
   { id: "profile", label: "Profile", icon: User, path: "/dashboard/profile" },
   { id: "password", label: "Change Password", icon: Key, path: "/dashboard/password" },
 ];
@@ -225,22 +216,24 @@ function SidebarContent({ active, onNavigate, onLogout, onClose, userName, userN
 
       {/* User footer */}
       <div className="p-4 border-t" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-        <div className="flex items-center gap-3 mb-3">
-          <Avatar name={userName} size={36} />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white truncate">{userName.split(" ")[0]}</p>
-            <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)" }}>{userNim}</p>
-          </div>
-        </div>
         <button
           id="dashboard-logout-btn"
           onClick={onLogout}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200"
-          style={{ color: "rgba(255,255,255,0.6)", background: "rgba(239,68,68,0.08)" }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(239,68,68,0.2)"; e.currentTarget.style.color = "#FCA5A5"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(239,68,68,0.08)"; e.currentTarget.style.color = "rgba(255,255,255,0.6)"; }}
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 border shadow-sm"
+          style={{
+            color: "#B42318",
+            background: "#FFF5F5",
+            borderColor: "#F2CACA",
+            boxShadow: "0 6px 16px rgba(220,38,38,0.10)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "#FBDADA";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "#FFF5F5";
+          }}
         >
-          <LogOut size={15} />
+          <LogOut size={15} color="#DC2626" />
           Keluar
         </button>
       </div>
@@ -346,14 +339,6 @@ const DashboardPage = () => {
             >
               <Menu size={18} color="#374151" />
             </button>
-            <div className="hidden sm:flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 w-56 xl:w-72">
-              <Search size={15} color="#9CA3AF" />
-              <input
-                type="text"
-                placeholder="Cari lowongan, magang…"
-                className="bg-transparent text-sm text-gray-700 outline-none placeholder-gray-400 w-full"
-              />
-            </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -367,7 +352,7 @@ const DashboardPage = () => {
             <div className="flex items-center gap-2.5 rounded-xl border border-gray-200 bg-gray-50 px-3 py-1.5">
               <Avatar name={displayName} size={28} />
               <div className="hidden md:block">
-                <p className="text-xs font-semibold text-gray-800 leading-tight max-w-[140px] truncate">{displayName}</p>
+                <p className="text-xs font-semibold text-gray-800 leading-tight max-w-35 truncate">{displayName}</p>
                 <p className="text-[10px]" style={{ color: currentTheme.primary }}>{displayAccountType}</p>
               </div>
             </div>
@@ -376,6 +361,7 @@ const DashboardPage = () => {
 
         {/* Page body */}
         <main className="flex-1 px-4 sm:px-6 py-6 space-y-6">
+          {section === "kewirausahaan-diikuti" && <KewirausahaanDiikutiPage />}
           {section === "wishlist" && <WishlistPage />}
 
           {(!section || section === "beranda") && (
@@ -457,13 +443,6 @@ const DashboardPage = () => {
             >
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-base font-bold text-gray-800">Lamaran Terkini</h2>
-                <button
-                  className="text-xs font-semibold flex items-center gap-1 hover:underline"
-                  style={{ color: currentTheme.primary }}
-                  onClick={() => handleNavigate("applied-vacancy")}
-                >
-                  Lihat semua <ArrowUpRight size={13} />
-                </button>
               </div>
 
               <div className="space-y-3">
@@ -513,49 +492,12 @@ const DashboardPage = () => {
 
             {/* Right column */}
             <div className="flex flex-col gap-4">
-              {/* Profile completion */}
-              <div className="bg-white rounded-2xl p-5" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <h2 className="text-sm font-bold text-gray-800 mb-3">Kelengkapan Profil</h2>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs text-gray-500">65% selesai</span>
-                  <span className="text-xs font-semibold" style={{ color: currentTheme.primary }}>65%</span>
-                </div>
-                <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{ width: "65%", background: `linear-gradient(90deg, ${currentTheme.heroStart}, ${currentTheme.heroEnd})` }}
-                  />
-                </div>
-                <div className="mt-3 space-y-2">
-                  {[
-                    { label: "Foto Profil", done: true },
-                    { label: "Curriculum Vitae", done: true },
-                    { label: "Cover Letter", done: false },
-                    { label: "Talent & Minat", done: false },
-                  ].map((item) => (
-                    <div key={item.label} className="flex items-center gap-2">
-                      <div
-                        className="flex items-center justify-center rounded-full shrink-0"
-                        style={{ width: 18, height: 18, background: item.done ? currentTheme.surfaceAlt : "#F3F4F6" }}
-                      >
-                        {item.done
-                          ? <CheckCircle size={12} color={currentTheme.primary} />
-                          : <Clock size={12} color="#9CA3AF" />}
-                      </div>
-                      <span className="text-xs" style={{ color: item.done ? "#374151" : "#9CA3AF" }}>{item.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Quick links */}
               <div className="bg-white rounded-2xl p-5" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <h2 className="text-sm font-bold text-gray-800 mb-3">Akses Cepat</h2>
                 <div className="space-y-1">
                   {[
                     { label: "Upload CV", icon: FileText, id: "cv" },
-                    { label: "Buat Cover Letter", icon: Mail, id: "cover-letter" },
-                    { label: "Career Counseling", icon: MessageSquare, id: "counseling" },
                     { label: "File Manager", icon: FolderOpen, id: "file-manager" },
                   ].map((item) => {
                     const Icon = item.icon;
