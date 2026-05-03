@@ -38,7 +38,7 @@ const ProfilePage = () => {
           <div
             className="w-24 h-24 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-100 flex items-center justify-center"
             style={{
-              background: `linear-gradient(135deg, ${currentTheme.heroStart}, ${currentTheme.heroEnd})`,
+              background: `linear-gradient(120deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 85%)`,
             }}
           >
             {/* Fallback avatar if no image */}

@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import ArticlePage from "../pages/article_page";
 import ArticleDetailPage from "../pages/article_detail_page";
 import EventPage from "../pages/event_page";
@@ -20,6 +21,7 @@ import KewirausahaanDetailPage from "../pages/kewirausahaan_detail_page";
 import About from "../pages/about_page";
 import FAQ_page from "../pages/FAQ_page";
 import Contact_page from "../pages/contact_page";
+import NotFoundPage from "../pages/not_found_page";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -29,6 +31,28 @@ function ScrollToTop() {
   }, [pathname]);
 
   return null;
+}
+
+// ─── Route Guards ─────────────────────────────────────────────────────────────
+function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
+
+function GuestRoute({ children }: { children: JSX.Element }) {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
 }
 
 const AppRoutes = () => {
@@ -47,10 +71,10 @@ const AppRoutes = () => {
         <Route path="/karir/lamar/:id" element={<ApplyPage />} />
         <Route path="/karir/perusahaan" element={<CompanyPage />} />
         <Route path="/karir/perusahaan/:id" element={<CompanyDetailPage />} />
-        <Route path="/registrasi" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/dashboard/:section" element={<DashboardPage />} />
+        <Route path="/registrasi" element={<GuestRoute><RegisterPage /></GuestRoute>} />
+        <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/dashboard/:section" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/panduan/keanggotaan" element={<MembershipJobseekerPage />} />
         <Route path="/kewirausahaan" element={<KewirausahaanPage />} />
         <Route path="/kewirausahaan/:slug" element={<KewirausahaanDetailPage />} />
@@ -61,6 +85,9 @@ const AppRoutes = () => {
         <Route path="/tentang" element={<About />} />
         <Route path="/faq" element={<FAQ_page />} />
         <Route path="/kontak" element={<Contact_page />} />
+
+        {/* ── Catch-All Route ── */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );

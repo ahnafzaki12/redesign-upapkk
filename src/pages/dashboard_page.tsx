@@ -112,7 +112,7 @@ function Avatar({ name, size = 40 }: { name: string; size?: number }) {
         width: size,
         height: size,
         fontSize: size * 0.35,
-        background: `linear-gradient(135deg, ${currentTheme.heroStart}, ${currentTheme.heroEnd})`,
+        background: `linear-gradient(120deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 85%)`,
       }}
     >
       {initials}
@@ -271,7 +271,7 @@ const DashboardPage = () => {
       <aside
         className="hidden lg:flex lg:flex-col w-64 shrink-0 fixed top-0 left-0 h-screen z-30"
         style={{
-          background: `linear-gradient(170deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 50%, ${currentTheme.heroEnd} 100%)`,
+          background: `linear-gradient(170deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 85%)`,
           boxShadow: "4px 0 24px rgba(47,143,143,0.15)",
         }}
       >
@@ -295,7 +295,7 @@ const DashboardPage = () => {
       <aside
         className="fixed top-0 left-0 h-screen w-64 z-50 lg:hidden flex flex-col transition-transform duration-300"
         style={{
-          background: `linear-gradient(170deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 50%, ${currentTheme.heroEnd} 100%)`,
+          background: `linear-gradient(170deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 85%)`,
           transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
           boxShadow: "4px 0 24px rgba(47,143,143,0.2)",
         }}
@@ -364,11 +364,11 @@ const DashboardPage = () => {
               <div
                 className="relative overflow-hidden rounded-2xl p-6 sm:p-8"
                 style={{
-                  background: `linear-gradient(135deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 55%, ${currentTheme.heroEnd} 100%)`,
+                  background: `linear-gradient(120deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 85%)`,
                 }}
               >
-                <div className="pointer-events-none absolute -top-10 -right-10 h-48 w-48 rounded-full opacity-20 blur-2xl" style={{ background: "#fff" }} />
-                <div className="pointer-events-none absolute bottom-0 right-24 h-32 w-32 rounded-full opacity-10 blur-xl" style={{ background: "#B9E2E2" }} />
+                <div className="pointer-events-none absolute -top-10 -right-10 h-[250px] w-[250px] rounded-full opacity-30 blur-[40px]" style={{ background: "#fff" }} />
+                <div className="pointer-events-none absolute bottom-0 right-24 h-48 w-48 rounded-full opacity-20 blur-[30px]" style={{ background: "#B9E2E2" }} />
 
                 <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>

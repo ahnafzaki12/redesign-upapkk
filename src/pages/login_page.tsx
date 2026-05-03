@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { currentTheme } from "../theme/theme";
 import { useAuth } from "../contexts/AuthContext";
+import Navbar from "../components/navbar";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface LoginForm {
@@ -199,9 +200,11 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: currentTheme.surface }}>
-      {/* ── Left panel (decorative, hidden on mobile) ───────────── */}
-      <aside
+    <div className="min-h-screen flex flex-col" style={{ background: currentTheme.surface }}>
+      <Navbar />
+      <div className="flex-1 flex">
+        {/* ── Left panel (decorative, hidden on mobile) ───────────── */}
+        <aside
         className="hidden lg:flex lg:w-[46%] xl:w-[42%] relative flex-col justify-between overflow-hidden"
         style={{
           background: `linear-gradient(145deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 55%, ${currentTheme.heroEnd} 100%)`,
@@ -483,6 +486,7 @@ const LoginPage = () => {
           </p>
         </div>
       </main>
+      </div>
     </div>
   );
 };

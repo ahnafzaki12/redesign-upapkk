@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import { 
-  kewirausahaanData, 
+import {
+  kewirausahaanData,
   KEWIRAUSAHAAN_CATEGORIES,
   KEWIRAUSAHAAN_LEVELS,
   KEWIRAUSAHAAN_PARTICIPANTS
@@ -11,12 +11,12 @@ import {
 import { currentTheme } from "../theme/theme";
 
 // ── Theme constants ──────────────────────────────────────────────────────────
-const ACCENT      = currentTheme.primary;
+const ACCENT = currentTheme.primary;
 const ACCENT_DARK = currentTheme.heroEnd;
 const ACCENT_LIGHT = currentTheme.surfaceAlt;
-const HERO_BG     = currentTheme.heroStart;
-const SURFACE     = currentTheme.surface;
-const BORDER      = currentTheme.border;
+const HERO_BG = currentTheme.heroStart;
+const SURFACE = currentTheme.surface;
+const BORDER = currentTheme.border;
 
 // ── Sidebar Category Pill ──────────────────────────────────────────────────
 interface CategoryPillProps {
@@ -101,13 +101,13 @@ function CompetitionCard({ item }: CompetitionCardProps) {
       {/* Image / Poster */}
       <div className="w-full relative overflow-hidden bg-gray-900 flex items-center justify-center group" style={{ aspectRatio: "4/5" }}>
         {/* Background layer (Blurred & Darkened) to fill empty space */}
-        <img 
-          src={resolvedImage} 
-          alt="blur-bg" 
+        <img
+          src={resolvedImage}
+          alt="blur-bg"
           className="absolute inset-0 w-full h-full object-cover opacity-60 blur-xl scale-110"
           style={{ transform: hovered ? "scale(1.15)" : "scale(1.1)" }}
         />
-        
+
         {/* Foreground Image (Original Aspect Ratio) */}
         <img
           src={resolvedImage}
@@ -115,7 +115,7 @@ function CompetitionCard({ item }: CompetitionCardProps) {
           className="w-full h-full object-contain transition-transform duration-350 ease-out relative z-10 drop-shadow-xl"
           style={{ transform: hovered ? "scale(1.04)" : "scale(1)" }}
         />
-        
+
         {/* Top Badges overlay */}
         <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-20">
           <span
@@ -174,22 +174,22 @@ function CompetitionCard({ item }: CompetitionCardProps) {
             <span className="text-xs leading-tight">{item.quota}</span>
           </div>
           <div className="flex items-start gap-1.5 text-gray-500 col-span-2">
-             <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-             </svg>
-             <span className="text-xs leading-tight">Tk. {item.level} ({item.participantType})</span>
+            <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span className="text-xs leading-tight">Tk. {item.level} ({item.participantType})</span>
           </div>
         </div>
 
         {/* Description */}
-        <p 
+        <p
           className="text-xs text-gray-500 overflow-hidden"
-          style={{ 
-            display: '-webkit-box', 
-            WebkitLineClamp: 2, 
-            WebkitBoxOrient: 'vertical', 
-            lineHeight: '1.5em', 
-            maxHeight: '3em' 
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            lineHeight: '1.5em',
+            maxHeight: '3em'
           }}
         >
           {item.description}
@@ -234,8 +234,8 @@ export default function KewirausahaanPage() {
   const filtered = kewirausahaanData.filter((item) => {
     // 1. Search Query
     const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        item.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
+      item.description.toLowerCase().includes(searchQuery.toLowerCase());
+
     // 2. Top Tabs
     let matchTopTab = true;
     if (activeTopTab === "Berbayar") matchTopTab = item.fee !== "Gratis";
@@ -271,11 +271,11 @@ export default function KewirausahaanPage() {
     return acc;
   }, {});
 
-  const hasActiveFilters = activeCategory !== "Semua Kategori" || 
-                           activeLevel !== "Semua Kategori" || 
-                           activeParticipant !== "Semua Kategori" || 
-                           searchQuery !== "" ||
-                           activeTopTab !== "Semua";
+  const hasActiveFilters = activeCategory !== "Semua Kategori" ||
+    activeLevel !== "Semua Kategori" ||
+    activeParticipant !== "Semua Kategori" ||
+    searchQuery !== "" ||
+    activeTopTab !== "Semua";
 
   const clearFilters = () => {
     setActiveCategory("Semua Kategori");
@@ -290,8 +290,15 @@ export default function KewirausahaanPage() {
       <Navbar />
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <div className="px-4 sm:px-6 py-12 sm:py-14" style={{ background: HERO_BG }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div
+        className="relative overflow-hidden px-4 sm:px-6 py-12 sm:py-14"
+        style={{ background: `linear-gradient(120deg, ${currentTheme.heroStart} 0%, ${currentTheme.primary} 85%)` }}
+      >
+        {/* Lighter decorative circles */}
+        <div className="pointer-events-none absolute -top-20 -right-10 h-[500px] w-[500px] rounded-full opacity-30 blur-[80px]" style={{ background: "#fff" }} />
+        <div className="pointer-events-none absolute bottom-0 right-1/4 h-96 w-96 rounded-full opacity-20 blur-[60px]" style={{ background: "#B9E2E2" }} />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
           <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
             Pusat Kompetisi
           </p>
@@ -365,7 +372,7 @@ export default function KewirausahaanPage() {
 
           {/* ── LEFT: Sidebar Filters ──────────────────────────────────── */}
           <aside className="lg:w-64 xl:w-72 shrink-0 flex flex-col gap-5">
-            
+
             {/* Filter 1: Kategori Lomba */}
             <div className="rounded-2xl overflow-hidden bg-white shadow-sm" style={{ border: `1px solid ${BORDER}` }}>
               <div className="px-5 py-3.5 border-b flex items-center gap-2" style={{ borderColor: BORDER, background: SURFACE }}>
@@ -494,5 +501,5 @@ export default function KewirausahaanPage() {
 
       <Footer />
     </div>
-  );
+  )
 }
