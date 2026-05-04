@@ -14,7 +14,6 @@ import { currentTheme } from "../theme/theme";
 const ACCENT = currentTheme.primary;
 const ACCENT_DARK = currentTheme.heroEnd;
 const ACCENT_LIGHT = currentTheme.surfaceAlt;
-const HERO_BG = currentTheme.heroStart;
 const SURFACE = currentTheme.surface;
 const BORDER = currentTheme.border;
 

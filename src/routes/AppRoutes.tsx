@@ -1,5 +1,5 @@
+import React, { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import ArticlePage from "../pages/article_page";
 import ArticleDetailPage from "../pages/article_detail_page";
@@ -34,7 +34,7 @@ function ScrollToTop() {
 }
 
 // ─── Route Guards ─────────────────────────────────────────────────────────────
-function ProtectedRoute({ children }: { children: JSX.Element }) {
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
 
@@ -45,7 +45,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
   return children;
 }
 
-function GuestRoute({ children }: { children: JSX.Element }) {
+function GuestRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
