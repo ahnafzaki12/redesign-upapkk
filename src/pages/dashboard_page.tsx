@@ -15,10 +15,7 @@ import {
   ChevronRight,
   Bell,
   TrendingUp,
-  CheckCircle,
   AlertCircle,
-  Building2,
-  MapPin,
   Calendar,
 } from "lucide-react";
 import { currentTheme } from "../theme/theme";
@@ -27,6 +24,7 @@ import WishlistPage from "./dashboard/wishlist_page";
 import KewirausahaanDiikutiPage from "./dashboard/kewirausahaan_diikuti_page";
 import ProfilePage from "./dashboard/profile_page";
 import FileManagerPage from "./dashboard/file_manager_page";
+import CVBuilderPage from "./dashboard/cv_builder_page";
 import { kewirausahaanData } from "../data/kewirausahaanData";
 
 // ─── Static data ──────────────────────────────────────────────────────────────
@@ -357,6 +355,7 @@ const DashboardPage = () => {
           {section === "wishlist" && <WishlistPage />}
           {section === "profile" && <ProfilePage />}
           {section === "files" && <FileManagerPage />}
+          {section === "cv" && <CVBuilderPage />}
 
           {(!section || section === "beranda") && (
             <>

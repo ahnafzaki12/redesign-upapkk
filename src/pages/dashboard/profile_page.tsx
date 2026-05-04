@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Edit2, MapPin, Camera } from "lucide-react";
 import { currentTheme } from "../../theme/theme";
 import { useAuth } from "../../contexts/AuthContext";
+import EditProfileModal from "../../components/EditProfileModal";
 
 const ProfilePage = () => {
   const { user } = useAuth();
 
   // Simulated data based on register_page.tsx and dashboard_page.tsx context
-  const [profileData] = useState({
+  const [profileData, setProfileData] = useState({
     fullName: user?.name || "Natashia Khaleira",
     nik: "3578123456789012",
     nim: user?.nim || "21081010001",
@@ -20,6 +21,18 @@ const ProfilePage = () => {
     major: user?.prodi || "Informatika",
     role: user?.accountType || "Mahasiswa",
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"personal" | "academic" | null>(null);
+
+  const handleEditClick = (type: "personal" | "academic") => {
+    setModalType(type);
+    setIsModalOpen(true);
+  };
+
+  const handleSave = (updatedData: any) => {
+    setProfileData((prev: any) => ({ ...prev, ...updatedData }));
+  };
 
   const ACCENT = currentTheme.primary;
 
@@ -68,7 +81,8 @@ const ProfilePage = () => {
             Informasi Pribadi
           </h3>
           <button
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
+            onClick={() => handleEditClick("personal")}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer hover:opacity-90"
             style={{
               backgroundColor: ACCENT,
               color: "white"
@@ -109,7 +123,8 @@ const ProfilePage = () => {
             Informasi Akademik
           </h3>
           <button
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors border"
+            onClick={() => handleEditClick("academic")}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors border cursor-pointer hover:bg-gray-50"
             style={{
               borderColor: "#E5E7EB",
               color: "#374151",
@@ -147,6 +162,14 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+
+      <EditProfileModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+        initialData={profileData}
+        type={modalType}
+      />
     </div>
   );
 };
