@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Heart,
   MapPin,
@@ -15,12 +15,13 @@ import {
 import { currentTheme } from "../../theme/theme";
 import { jobsData } from "../../data/jobData";
 import { kewirausahaanData } from "../../data/kewirausahaanData";
+import { PageHeader, StatusBadge, Button } from "../../components/ui";
 
 export default function WishlistPage() {
   const [activeTab, setActiveTab] = useState<"lowongan" | "kewirausahaan">("lowongan");
+  const navigate = useNavigate();
   
   // Mengambil sebagian data pekerjaan dan kewirausahaan simulasi sebagai wishlist 
-  // Di implementasi aslinya, data ini akan didapat dari context atau API berdasarkan id tersimpan
   const [jobs, setJobs] = useState(jobsData.slice(0, 2));
   const [kewirausahaan, setKewirausahaan] = useState(kewirausahaanData.slice(0, 2));
 
@@ -34,24 +35,11 @@ export default function WishlistPage() {
 
   return (
     <div className="space-y-6">
-      {/* --- HEADER --- */}
-      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-sm relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-xl" style={{ backgroundColor: `${currentTheme.primary}15` }}>
-              <Heart size={24} style={{ color: currentTheme.primary }} fill={currentTheme.primary} />
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Wishlist Saya</h1>
-          </div>
-          <p className="text-gray-500 text-sm sm:text-base max-w-2xl">
-            Simpan dan kelola lowongan pekerjaan, magang, serta kompetisi kewirausahaan yang Anda minati di satu tempat.
-          </p>
-        </div>
-        
-        {/* Decorative elements */}
-        <div className="pointer-events-none absolute -top-10 -right-10 h-48 w-48 rounded-full opacity-[0.03]" style={{ background: currentTheme.primary }} />
-        <div className="pointer-events-none absolute bottom-0 right-24 h-32 w-32 rounded-full opacity-[0.04]" style={{ background: currentTheme.primaryHover }} />
-      </div>
+      <PageHeader
+        icon={<Heart />}
+        title="Wishlist Saya"
+        description="Simpan dan kelola lowongan pekerjaan, magang, serta kompetisi kewirausahaan yang Anda minati di satu tempat."
+      />
 
       {/* --- TABS --- */}
       <div className="flex gap-2 border-b border-gray-200" style={{ '--theme-primary': currentTheme.primary } as React.CSSProperties}>
@@ -109,11 +97,11 @@ export default function WishlistPage() {
                     </div>
                     <div className="flex-1 min-w-0 pr-8">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                          job.tag === 'Magang' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'
-                        }`}>
-                          {job.tag || job.category}
-                        </span>
+                        <StatusBadge
+                          label={job.tag || job.category}
+                          color={job.tag === 'Magang' ? '#C2410C' : '#1D4ED8'}
+                          bgColor={job.tag === 'Magang' ? '#FFEDD5' : '#DBEAFE'}
+                        />
                       </div>
                       <h3 className="font-bold text-gray-900 truncate leading-tight group-hover:text-[var(--theme-primary)] transition-colors" style={{ '--theme-primary': currentTheme.primary } as React.CSSProperties}>
                         {job.title}
@@ -123,7 +111,6 @@ export default function WishlistPage() {
                         <span className="truncate">{job.company}</span>
                       </div>
                     </div>
-                    {/* Delete button */}
                     <button 
                       onClick={() => removeJob(job.id)}
                       className="absolute top-5 right-5 text-gray-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors"
@@ -153,20 +140,20 @@ export default function WishlistPage() {
                       <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider mb-0.5">Estimasi Pendapatan</p>
                       <p className="font-bold text-sm text-gray-900">{job.salary || "Sesuai UMR"}</p>
                     </div>
-                    <Link
-                      to={`/karir/detail/${job.id}`}
-                      className="flex items-center gap-1.5 text-sm font-medium text-white px-4 py-2 rounded-xl transition-transform hover:-translate-y-0.5"
-                      style={{ background: currentTheme.primary, boxShadow: `0 4px 14px ${currentTheme.primary}40` }}
+                    <Button 
+                      variant="primary" 
+                      onClick={() => navigate(`/karir/detail/${job.id}`)}
+                      icon={<ArrowRight size={14} />}
+                      iconPosition="right"
                     >
                       Lihat Detail
-                      <ArrowRight size={14} />
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <EmptyState tabName="Lowongan & Magang" />
+            <EmptyState tabName="Lowongan & Magang" navigate={navigate} />
           )
         ) : (
           kewirausahaan.length > 0 ? (
@@ -183,20 +170,23 @@ export default function WishlistPage() {
                     </div>
                     <div className="flex-1 min-w-0 pr-8">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-purple-100 text-purple-700">
-                          {item.category}
-                        </span>
+                        <StatusBadge
+                          label={item.category}
+                          color="#7E22CE"
+                          bgColor="#F3E8FF"
+                        />
                         {item.status === 'Buka' && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700">
-                          Daftar Buka
-                        </span>
+                          <StatusBadge
+                            label="Daftar Buka"
+                            color="#047857"
+                            bgColor="#D1FAE5"
+                          />
                         )}
                       </div>
                       <h3 className="font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-[var(--theme-primary)] transition-colors" style={{ '--theme-primary': currentTheme.primary } as React.CSSProperties}>
                         {item.title}
                       </h3>
                     </div>
-                    {/* Delete button */}
                     <button 
                       onClick={() => removeKewirausahaan(item.id)}
                       className="absolute top-5 right-5 text-gray-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors"
@@ -226,20 +216,20 @@ export default function WishlistPage() {
                   </div>
 
                   <div className="flex items-center justify-end pt-4 border-t border-gray-100">
-                    <Link
-                      to={`/kewirausahaan/${item.slug}`}
-                      className="flex items-center gap-1.5 text-sm font-medium text-white px-4 py-2 rounded-xl transition-transform hover:-translate-y-0.5"
-                      style={{ background: currentTheme.primary, boxShadow: `0 4px 14px ${currentTheme.primary}40` }}
+                    <Button 
+                      variant="primary" 
+                      onClick={() => navigate(`/kewirausahaan/${item.slug}`)}
+                      icon={<ArrowRight size={14} />}
+                      iconPosition="right"
                     >
                       Lihat Info
-                      <ArrowRight size={14} />
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <EmptyState tabName="Kewirausahaan" />
+            <EmptyState tabName="Kewirausahaan" navigate={navigate} />
           )
         )}
       </div>
@@ -247,23 +237,22 @@ export default function WishlistPage() {
   );
 }
 
-function EmptyState({ tabName }: { tabName: string }) {
+function EmptyState({ tabName, navigate }: { tabName: string, navigate: any }) {
   return (
     <div className="flex flex-col items-center justify-center p-12 text-center bg-white rounded-2xl border border-gray-100 border-dashed">
       <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
         <Heart size={28} className="text-gray-300" />
       </div>
       <h3 className="text-lg font-bold text-gray-900 mb-1">Belum ada {tabName} tersimpan</h3>
-      <p className="text-gray-500 text-sm max-w-sm">
+      <p className="text-gray-500 text-sm max-w-sm mb-6">
         Anda belum menambahkan item ke wishlist ini. Jelajahi halaman {tabName} untuk menemukan yang cocok untuk Anda!
       </p>
-      <Link
-        to={tabName === "Kewirausahaan" ? "/kewirausahaan" : "/karir/pekerjaan"}
-        className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
-        style={{ background: currentTheme.primary, boxShadow: `0 4px 14px ${currentTheme.primary}40` }}
+      <Button
+        variant="primary"
+        onClick={() => navigate(tabName === "Kewirausahaan" ? "/kewirausahaan" : "/karir/pekerjaan")}
       >
         Mulai Jelajahi
-      </Link>
+      </Button>
     </div>
   );
 }

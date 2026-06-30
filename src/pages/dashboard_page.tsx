@@ -26,6 +26,7 @@ import ProfilePage from "./dashboard/profile_page";
 import FileManagerPage from "./dashboard/file_manager_page";
 import CVBuilderPage from "./dashboard/cv_builder_page";
 import { kewirausahaanData } from "../data/kewirausahaanData";
+import { StatusBadge } from "../components/ui";
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 const RECENT_KEWIRAUSAHAAN = [
@@ -93,7 +94,6 @@ const ACCOUNT_ITEMS = [
   { id: "cv", label: "Curriculum Vitae", icon: FileText, path: "/dashboard/cv" },
   { id: "files", label: "File Manager", icon: FolderOpen, path: "/dashboard/files" },
   { id: "profile", label: "Profile", icon: User, path: "/dashboard/profile" },
-  { id: "password", label: "Change Password", icon: Key, path: "/dashboard/password" },
 ];
 
 // ─── Avatar component ─────────────────────────────────────────────────────────
@@ -463,12 +463,11 @@ const DashboardPage = () => {
                               </span>
                             </div>
                           </div>
-                          <span
-                            className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold"
-                            style={{ background: s.bg, color: s.color }}
-                          >
-                            {s.label}
-                          </span>
+                          <StatusBadge 
+                            label={s.label} 
+                            color={s.color} 
+                            bgColor={s.bg} 
+                          />
                         </div>
                       );
                     })}

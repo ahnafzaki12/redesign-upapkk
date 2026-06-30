@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Edit2, MapPin, Camera } from "lucide-react";
+import { Edit2, MapPin, Camera, Shield } from "lucide-react";
 import { currentTheme } from "../../theme/theme";
 import { useAuth } from "../../contexts/AuthContext";
 import EditProfileModal from "../../components/EditProfileModal";
+import ChangePasswordModal from "../../components/ChangePasswordModal";
+import { Button } from "../../components/ui";
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -24,6 +26,7 @@ const ProfilePage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"personal" | "academic" | null>(null);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   const handleEditClick = (type: "personal" | "academic") => {
     setModalType(type);
@@ -32,6 +35,11 @@ const ProfilePage = () => {
 
   const handleSave = (updatedData: any) => {
     setProfileData((prev: any) => ({ ...prev, ...updatedData }));
+  };
+
+  const handlePasswordSave = (passwordData: any) => {
+    console.log("Password change requested with data:", passwordData);
+    alert("Permintaan ubah password berhasil disimulasikan!");
   };
 
   const ACCENT = currentTheme.primary;
@@ -80,16 +88,14 @@ const ProfilePage = () => {
           <h3 className="text-lg font-bold" style={{ color: currentTheme.text }}>
             Informasi Pribadi
           </h3>
-          <button
+          <Button
+            variant="primary"
             onClick={() => handleEditClick("personal")}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer hover:opacity-90"
-            style={{
-              backgroundColor: ACCENT,
-              color: "white"
-            }}
+            icon={<Edit2 size={14} />}
+            iconPosition="right"
           >
-            Edit <Edit2 size={14} />
-          </button>
+            Edit
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-8">
@@ -122,17 +128,14 @@ const ProfilePage = () => {
           <h3 className="text-lg font-bold" style={{ color: currentTheme.text }}>
             Informasi Akademik
           </h3>
-          <button
+          <Button
+            variant="primary"
             onClick={() => handleEditClick("academic")}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors border cursor-pointer hover:bg-gray-50"
-            style={{
-              borderColor: "#E5E7EB",
-              color: "#374151",
-              backgroundColor: "white"
-            }}
+            icon={<Edit2 size={14} />}
+            iconPosition="right"
           >
-            Edit <Edit2 size={14} />
-          </button>
+            Edit
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-8">
@@ -163,12 +166,38 @@ const ProfilePage = () => {
         </div>
       </div>
 
+      {/* Account Security Card */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-bold" style={{ color: currentTheme.text }}>
+            Keamanan Akun
+          </h3>
+          <Button
+            variant="primary"
+            onClick={() => setIsPasswordModalOpen(true)}
+            icon={<Shield size={14} />}
+            iconPosition="right"
+          >
+            Ubah Password
+          </Button>
+        </div>
+        
+        <div className="text-sm text-gray-500">
+          <p>Pastikan akun Anda menggunakan password yang panjang dan acak agar tetap aman. Jangan gunakan password yang sama untuk aplikasi lain.</p>
+        </div>
+      </div>
+
       <EditProfileModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSave}
         initialData={profileData}
         type={modalType}
+      />
+      <ChangePasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        onSave={handlePasswordSave}
       />
     </div>
   );

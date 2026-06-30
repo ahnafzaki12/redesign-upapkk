@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
-import { Search, Eye, Trash2, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { Search, Eye, Trash2, ChevronLeft, ChevronRight, ExternalLink, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import SearchableDropdown from '../../components/SearchableDropdown';
 import { kewirausahaanData } from '../../data/kewirausahaanData';
+import { PageHeader, SearchInput, FormSelect, Button } from '../../components/ui';
 
 interface KewirausahaanDiikutiItem {
   id: number;
@@ -78,7 +78,6 @@ export default function KewirausahaanDiikutiPage() {
 
       return kewirausahaanData.map((item, index) => {
         const dates = formatScheduleToDates(item.schedule);
-        // Menentukan nama kewirausahaan (karena data asli belum memiliki field 'organizer')
         let kewirausahaanName = dummyPenyelenggara[index % dummyPenyelenggara.length];
         if (item.title.includes('PMW')) {
           kewirausahaanName = "UPA - Pengembangan Karir dan Kewirausahaan UPNVJT";
@@ -141,41 +140,42 @@ export default function KewirausahaanDiikutiPage() {
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 w-full max-w-360 mx-auto animate-fade-in fade-in-up transition-all duration-500">
       
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-gray-100 pb-5 mb-6 gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Kewirausahaan Diikuti</h1>
-          <p className="text-sm font-medium text-gray-500 mt-1">Kelola dan pantau program kewirausahaan yang Anda ikuti.</p>
-        </div>
+      <div className="mb-6 border-b border-gray-100 pb-2">
+        <PageHeader 
+          icon={<Trophy />}
+          title="Kewirausahaan Diikuti"
+          description="Kelola dan pantau program kewirausahaan yang Anda ikuti."
+        />
       </div>
 
       {/* Control Tools Section */}
-      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6 relative z-10">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6 relative z-10 items-end sm:items-center">
         
         {/* Entries Control */}
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-gray-600">Show</span>
-          <SearchableDropdown
-            value={String(entriesPerPage)}
-            onChange={(val) => setEntriesPerPage(Number(val))}
-            options={['5', '10', '25', '50']}
-            placeholder={String(entriesPerPage)}
-            showSearch={false}
-            containerClass="w-20"
-          />
+          <div className="w-20">
+            <FormSelect
+              value={String(entriesPerPage)}
+              onChange={(val) => setEntriesPerPage(Number(val))}
+              options={[
+                { label: '5', value: '5' },
+                { label: '10', value: '10' },
+                { label: '25', value: '25' },
+                { label: '50', value: '50' }
+              ]}
+              placeholder={String(entriesPerPage)}
+            />
+          </div>
           <span className="text-sm font-medium text-gray-600">entries</span>
         </div>
 
         {/* Search Bar */}
-        <div className="w-full sm:w-72 relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-            <Search className="w-4 h-4 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Cari aktivitas..."
-            className="w-full bg-white border border-slate-200/60 text-gray-900 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 block pl-10 p-2.5 transition-all shadow-sm hover:border-slate-300"
+        <div className="w-full sm:w-72">
+          <SearchInput
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={setSearchTerm}
+            placeholder="Cari aktivitas..."
           />
         </div>
       </div>
@@ -229,12 +229,20 @@ export default function KewirausahaanDiikutiPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
-                        <button title="Detail" className="p-1.5 rounded-md text-teal-600 flex items-center justify-center hover:bg-teal-50 transition-colors border border-transparent hover:border-teal-100">
+                        <Button 
+                          variant="ghost" 
+                          title="Detail" 
+                          className="!p-1.5 text-teal-600 hover:bg-teal-50"
+                        >
                           <Eye className="w-4 h-4" />
-                        </button>
-                        <button title="Delete" className="p-1.5 rounded-md text-red-500 flex items-center justify-center hover:bg-red-50 transition-colors border border-transparent hover:border-red-100">
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          title="Delete" 
+                          className="!p-1.5 text-red-500 hover:bg-red-50"
+                        >
                           <Trash2 className="w-4 h-4" />
-                        </button>
+                        </Button>
                       </div>
                     </td>
                   </tr>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Plus, Trash2, Link as LinkIcon, Bold, Italic, List, Link2, Download } from "lucide-react";
 import { currentTheme } from "../../theme/theme";
+import { Button, FormInput, FormTextarea } from "../../components/ui";
 
 export default function CVBuilderPage() {
     const [details, setDetails] = useState({
@@ -101,22 +102,35 @@ export default function CVBuilderPage() {
                     <h2 className="text-2xl font-bold text-gray-900">Data Diri</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-600 mb-2">Posisi Pekerjaan</label>
-                        <input type="text" name="jobTitle" value={details.jobTitle} onChange={handleDetailChange} placeholder="mis. Desainer Layanan" className="w-full p-3.5 rounded-xl border-none bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-colors" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-600 mb-2">Nama Lengkap</label>
-                        <input type="text" name="fullName" value={details.fullName} onChange={handleDetailChange} placeholder="mis. Budi Santoso" className="w-full p-3.5 rounded-xl border-none bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-colors" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-600 mb-2">Alamat Lengkap</label>
-                        <input type="text" name="address" value={details.address} onChange={handleDetailChange} placeholder="mis. Jl. Sudirman No. 12" className="w-full p-3.5 rounded-xl border-none bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-colors" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-600 mb-2">Alamat Email</label>
-                        <input type="email" name="email" value={details.email} onChange={handleDetailChange} placeholder="mis. budi@example.com" className="w-full p-3.5 rounded-xl border-none bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-colors" />
-                    </div>
+                    <FormInput
+                        label="Posisi Pekerjaan"
+                        name="jobTitle"
+                        value={details.jobTitle}
+                        onChange={handleDetailChange}
+                        placeholder="mis. Desainer Layanan"
+                    />
+                    <FormInput
+                        label="Nama Lengkap"
+                        name="fullName"
+                        value={details.fullName}
+                        onChange={handleDetailChange}
+                        placeholder="mis. Budi Santoso"
+                    />
+                    <FormInput
+                        label="Alamat Lengkap"
+                        name="address"
+                        value={details.address}
+                        onChange={handleDetailChange}
+                        placeholder="mis. Jl. Sudirman No. 12"
+                    />
+                    <FormInput
+                        label="Alamat Email"
+                        type="email"
+                        name="email"
+                        value={details.email}
+                        onChange={handleDetailChange}
+                        placeholder="mis. budi@example.com"
+                    />
                 </div>
             </div>
 
@@ -124,7 +138,7 @@ export default function CVBuilderPage() {
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">1. Ringkasan Singkat</h2>
                 <p className="text-sm text-gray-500 mb-4">Buatlah singkat dan padat - Perekrut rata-rata hanya menghabiskan 6 detik untuk setiap resume.</p>
-                <div className="border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-100 transition-shadow">
+                <div className="border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 transition-shadow" style={{ "--tw-ring-color": ACCENT } as React.CSSProperties}>
                     <div className="bg-gray-50 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
                         <span className="text-xs font-semibold text-gray-700">Tidak ada masalah terdeteksi</span>
                         <div className="flex items-center gap-3 text-gray-500">
@@ -140,7 +154,7 @@ export default function CVBuilderPage() {
                         onChange={handleDetailChange}
                         rows={5}
                         placeholder="Tuliskan ringkasan profesional Anda di sini..."
-                        className="w-full p-4 border-none focus:ring-0 resize-y"
+                        className="w-full p-4 border-none focus:outline-none resize-y text-sm text-gray-800"
                     ></textarea>
                 </div>
             </div>
@@ -151,28 +165,46 @@ export default function CVBuilderPage() {
                 <div className="space-y-4">
                     {educations.map((edu) => (
                         <div key={edu.id} className="p-5 border border-gray-100 rounded-xl bg-gray-50/50 relative group">
-                            <button onClick={() => removeItem(setEducations, educations, edu.id)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeItem(setEducations, educations, edu.id)}
+                                className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 text-gray-400"
+                            >
                                 <Trash2 size={18} />
-                            </button>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            </Button>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                                 <div className="md:col-span-2">
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Institusi / Universitas</label>
-                                    <input type="text" value={edu.institution} onChange={(e) => updateItem(setEducations, educations, edu.id, "institution", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. UPN Veteran Jawa Timur" />
+                                    <FormInput
+                                        label="Institusi / Universitas"
+                                        value={edu.institution}
+                                        onChange={(e) => updateItem(setEducations, educations, edu.id, "institution", e.target.value)}
+                                        placeholder="mis. UPN Veteran Jawa Timur"
+                                    />
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Gelar / Jurusan</label>
-                                    <input type="text" value={edu.degree} onChange={(e) => updateItem(setEducations, educations, edu.id, "degree", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. S1 Informatika" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Tahun Lulus</label>
-                                    <input type="text" value={edu.year} onChange={(e) => updateItem(setEducations, educations, edu.id, "year", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. 2022 - 2026" />
-                                </div>
+                                <FormInput
+                                    label="Gelar / Jurusan"
+                                    value={edu.degree}
+                                    onChange={(e) => updateItem(setEducations, educations, edu.id, "degree", e.target.value)}
+                                    placeholder="mis. S1 Informatika"
+                                />
+                                <FormInput
+                                    label="Tahun Lulus"
+                                    value={edu.year}
+                                    onChange={(e) => updateItem(setEducations, educations, edu.id, "year", e.target.value)}
+                                    placeholder="mis. 2022 - 2026"
+                                />
                             </div>
                         </div>
                     ))}
-                    <button onClick={() => addItem(setEducations, educations, { institution: "", degree: "", year: "" })} className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 py-2">
-                        <Plus size={16} /> Tambah Pendidikan
-                    </button>
+                    <Button
+                        variant="ghost"
+                        onClick={() => addItem(setEducations, educations, { institution: "", degree: "", year: "" })}
+                        icon={<Plus size={16} />}
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                        Tambah Pendidikan
+                    </Button>
                 </div>
             </div>
 
@@ -182,32 +214,55 @@ export default function CVBuilderPage() {
                 <div className="space-y-4">
                     {experiences.map((exp) => (
                         <div key={exp.id} className="p-5 border border-gray-100 rounded-xl bg-gray-50/50 relative group">
-                            <button onClick={() => removeItem(setExperiences, experiences, exp.id)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeItem(setExperiences, experiences, exp.id)}
+                                className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 text-gray-400"
+                            >
                                 <Trash2 size={18} />
-                            </button>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Perusahaan</label>
-                                    <input type="text" value={exp.company} onChange={(e) => updateItem(setExperiences, experiences, exp.id, "company", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. PT Maju Bersama" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Posisi / Role</label>
-                                    <input type="text" value={exp.role} onChange={(e) => updateItem(setExperiences, experiences, exp.id, "role", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. Software Engineer Intern" />
+                            </Button>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                <FormInput
+                                    label="Perusahaan"
+                                    value={exp.company}
+                                    onChange={(e) => updateItem(setExperiences, experiences, exp.id, "company", e.target.value)}
+                                    placeholder="mis. PT Maju Bersama"
+                                />
+                                <FormInput
+                                    label="Posisi / Role"
+                                    value={exp.role}
+                                    onChange={(e) => updateItem(setExperiences, experiences, exp.id, "role", e.target.value)}
+                                    placeholder="mis. Software Engineer Intern"
+                                />
+                                <div className="md:col-span-2">
+                                    <FormInput
+                                        label="Tahun / Durasi"
+                                        value={exp.year}
+                                        onChange={(e) => updateItem(setExperiences, experiences, exp.id, "year", e.target.value)}
+                                        placeholder="mis. Jan 2025 - Jun 2025"
+                                    />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Tahun / Durasi</label>
-                                    <input type="text" value={exp.year} onChange={(e) => updateItem(setExperiences, experiences, exp.id, "year", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. Jan 2025 - Jun 2025" />
-                                </div>
-                                <div className="md:col-span-2">
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Deskripsi Pekerjaan</label>
-                                    <textarea value={exp.description} onChange={(e) => updateItem(setExperiences, experiences, exp.id, "description", e.target.value)} rows={3} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="Deskripsikan tanggung jawab dan pencapaian Anda..."></textarea>
+                                    <FormTextarea
+                                        label="Deskripsi Pekerjaan"
+                                        value={exp.description}
+                                        onChange={(e) => updateItem(setExperiences, experiences, exp.id, "description", e.target.value)}
+                                        rows={3}
+                                        placeholder="Deskripsikan tanggung jawab dan pencapaian Anda..."
+                                    />
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <button onClick={() => addItem(setExperiences, experiences, { company: "", role: "", year: "", description: "" })} className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 py-2">
-                        <Plus size={16} /> Tambah Pengalaman
-                    </button>
+                    <Button
+                        variant="ghost"
+                        onClick={() => addItem(setExperiences, experiences, { company: "", role: "", year: "", description: "" })}
+                        icon={<Plus size={16} />}
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                        Tambah Pengalaman
+                    </Button>
                 </div>
             </div>
 
@@ -217,32 +272,55 @@ export default function CVBuilderPage() {
                 <div className="space-y-4">
                     {organizations.map((org) => (
                         <div key={org.id} className="p-5 border border-gray-100 rounded-xl bg-gray-50/50 relative group">
-                            <button onClick={() => removeItem(setOrganizations, organizations, org.id)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeItem(setOrganizations, organizations, org.id)}
+                                className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 text-gray-400"
+                            >
                                 <Trash2 size={18} />
-                            </button>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Nama Organisasi</label>
-                                    <input type="text" value={org.name} onChange={(e) => updateItem(setOrganizations, organizations, org.id, "name", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. BEM Fakultas" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Posisi / Role</label>
-                                    <input type="text" value={org.role} onChange={(e) => updateItem(setOrganizations, organizations, org.id, "role", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. Ketua Divisi IT" />
+                            </Button>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                <FormInput
+                                    label="Nama Organisasi"
+                                    value={org.name}
+                                    onChange={(e) => updateItem(setOrganizations, organizations, org.id, "name", e.target.value)}
+                                    placeholder="mis. BEM Fakultas"
+                                />
+                                <FormInput
+                                    label="Posisi / Role"
+                                    value={org.role}
+                                    onChange={(e) => updateItem(setOrganizations, organizations, org.id, "role", e.target.value)}
+                                    placeholder="mis. Ketua Divisi IT"
+                                />
+                                <div className="md:col-span-2">
+                                    <FormInput
+                                        label="Tahun / Durasi"
+                                        value={org.year}
+                                        onChange={(e) => updateItem(setOrganizations, organizations, org.id, "year", e.target.value)}
+                                        placeholder="mis. 2023 - 2024"
+                                    />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Tahun / Durasi</label>
-                                    <input type="text" value={org.year} onChange={(e) => updateItem(setOrganizations, organizations, org.id, "year", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. 2023 - 2024" />
-                                </div>
-                                <div className="md:col-span-2">
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Deskripsi</label>
-                                    <textarea value={org.description} onChange={(e) => updateItem(setOrganizations, organizations, org.id, "description", e.target.value)} rows={3} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="Deskripsikan peran dan aktivitas Anda..."></textarea>
+                                    <FormTextarea
+                                        label="Deskripsi"
+                                        value={org.description}
+                                        onChange={(e) => updateItem(setOrganizations, organizations, org.id, "description", e.target.value)}
+                                        rows={3}
+                                        placeholder="Deskripsikan peran dan aktivitas Anda..."
+                                    />
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <button onClick={() => addItem(setOrganizations, organizations, { name: "", role: "", year: "", description: "" })} className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 py-2">
-                        <Plus size={16} /> Tambah Organisasi
-                    </button>
+                    <Button
+                        variant="ghost"
+                        onClick={() => addItem(setOrganizations, organizations, { name: "", role: "", year: "", description: "" })}
+                        icon={<Plus size={16} />}
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                        Tambah Organisasi
+                    </Button>
                 </div>
             </div>
 
@@ -252,32 +330,55 @@ export default function CVBuilderPage() {
                 <div className="space-y-4">
                     {projects.map((proj) => (
                         <div key={proj.id} className="p-5 border border-gray-100 rounded-xl bg-gray-50/50 relative group">
-                            <button onClick={() => removeItem(setProjects, projects, proj.id)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeItem(setProjects, projects, proj.id)}
+                                className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 text-gray-400"
+                            >
                                 <Trash2 size={18} />
-                            </button>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Nama Proyek</label>
-                                    <input type="text" value={proj.name} onChange={(e) => updateItem(setProjects, projects, proj.id, "name", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. Sistem Informasi Akademik" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Posisi / Role</label>
-                                    <input type="text" value={proj.role} onChange={(e) => updateItem(setProjects, projects, proj.id, "role", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. Frontend Developer" />
+                            </Button>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                                <FormInput
+                                    label="Nama Proyek"
+                                    value={proj.name}
+                                    onChange={(e) => updateItem(setProjects, projects, proj.id, "name", e.target.value)}
+                                    placeholder="mis. Sistem Informasi Akademik"
+                                />
+                                <FormInput
+                                    label="Posisi / Role"
+                                    value={proj.role}
+                                    onChange={(e) => updateItem(setProjects, projects, proj.id, "role", e.target.value)}
+                                    placeholder="mis. Frontend Developer"
+                                />
+                                <div className="md:col-span-2">
+                                    <FormInput
+                                        label="Tahun"
+                                        value={proj.year}
+                                        onChange={(e) => updateItem(setProjects, projects, proj.id, "year", e.target.value)}
+                                        placeholder="mis. 2024"
+                                    />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Tahun</label>
-                                    <input type="text" value={proj.year} onChange={(e) => updateItem(setProjects, projects, proj.id, "year", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. 2024" />
-                                </div>
-                                <div className="md:col-span-2">
-                                    <label className="block text-xs font-semibold text-gray-500 mb-1">Deskripsi Proyek</label>
-                                    <textarea value={proj.description} onChange={(e) => updateItem(setProjects, projects, proj.id, "description", e.target.value)} rows={3} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="Deskripsikan proyek dan kontribusi Anda..."></textarea>
+                                    <FormTextarea
+                                        label="Deskripsi Proyek"
+                                        value={proj.description}
+                                        onChange={(e) => updateItem(setProjects, projects, proj.id, "description", e.target.value)}
+                                        rows={3}
+                                        placeholder="Deskripsikan proyek dan kontribusi Anda..."
+                                    />
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <button onClick={() => addItem(setProjects, projects, { name: "", role: "", year: "", description: "" })} className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 py-2">
-                        <Plus size={16} /> Tambah Proyek
-                    </button>
+                    <Button
+                        variant="ghost"
+                        onClick={() => addItem(setProjects, projects, { name: "", role: "", year: "", description: "" })}
+                        icon={<Plus size={16} />}
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                        Tambah Proyek
+                    </Button>
                 </div>
             </div>
 
@@ -285,16 +386,13 @@ export default function CVBuilderPage() {
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Keterampilan & Sertifikasi</h2>
                 <div className="space-y-4">
-                    <div>
-                        <label className="block text-xs font-semibold text-gray-500 mb-1">Keterampilan (Skills) & Sertifikasi</label>
-                        <textarea
-                            value={skills}
-                            onChange={(e) => setSkills(e.target.value)}
-                            rows={4}
-                            className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-colors"
-                            placeholder="mis. ReactJS, TailwindCSS, Sertifikasi UI/UX (Google), dll. Pisahkan dengan koma atau baris baru."
-                        ></textarea>
-                    </div>
+                    <FormTextarea
+                        label="Keterampilan (Skills) & Sertifikasi"
+                        value={skills}
+                        onChange={(e) => setSkills(e.target.value)}
+                        rows={4}
+                        placeholder="mis. ReactJS, TailwindCSS, Sertifikasi UI/UX (Google), dll. Pisahkan dengan koma atau baris baru."
+                    />
                 </div>
             </div>
 
@@ -305,34 +403,49 @@ export default function CVBuilderPage() {
                     {socials.map((social) => (
                         <div key={social.id} className="flex items-center gap-4 group">
                             <div className="w-1/3">
-                                <input type="text" value={social.platform} onChange={(e) => updateItem(setSocials, socials, social.id, "platform", e.target.value)} className="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="mis. LinkedIn" />
+                                <FormInput
+                                    value={social.platform}
+                                    onChange={(e) => updateItem(setSocials, socials, social.id, "platform", e.target.value)}
+                                    placeholder="mis. LinkedIn"
+                                />
                             </div>
-                            <div className="flex-1 relative">
-                                <LinkIcon size={16} className="absolute left-3 top-3.5 text-gray-400" />
-                                <input type="url" value={social.url} onChange={(e) => updateItem(setSocials, socials, social.id, "url", e.target.value)} className="w-full p-3 pl-9 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="https://..." />
+                            <div className="flex-1">
+                                <FormInput
+                                    type="url"
+                                    value={social.url}
+                                    onChange={(e) => updateItem(setSocials, socials, social.id, "url", e.target.value)}
+                                    placeholder="https://..."
+                                    trailingSlot={<LinkIcon size={16} className="text-gray-400" />}
+                                />
                             </div>
-                            <button onClick={() => removeItem(setSocials, socials, social.id)} className="p-3 text-gray-400 hover:text-red-500 transition-colors">
+                            <Button
+                                variant="ghost"
+                                onClick={() => removeItem(setSocials, socials, social.id)}
+                                className="text-gray-400 hover:text-red-500 hover:bg-red-50"
+                            >
                                 <Trash2 size={20} />
-                            </button>
+                            </Button>
                         </div>
                     ))}
-                    <button onClick={() => addItem(setSocials, socials, { platform: "", url: "" })} className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 py-2">
-                        <Plus size={16} /> Tambah Link
-                    </button>
+                    <Button
+                        variant="ghost"
+                        onClick={() => addItem(setSocials, socials, { platform: "", url: "" })}
+                        icon={<Plus size={16} />}
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                        Tambah Link
+                    </Button>
                 </div>
             </div>
 
             {/* Footer Actions */}
             <div className="flex items-center justify-end gap-4 pt-4">
-                <button className="px-6 py-3 rounded-xl font-bold text-gray-600 bg-white border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors cursor-pointer">
+                <Button variant="outline" className="px-6 py-3">
                     Pratinjau CV
-                </button>
-                <button
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white shadow-sm transition-opacity hover:opacity-90 cursor-pointer"
-                    style={{ backgroundColor: ACCENT }}
-                >
-                    <Download size={18} /> Simpan & Download CV
-                </button>
+                </Button>
+                <Button variant="primary" icon={<Download size={18} />} className="px-6 py-3">
+                    Simpan & Download CV
+                </Button>
             </div>
 
         </div>
