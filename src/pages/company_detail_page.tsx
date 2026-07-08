@@ -10,12 +10,6 @@ const ACCENT = currentTheme.primary;
 const ACCENT_DARK = currentTheme.heroEnd;
 const HERO_BG = currentTheme.heroEnd;
 
-const PACKAGE_CONFIG = {
-    Gold: { bg: "#FEF9C3", color: "#854D0E", border: "#FDE047", label: "Gold Partner" },
-    Silver: { bg: "#F1F5F9", color: "#475569", border: "#CBD5E1", label: "Silver Partner" },
-    Bronze: { bg: "#FEF3C7", color: "#92400E", border: "#FCD34D", label: "Bronze Partner" },
-};
-
 export default function CompanyDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -40,7 +34,6 @@ export default function CompanyDetailPage() {
     }
 
     const companyJobs = jobsData.filter((j) => j.companyId === company.id);
-    const pkg = PACKAGE_CONFIG[company.package];
 
     const breadcrumbs = [
         { label: "Beranda", path: "/" },
@@ -53,8 +46,6 @@ export default function CompanyDetailPage() {
         ...(company.founded ? [`Est. ${company.founded}`] : []),
         ...(company.employeeCount ? [`${company.employeeCount} karyawan`] : []),
     ];
-
-    const tiers = ["Bronze", "Silver", "Gold"] as const;
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -124,12 +115,6 @@ export default function CompanyDetailPage() {
                             </div>
 
                             <div>
-                                <span
-                                    className="inline-block text-xs font-bold px-2.5 py-1 rounded-full border mb-2"
-                                    style={{ background: pkg.bg, color: pkg.color, borderColor: pkg.border }}
-                                >
-                                    {pkg.label}
-                                </span>
                                 <h1 className="text-3xl sm:text-4xl font-bold text-white">{company.name}</h1>
                                 <div className="flex flex-wrap gap-2 mt-3">
                                     {metaChips.map((chip) => (
@@ -201,56 +186,6 @@ export default function CompanyDetailPage() {
                             )}
                         </div>
 
-                        {/* Package info */}
-                        <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                            <h2 className="text-sm font-extrabold text-gray-800 mb-4 uppercase tracking-wide">
-                                Paket Kemitraan
-                            </h2>
-                            <div className="flex flex-col gap-3">
-                                {tiers.map((tier) => {
-                                    const cfg = PACKAGE_CONFIG[tier];
-                                    const isActive = company.package === tier;
-                                    return (
-                                        <div
-                                            key={tier}
-                                            className="flex items-center gap-3 p-3 rounded-lg border"
-                                            style={{
-                                                background: isActive ? cfg.bg : "#F9FAFB",
-                                                borderColor: isActive ? cfg.border : "#E5E7EB",
-                                            }}
-                                        >
-                                            <span className="text-base">
-                                                {tier === "Gold" ? "🥇" : tier === "Silver" ? "🥈" : "🥉"}
-                                            </span>
-                                            <div className="flex-1">
-                                                <p
-                                                    className="text-xs font-bold"
-                                                    style={{ color: isActive ? cfg.color : "#9CA3AF" }}
-                                                >
-                                                    {tier} Partner
-                                                </p>
-                                                <p className="text-xs text-gray-400">
-                                                    {tier === "Gold"
-                                                        ? "Slot lowongan tak terbatas · Featured"
-                                                        : tier === "Silver"
-                                                            ? "Hingga 5 lowongan · Prioritas"
-                                                            : "Hingga 2 lowongan · Standar"}
-                                                </p>
-                                            </div>
-                                            {isActive && (
-                                                <span
-                                                    className="text-xs font-bold px-2 py-0.5 rounded-full"
-                                                    style={{ background: cfg.color, color: "white" }}
-                                                >
-                                                    Aktif
-                                                </span>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
                         {/* Info summary */}
                         <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
                             <h2 className="text-sm font-extrabold text-gray-800 mb-4 uppercase tracking-wide">
@@ -266,7 +201,6 @@ export default function CompanyDetailPage() {
                                     ...(company.employeeCount
                                         ? [{ label: "Jumlah Karyawan", value: company.employeeCount }]
                                         : []),
-                                    { label: "Paket", value: `${company.package} Partner` },
                                     { label: "Lowongan Aktif", value: `${companyJobs.length} posisi` },
                                 ] as { label: string; value: string }[]).map(({ label, value }) => (
                                     <div key={label} className="flex flex-col gap-0.5 py-3 first:pt-0 last:pb-0">

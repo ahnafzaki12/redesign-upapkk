@@ -5,12 +5,6 @@ import { currentTheme } from "../theme/theme";
 const ACCENT = currentTheme.primary;
 const ACCENT_LIGHT = currentTheme.surfaceAlt;
 
-const PACKAGE_CONFIG = {
-  Gold: { bg: "#FEF9C3", color: "#854D0E", border: "#FDE047", label: "Gold Partner" },
-  Silver: { bg: "#F1F5F9", color: "#475569", border: "#CBD5E1", label: "Silver Partner" },
-  Bronze: { bg: "#FEF3C7", color: "#92400E", border: "#FCD34D", label: "Bronze Partner" },
-};
-
 interface CompanyCardProps {
   company: Company;
   jobCount: number;
@@ -20,7 +14,6 @@ interface CompanyCardProps {
 export default function CompanyCard({ company, jobCount, onClick }: CompanyCardProps) {
   const [hovered, setHovered] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
-  const pkg = PACKAGE_CONFIG[company.package];
 
   return (
     <div
@@ -59,14 +52,6 @@ export default function CompanyCard({ company, jobCount, onClick }: CompanyCardP
           <p className="text-sm font-bold text-gray-900 truncate">{company.name}</p>
           <p className="text-xs text-gray-400 mt-0.5">{company.industry}</p>
         </div>
-
-        {/* Package badge */}
-        <span
-          className="text-xs font-bold px-2.5 py-1 rounded-full shrink-0 border"
-          style={{ background: pkg.bg, color: pkg.color, borderColor: pkg.border }}
-        >
-          {pkg.label}
-        </span>
       </div>
 
       {/* Description */}

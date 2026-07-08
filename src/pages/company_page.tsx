@@ -18,7 +18,6 @@ export default function CompanyPage() {
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("Semua Lokasi");
   const [industry, setIndustry] = useState("Semua Industri");
-  const [pkg, setPkg] = useState("Semua Paket");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
@@ -28,13 +27,11 @@ export default function CompanyPage() {
   const hasActiveFilter =
     location !== "Semua Lokasi" ||
     industry !== "Semua Industri" ||
-    pkg !== "Semua Paket" ||
     search !== "";
 
   const resetFilters = () => {
     setLocation("Semua Lokasi");
     setIndustry("Semua Industri");
-    setPkg("Semua Paket");
     setSearch("");
   };
 
@@ -42,14 +39,13 @@ export default function CompanyPage() {
     const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || c.industry.toLowerCase().includes(search.toLowerCase());
     const matchLocation = location === "Semua Lokasi" || c.location === location;
     const matchIndustry = industry === "Semua Industri" || c.industry === industry;
-    const matchPkg = pkg === "Semua Paket" || c.package === pkg;
-    return matchSearch && matchLocation && matchIndustry && matchPkg;
+    return matchSearch && matchLocation && matchIndustry;
   });
 
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, location, industry, pkg]);
+  }, [search, location, industry]);
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -122,8 +118,6 @@ export default function CompanyPage() {
               setLocation={setLocation}
               industry={industry}
               setIndustry={setIndustry}
-              pkg={pkg}
-              setPkg={setPkg}
               hasActiveFilter={hasActiveFilter}
               resetFilters={resetFilters}
             />
@@ -208,8 +202,6 @@ export default function CompanyPage() {
           setLocation={setLocation}
           industry={industry}
           setIndustry={setIndustry}
-          pkg={pkg}
-          setPkg={setPkg}
           hasActiveFilter={hasActiveFilter}
           resetFilters={resetFilters}
         />

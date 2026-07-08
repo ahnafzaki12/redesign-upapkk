@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import type { SidebarProps } from "../types/types";
-import { CATEGORY, EDUCATIONS, LOCATIONS, DURATIONS, TYPE_OPTIONS, INDUSTRIES, PACKAGES } from "../data/constants"
+import { CATEGORY, EDUCATIONS, LOCATIONS, DURATIONS, TYPE_OPTIONS, INDUSTRIES } from "../data/constants"
 import { currentTheme } from "../theme/theme"
 
 const ACCENT = currentTheme.primary
@@ -370,8 +370,6 @@ interface CompanyFilterProps {
     setLocation: (v: string) => void
     industry: string
     setIndustry: (v: string) => void
-    pkg: string
-    setPkg: (v: string) => void
     hasActiveFilter: boolean
     resetFilters: () => void
 }
@@ -383,7 +381,6 @@ interface CompanyFilterFieldsProps extends CompanyFilterProps {
 function CompanyFilterFields({
     location, setLocation,
     industry, setIndustry,
-    pkg, setPkg,
     hasActiveFilter,
     resetFilters,
     onApply,
@@ -537,11 +534,6 @@ function CompanyFilterFields({
 
             <SectionLabel>Industri</SectionLabel>
             <SelectField value={industry} onChange={setIndustry} options={INDUSTRIES} placeholder="Industri" />
-
-            <Divider />
-
-            <SectionLabel>Paket</SectionLabel>
-            <SelectField value={pkg} onChange={setPkg} options={PACKAGES} placeholder="Paket" />
 
             {hasActiveFilter && (
                 <>
