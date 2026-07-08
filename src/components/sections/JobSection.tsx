@@ -1,0 +1,242 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { jobsData } from '../../data/jobData';
+import { CATEGORY, EDUCATIONS, LOCATIONS, TYPE_OPTIONS } from '../../lib/constants';
+import SearchableDropdown from "../shared/SearchableDropdown";
+import MagangCard from "../cards/JobCard";
+import DetailModal from "../modals/DetailModal";
+import CompanyCard from "../cards/CompanyCard";
+import type { Job } from '../../types';
+import { currentTheme } from '../../lib/theme';
+import { companiesData } from '../../data/companyData';
+
+const HOME_ACCENT = currentTheme.heroStart;
+const HOME_ACCENT_DARK = currentTheme.heroEnd;
+const HOME_ACCENT_LIGHT = currentTheme.surfaceAlt;
+
+const TABS = ["Pekerjaan", "Magang", "Perusahaan"];
+
+export default function Job() {
+  const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState("Pekerjaan");
+  const [sortBy, setSortBy] = useState("Terbaru");
+  const [category, setCategory] = useState("Semua Kategori");
+  const [location, setLocation] = useState("Semua Lokasi");
+  const [education, setEducation] = useState("Semua Jenjang");
+  const [type, setType] = useState("Semua Tipe");
+  const [searchJob, setSearchJob] = useState("");
+  const [searchLoc, setSearchLoc] = useState("");
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+
+  const isCompanyTab = activeTab === "Perusahaan";
+
+  // ── Job filtering & sorting ──────────────────────────────────────────────
+  const filtered = jobsData.filter((job) => {
+    const matchTab = job.tag === activeTab;
+    const matchSearch =
+      job.title.toLowerCase().includes(searchJob.toLowerCase()) ||
+      job.company.toLowerCase().includes(searchJob.toLowerCase());
+    const matchLoc = job.location.toLowerCase().includes(searchLoc.toLowerCase());
+    const matchCat = category === "Semua Kategori" || job.category === category;
+    const matchType = type === "Semua Tipe" || job.type === type;
+    return matchTab && matchSearch && matchLoc && matchCat && matchType;
+  });
+
+  const sorted = [...filtered].sort((a, b) =>
+    sortBy === "Terbaru" ? b.id - a.id : b.vacancies - a.vacancies
+  );
+
+  // ── Company filtering ────────────────────────────────────────────────────
+  const filteredCompanies = companiesData.filter((company) => {
+    const matchSearch =
+      company.name.toLowerCase().includes(searchJob.toLowerCase()) ||
+      company.industry.toLowerCase().includes(searchJob.toLowerCase());
+    const matchLoc = company.location.toLowerCase().includes(searchLoc.toLowerCase());
+    return matchSearch && matchLoc;
+  });
+
+  const jobCountByCompany = (companyName: string) =>
+    jobsData.filter((job) => job.company === companyName).length;
+
+  return (
+    <div className="min-h-screen max-w-7xl mx-auto bg-white">
+
+      {/* ── HERO ── */}
+      <div
+        className="px-4 sm:px-6 py-10 md:py-4 rounded-xl"
+        style={{ background: HOME_ACCENT }}
+      >
+        <div className="max-w-7xl mx-auto p-4 sm:p-6">
+          <p className="text-xs font-semibold tracking-widest uppercase text-white opacity-75 mb-3">
+            Karir & Magang
+          </p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
+            {isCompanyTab ? "Daftar Perusahaan" : "Informasi Lowongan"}
+          </h1>
+          <p className="text-sm text-white opacity-70 mb-8 max-w-lg leading-relaxed">
+            {isCompanyTab
+              ? "Jelajahi perusahaan-perusahaan mitra terpercaya yang membuka peluang karir terbaik"
+              : "Temukan pekerjaan terbaik Anda disini dengan berbagai partner yang telah bekerja sama dengan Kami"}
+          </p>
+
+          {/* Search bar */}
+          <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-stretch">
+            <div className="flex items-center gap-3 bg-white border border-transparent rounded-xl px-4 h-12 w-full lg:flex-1 shadow-sm hover:border-gray-300 focus-within:border-teal-500 focus-within:ring-2 focus-within:ring-teal-100 transition-all duration-200">
+              <svg className="text-gray-400 shrink-0" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+              </svg>
+              <input
+                className="bg-transparent outline-none text-sm text-gray-700 w-full placeholder-gray-400"
+                placeholder={isCompanyTab ? "Cari perusahaan" : "Cari pekerjaan anda"}
+                value={searchJob}
+                onChange={(e) => setSearchJob(e.target.value)}
+              />
+            </div>
+
+            <div className="flex items-center gap-3 bg-white border border-transparent rounded-xl px-4 h-12 w-full lg:w-56 shadow-sm hover:border-gray-300 focus-within:border-teal-500 focus-within:ring-2 focus-within:ring-teal-100 transition-all duration-200">
+              <svg className="text-gray-400 shrink-0" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+              <input
+                className="bg-transparent outline-none text-sm text-gray-700 w-full placeholder-gray-400"
+                placeholder="Lokasi"
+                value={searchLoc}
+                onChange={(e) => setSearchLoc(e.target.value)}
+              />
+            </div>
+
+            <button
+              className="h-12 px-7 rounded-xl text-sm font-semibold shadow-md transition-all duration-150 active:scale-95 w-full lg:w-auto"
+              style={{ background: "white", color: HOME_ACCENT_DARK }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = HOME_ACCENT_LIGHT; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "white"; }}
+            >
+              Cari Sekarang
+            </button>
+          </div>
+
+          {/* Job-only filters — hidden on Perusahaan tab */}
+          {!isCompanyTab && (
+            <div className="flex flex-col items-center gap-3 mt-5 lg:flex-row lg:flex-wrap lg:items-center">
+              <SearchableDropdown value={category} onChange={setCategory} options={CATEGORY} placeholder="Kategori" />
+              <SearchableDropdown value={location} onChange={setLocation} options={LOCATIONS} placeholder="Lokasi" />
+              <SearchableDropdown value={education} onChange={setEducation} options={EDUCATIONS} placeholder="Jenjang Pendidikan" />
+              <SearchableDropdown value={type} onChange={setType} options={TYPE_OPTIONS} placeholder="Tipe" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── BODY ── */}
+      <div className="max-w-7xl mx-auto p-4 sm:p-6">
+
+        {/* Tabs */}
+        <div className="flex border-b border-gray-200 mb-6">
+          {TABS.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="relative px-5 py-3 text-sm font-medium transition-colors duration-150"
+              style={{ color: activeTab === tab ? HOME_ACCENT_DARK : "#9CA3AF" }}
+            >
+              {tab}
+              {activeTab === tab && (
+                <span
+                  className="absolute bottom-0 left-0 right-0 h-0.5 rounded-t"
+                  style={{ background: HOME_ACCENT }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* ── COMPANY TAB ── */}
+        {isCompanyTab ? (
+          <>
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-gray-500">
+                Menampilkan{" "}
+                <span className="font-semibold text-gray-800">{filteredCompanies.length}</span>{" "}
+                perusahaan
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {filteredCompanies.length === 0 ? (
+                <div className="col-span-2 flex flex-col items-center justify-center py-20 text-gray-400">
+                  <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path d="M3 21h18M3 10h18M3 7l9-4 9 4M4 10v11M20 10v11M8 14v3m4-3v3m4-3v3" />
+                  </svg>
+                  <p className="mt-3 text-sm">Tidak ada perusahaan ditemukan.</p>
+                </div>
+              ) : (
+                filteredCompanies.map((company) => (
+                  <CompanyCard
+                    key={company.id}
+                    company={company}
+                    jobCount={jobCountByCompany(company.name)}
+                    onClick={() => navigate(`/karir/perusahaan/${company.id}`)}
+                  />
+                ))
+              )}
+            </div>
+          </>
+        ) : (
+          /* ── JOB / MAGANG TABS ── */
+          <>
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-gray-500">
+                Menampilkan{" "}
+                <span className="font-semibold text-gray-800">{sorted.length}</span>{" "}
+                lowongan
+              </p>
+              <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
+                {["Terbaru", "Terpopuler"].map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => setSortBy(opt)}
+                    className="text-xs font-semibold px-4 py-1.5 rounded-md transition-all duration-150"
+                    style={
+                      sortBy === opt
+                        ? { background: "white", color: HOME_ACCENT_DARK, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }
+                        : { background: "transparent", color: "#9CA3AF" }
+                    }
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {sorted.length === 0 ? (
+                <div className="col-span-2 flex flex-col items-center justify-center py-20 text-gray-400">
+                  <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                  </svg>
+                  <p className="mt-3 text-sm">Tidak ada lowongan ditemukan.</p>
+                </div>
+              ) : (
+                sorted.slice(0, 4).map((job) => (
+                  <MagangCard
+                    key={job.id}
+                    job={job}
+                    accentColor={HOME_ACCENT}
+                    accentDarkColor={HOME_ACCENT_DARK}
+                    accentLightColor={HOME_ACCENT_LIGHT}
+                    onClick={() => setSelectedJob(job)}
+                  />
+                ))
+              )}
+            </div>
+
+            {selectedJob && (
+              <DetailModal job={selectedJob} onClose={() => setSelectedJob(null)} />
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

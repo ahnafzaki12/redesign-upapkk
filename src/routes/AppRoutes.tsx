@@ -1,27 +1,14 @@
 import React, { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import ArticlePage from "../pages/article_page";
-import ArticleDetailPage from "../pages/article_detail_page";
-import EventPage from "../pages/event_page";
-import EventDetailPage from "../pages/event_detail_page";
-import HomePage from "../pages/home_page";
-import MagangPage from "../pages/intern_page";
-import JobPag from "../pages/job_page";
-import JobDetailPage from "../pages/job_detail_page";
-import ApplyPage from "../pages/apply_page";
-import CompanyDetailPage from "../pages/company_detail_page";
-import CompanyPage from "../pages/company_page";
-import RegisterPage from "../pages/register_page";
-import LoginPage from "../pages/login_page";
-import DashboardPage from "../pages/dashboard_page";
-import MembershipJobseekerPage from "../pages/membership_guide_page";
-import KewirausahaanPage from "../pages/kewirausahaan_page";
-import KewirausahaanDetailPage from "../pages/kewirausahaan_detail_page";
-import About from "../pages/about_page";
-import FAQ_page from "../pages/FAQ_page";
-import Contact_page from "../pages/contact_page";
-import NotFoundPage from "../pages/not_found_page";
+import { useAuth } from '../contexts/AuthContext';
+import { ArticlePage, ArticleDetailPage } from "../pages/artikel";
+import { EventPage, EventDetailPage, InternPage, JobPage, JobDetailPage, ApplyPage, CompanyPage, CompanyDetailPage } from "../pages/karir";
+import { HomePage } from "../pages/home";
+import { RegisterPage, LoginPage } from "../pages/auth";
+import { DashboardPage } from "../pages/dashboard";
+import { KewirausahaanPage, KewirausahaanDetailPage } from "../pages/kewirausahaan";
+import { AboutPage, FaqPage, ContactPage, MembershipGuidePage } from "../pages/info";
+import { NotFoundPage } from "../pages/errors";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -65,8 +52,8 @@ const AppRoutes = () => {
         <Route path="/artikel/:slug" element={<ArticleDetailPage />} />
         <Route path="/karir/acara" element={<EventPage />} />
         <Route path="/karir/acara/:slug" element={<EventDetailPage />} />
-        <Route path="/karir/magang" element={<MagangPage />} />
-        <Route path="/karir/pekerjaan" element={<JobPag />} />
+        <Route path="/karir/magang" element={<InternPage />} />
+        <Route path="/karir/pekerjaan" element={<JobPage />} />
         <Route path="/karir/detail/:id" element={<JobDetailPage />} />
         <Route path="/karir/lamar/:id" element={<ApplyPage />} />
         <Route path="/karir/perusahaan" element={<CompanyPage />} />
@@ -75,16 +62,16 @@ const AppRoutes = () => {
         <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/dashboard/:section" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        <Route path="/panduan/keanggotaan" element={<MembershipJobseekerPage />} />
+        <Route path="/panduan/keanggotaan" element={<MembershipGuidePage />} />
         <Route path="/kewirausahaan" element={<KewirausahaanPage />} />
         <Route path="/kewirausahaan/:slug" element={<KewirausahaanDetailPage />} />
         <Route
           path="/membership/jobseeker"
           element={<Navigate to="/panduan/keanggotaan" replace />}
         />
-        <Route path="/tentang" element={<About />} />
-        <Route path="/faq" element={<FAQ_page />} />
-        <Route path="/kontak" element={<Contact_page />} />
+        <Route path="/tentang" element={<AboutPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/kontak" element={<ContactPage />} />
 
         {/* ── Catch-All Route ── */}
         <Route path="*" element={<NotFoundPage />} />

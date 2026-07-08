@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { currentTheme } from '../../theme/theme';
+import { currentTheme } from '../../lib/theme';
 
 interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;

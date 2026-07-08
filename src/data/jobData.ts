@@ -1,5 +1,5 @@
 // jobData.ts
-import type { Job } from "../types/types";
+import type { Job } from '../types';
 
 export const jobsData: Job[] = [
   // ── Pekerjaan ──

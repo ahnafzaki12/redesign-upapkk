@@ -1,5 +1,5 @@
 import React from 'react';
-import { currentTheme } from '../../theme/theme';
+import { currentTheme } from '../../lib/theme';
 
 interface PageHeaderProps {
   icon: React.ReactNode;

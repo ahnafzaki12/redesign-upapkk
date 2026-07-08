@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
-import { currentTheme } from '../../theme/theme';
+import { currentTheme } from '../../lib/theme';
 
 interface ModalProps {
   isOpen: boolean;

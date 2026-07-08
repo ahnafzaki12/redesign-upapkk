@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { currentTheme } from '../../theme/theme';
+import { currentTheme } from '../../lib/theme';
 import { CheckCircle } from 'lucide-react';
 
 export interface FormSelectProps {

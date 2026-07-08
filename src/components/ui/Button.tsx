@@ -1,5 +1,5 @@
 import React from 'react';
-import { currentTheme } from '../../theme/theme';
+import { currentTheme } from '../../lib/theme';
 import { Loader2 } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
