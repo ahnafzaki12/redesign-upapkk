@@ -412,21 +412,3 @@
   .slider-nav { width: 32px; height: 32px; }
   .slider-nav svg { width: 14px; height: 14px; }
 }
-
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  #cv-print-view, #cv-print-view * {
-    visibility: visible;
-  }
-  #cv-print-view {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: white;
-  }
-}
